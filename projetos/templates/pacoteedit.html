@@ -1,0 +1,1671 @@
+{% extends 'base.html' %} {% load static %} {% block 'title'%}Projetos{%endblock%} {% block 'head' %}
+<link rel="stylesheet" href="{% static 'css/full-style.css' %}" />
+{% endblock %} {% block 'subtitle' %}
+<div class="row d-flex justify-content-center align-items-center mb-3">
+  Equipamentos de Radiocomunicação
+</div>
+{% endblock %} {% block 'content' %}
+<div class="card">
+  <div class="card-body">
+    <div class="row d-flex flex-row justify-content-between align-items-center">
+      <div class="col-md-6">
+        <h5 class="card-title w-20">Configurações</h5>
+      </div>
+      <div class="col-md-6 d-flex justify-content-end align-items-center">
+        <button class="btn btn-success w-20 fw-bold">Salvar alterações</button>
+      </div>
+    </div>
+    <!-- Default Tabs -->
+    <ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
+      <li class="nav-item flex-fill" role="presentation">
+        <button
+          class="nav-link w-100 active"
+          id="andamento-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#andamento-justified"
+          type="button"
+          role="tab"
+          aria-controls="andamento"
+          aria-selected="true"
+        >
+          Andamento
+        </button>
+      </li>
+      <li class="nav-item flex-fill" role="presentation">
+        <button
+          class="nav-link w-100"
+          id="documentos-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#documentos-justified"
+          type="button"
+          role="tab"
+          aria-controls="documentos"
+          aria-selected="false"
+        >
+          Documentos
+        </button>
+      </li>
+      <li class="nav-item flex-fill" role="presentation">
+        <button
+          class="nav-link w-100"
+          id="financeiro-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#financeiro-justified"
+          type="button"
+          role="tab"
+          aria-controls="financeiro"
+          aria-selected="false"
+        >
+          Financeiro
+        </button>
+      </li>
+      <li class="nav-item flex-fill" role="presentation">
+        <button
+          class="nav-link w-100"
+          id="equipamentos-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#equipamentos-justified"
+          type="button"
+          role="tab"
+          aria-controls="equipamentos"
+          aria-selected="false"
+        >
+          Equipamentos
+        </button>
+      </li>
+      <li class="nav-item flex-fill" role="presentation">
+        <button
+          class="nav-link w-100"
+          id="servicos-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#servicos-justified"
+          type="button"
+          role="tab"
+          aria-controls="servicos"
+          aria-selected="false"
+        >
+          Serviços
+        </button>
+      </li>
+      <li class="nav-item flex-fill" role="presentation">
+        <button
+          class="nav-link w-100"
+          id="cronograma-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#cronograma-justified"
+          type="button"
+          role="tab"
+          aria-controls="cronograma"
+          aria-selected="false"
+        >
+          Cronograma
+        </button>
+      </li>
+      <li class="nav-item flex-fill" role="presentation">
+        <button
+          class="nav-link w-100"
+          id="observacoes-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#observacoes-justified"
+          type="button"
+          role="tab"
+          aria-controls="observacoes"
+          aria-selected="false"
+        >
+          Observações
+        </button>
+      </li>
+    </ul>
+    <div class="tab-content pt-2" id="myTabjustifiedContent">
+      <div
+        class="tab-pane fade show active"
+        id="andamento-justified"
+        role="tabpanel"
+        aria-labelledby="andamento-tab"
+      >
+        <div class="row align-items-top">
+          <!-- Status Card -->
+          <div class="col-xxl-4 col-md-4">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  STATUS <span>| Informe o andamento do projeto</span>
+                </h5>
+                <div class="d-flex align-items-center">
+                  <select
+                    class="form-select"
+                    aria-label="Default select example"
+                  >
+                    <option selected disabled>
+                      Escolha o Status do projeto
+                    </option>
+                    <option value="PJ">Planejamento</option>
+                    <option value="RP">RP em andamento</option>
+                    <option value="PG">PG em andamento</option>
+                    <option value="EMP">Empenhado</option>
+                    <option value="AGE">Aguardando entrega</option>
+                    <option value="ENT">Entregue</option>
+                    <option value="INS">Instalado</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Status Card -->
+          <!-- Fase Card -->
+          <div class="col-xxl-4 col-md-4">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  FASE
+                  <span>| Indique a fase caso tenha escolhido RP ou PG</span>
+                </h5>
+                <div class="d-flex align-items-center">
+                  <select
+                    class="form-select"
+                    id="select-rp"
+                    aria-label="Default select example"
+                  >
+                    <option selected disabled value="">
+                      Escolha a fase do RP
+                    </option>
+                    <option value="rp-etp">Elaboração do ETP</option>
+                    <option value="rp-orcamentos">
+                      Obtenção de Orçamentos
+                    </option>
+                    <option value="rp-precos">Mapa de Preços</option>
+                    <option value="rp-autorizacao-dlf">
+                      Pedido de autorização DLF
+                    </option>
+                    <option value="rp-gestao">
+                      Solicitação de Gestão de RP
+                    </option>
+                    <option value="rp-minuta">
+                      Elaboração Minuta do Termo de Referência
+                    </option>
+                    <option value="rp-correcao-minuta">
+                      Correção Minuta do Termo de Referência (ASSJUR)
+                    </option>
+                    <option value="rp-correcao-etp">
+                      Correção ETP (ASSJUR)
+                    </option>
+                    <option value="rp-formulario-adesao">
+                      Formulário de Adesão
+                    </option>
+                    <option value="rp-encaminhado-gol">
+                      Encaminhado a Gol
+                    </option>
+                    <option value="rp-impugnacao">
+                      Respondendo impugnação
+                    </option>
+                    <option value="rp-resposta-documentacao">
+                      Resposta a documentação
+                    </option>
+                  </select>
+                  <select
+                    class="form-select"
+                    id="select-pg"
+                    aria-label="Default select example"
+                  >
+                    <option selected disabled value="">
+                      Escolha a fase do PG
+                    </option>
+                    <option value="pg-autorizacao-dlf">
+                      Pedido de autorização DLF
+                    </option>
+                    <option value="pg-etp">Elaboração do ETP</option>
+                    <option value="pg-orcamentos">
+                      Obtenção de Orçamentos
+                    </option>
+                    <option value="pg-precos">Mapa de Preços</option>
+                    <option value="pg-minuta">
+                      Elaboração Minuta do Termo de Referência
+                    </option>
+                    <option value="pg-extrato">Extrato de Crédito</option>
+                    <option value="pg-correcao-minuta">
+                      Correção Minuta do Termo de Referência (ASSJUR)
+                    </option>
+                    <option value="pg-correcao-etp">
+                      Correção ETP (ASSJUR)
+                    </option>
+                  </select>
+                  <div id="terceiros" class="fw-bold text-primary h5">
+                    Terceiros
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Fase Card -->
+          <!-- Natureza Card -->
+          <div class="col-xxl-4 col-md-4">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  NATUREZA <span>| Classifique a natureza do projeto</span>
+                </h5>
+                <div class="d-flex align-items-center">
+                  <select
+                    class="form-select"
+                    aria-label="Default select example"
+                  >
+                    <option selected disabled>
+                      Escolha a Natureza projeto
+                    </option>
+                    <option value="RD">Radiocomunicação</option>
+                    <option value="TL">Telefonia</option>
+                    <option value="AV">Audio e video</option>
+                    <option value="OT">Outros</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Natureza Card -->
+        </div>
+
+        <div class="row align-items-top">
+          <!-- TIPO Card -->
+          <div class="col-xxl-4 col-md-4">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  TIPO
+                  <span>| Tipo a ser fornecido se material ou serviço</span>
+                </h5>
+                <div class="d-flex align-items-center">
+                  <select
+                    class="form-select"
+                    aria-label="Default select example"
+                  >
+                    <option selected disabled>Escolha o Tipo</option>
+                    <option value="MT">Material</option>
+                    <option value="SV">Serviço</option>
+                    <option value="MTSV">Material/Serviço</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End TIPO Card -->
+          <!-- BENEFICIADO Card -->
+          <div class="col-xxl-4 col-md-4">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  BENEFICIADO
+                  <span>| Local a ser beneficiado com o pacote</span>
+                </h5>
+                <div class="d-flex align-items-center">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"
+                      ><i class="ri-navigation-line"></i
+                    ></span>
+                    <input
+                      type="text"
+                      class="form-control mb-0"
+                      placeholder="Alvo"
+                      aria-label="Local"
+                      aria-describedby="basic-addon1"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End BENEFICIADO Card -->
+          <!-- LOCALIZADO Card -->
+          <div class="col-xxl-4 col-md-4">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  LOCALIZADO
+                  <span
+                    >| Local em que se encontra atualmente o equipamento</span
+                  >
+                </h5>
+                <div class="d-flex align-items-center">
+                  <select
+                    class="form-select"
+                    aria-label="Default select example"
+                  >
+                    <option selected disabled>
+                      Escolha o local atual do equipamento
+                    </option>
+                    <option value="NTS">NTS</option>
+                    <option value="CSM">CSM</option>
+                    <option value="FNC">Fornecedor</option>
+                    <option value="DLF">DLF</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End LOCALIZADO Card -->
+        </div>
+      </div>
+      <div
+        class="tab-pane fade"
+        id="documentos-justified"
+        role="tabpanel"
+        aria-labelledby="documentos-tab"
+      >
+        <div class="row align-items-top">
+          <!-- CONTRATO Card -->
+          <div class="col-xxl-4 col-md-4">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  CONTRATO <span>| Nº do Contrato do Pacote</span>
+                </h5>
+                <div class="d-flex align-items-center">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Nº</span>
+                    <input
+                      type="text"
+                      class="form-control mb-0"
+                      placeholder="Contrato"
+                      aria-label="Local"
+                      aria-describedby="basic-addon1"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End CONTRATO Card -->
+          <!-- DATA INICIO Card -->
+          <div class="col-xxl-4 col-md-4">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  DATA INICIAL <span>| Início da Vigência</span>
+                </h5>
+                <div class="d-flex align-items-center">
+                  <div class="mb-3">
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="dateInitialInput"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End DATA INICIO Card -->
+          <!-- DATA FINAL Card -->
+          <div class="col-xxl-4 col-md-4">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  DATA FINAL <span>| Início da Vigência</span>
+                </h5>
+                <div class="d-flex align-items-center">
+                  <div class="mb-3">
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="dateInitialInput"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End DATA FINAL Card -->
+          <!-- LOCALIZADO Card -->
+          <div class="col-xxl-6 col-md-6">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  SEI <span>| Numero de documento referência</span>
+                </h5>
+                <div class="d-flex flex-column align-items-center">
+                  <div class="input-group mb-3">
+                    <button
+                      class="btn btn-primary fw-bold"
+                      type="button"
+                      id="button-addon1"
+                    >
+                      +
+                    </button>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputText"
+                      placeholder=""
+                      aria-label="Example text with button addon"
+                      aria-describedby="button-addon1"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End LOCALIZADO Card -->
+          <!-- LOCALIZADO Card -->
+          <div class="col-xxl-6 col-md-6">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <div class="d-flex flex-column align-items-center">
+                  <div
+                    class="list-container d-flex flex-column justify-content-around w-100"
+                    id="listContainer"
+                    style="height: 8.8em; overflow-y: auto"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End LOCALIZADO Card -->
+        </div>
+      </div>
+      <div
+        class="tab-pane fade"
+        id="financeiro-justified"
+        role="tabpanel"
+        aria-labelledby="financeiro-tab"
+      >
+        <div class="row align-items-top">
+          <!-- Fonte Card -->
+          <div class="col-xxl-4 col-md-4">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  FONTE <span>| Escolha a fonte de pagamento</span>
+                </h5>
+                <div class="d-flex align-items-center">
+                  <select
+                    class="form-select"
+                    aria-label="Default select example"
+                  >
+                    <option selected disabled>
+                      Escolha a fonte de pagamento
+                    </option>
+                    <option value="95">95.1</option>
+                    <option value="53">53.1</option>
+                    <option value="46">46.1</option>
+                    <option value="42">42.1</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Fonte Card -->
+          <!-- AÇÃO Card -->
+          <div class="col-xxl-4 col-md-4">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  AÇÃO <span>| Selecione a ação alvo do pacote</span>
+                </h5>
+                <div class="d-flex align-items-center">
+                  <select
+                    class="form-select"
+                    aria-label="Default select example"
+                  >
+                    <option selected disabled>
+                      Escolha o ação alvo do projeto
+                    </option>
+                    <option value="4469">4469</option>
+                    <option value="4470">4470</option>
+                    <option value="4472">4472</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End AÇÃO Card -->
+          <!-- EL/ITEM Card -->
+          <div class="col-xxl-4 col-md-4">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  EL/ITEM <span>| Indique o elemento item necessário</span>
+                </h5>
+                <div class="d-flex align-items-center">
+                  <select
+                    class="form-select w-20 me-2"
+                    id="select-rp"
+                    aria-label="Default select example"
+                  >
+                    <option selected disabled value="">
+                      Escolha a elemento
+                    </option>
+                    <option value="el-40">40</option>
+                    <option value="el-52">52</option>
+                    <option value="el-30">30</option>
+                  </select>
+                  <select
+                    class="form-select w-20 me-2"
+                    id="select-rp2"
+                    aria-label="Default select example"
+                  >
+                    <option selected disabled value="">
+                      Escolha a elemento
+                    </option>
+                    <option value="cel-XX">XX</option>
+                    <option value="cel-01">01</option>
+                    <option value="cel-02">02</option>
+                    <option value="cel-03">03</option>
+                    <option value="cel-04">04</option>
+                    <option value="cel-05">05</option>
+                    <option value="cel-06">06</option>
+                    <option value="cel-07">07</option>
+                    <option value="cel-08">08</option>
+                    <option value="cel-09">09</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End EL/ITEM Card -->
+          <!-- CONTA Card -->
+          <div class="col-xxl-4 col-md-4">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  CONTA <span>| Indique a conta utilizada para pagamento</span>
+                </h5>
+                <div class="d-flex align-items-center">
+                  <select
+                    class="form-select"
+                    aria-label="Default select example"
+                  >
+                    <option selected disabled>Escolha a Conta</option>
+                    <option value="100">100</option>
+                    <option value="200">200</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End CONTA Card -->
+          <!-- VALOR Card -->
+          <div class="col-xxl-4 col-md-4">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  VALOR <span>| Valor total a ser empenhado para a fonte</span>
+                </h5>
+                <div class="d-flex align-items-center">
+                  <div class="input-group mb-3">
+                    <span
+                      class="input-group-text text-success"
+                      id="basic-addon1"
+                      ><i class="ri-money-dollar-circle-line"></i
+                    ></span>
+                    <input
+                      type="text"
+                      id="moneyInput"
+                      oninput="formatToCurrency(this)"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End VALOR Card -->
+          <!-- SEI FINACE Card -->
+          <div class="col-xxl-4 col-md-4">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">SEI <span>SEI de Referência</span></h5>
+                <div class="d-flex align-items-center">
+                  <div class="input-group mb-3">
+                    <span
+                      class="input-group-text text-success"
+                      id="basic-addon1"
+                      ><i class="ri-file-4-line"></i
+                    ></span>
+                    <input type="text" id="seiRefFin" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End LOCALIZADO Card -->
+          <!--Botão para adicionar textos-->
+          <div class="row d-flex justify-content-center align-items-center">
+            <div class="btn btn-primary w-50 fw-bold mb-3">
+              Adicionar Dotação
+            </div>
+          </div>
+          <!--Fim de botões para adicionar textos-->
+          <div class="line-container">
+            <div class="line"></div>
+            <span class="span-line">Dotações Orçamentárias</span>
+            <div class="line"></div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <!-- Table with stripped rows -->
+              <table class="table table-striped table-sm table-dot">
+                <thead>
+                  <tr>
+                    <th scope="col" class="rot-info rot-sm">Dotação</th>
+                    <th scope="col" class="rot-info rot-sm">Sei</th>
+                    <th scope="col" class="rot-info rot-sm">Ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="rot-info rot-sm">Brandon Jacob</td>
+                    <td class="rot-info rot-sm">Designer</td>
+                    <td class="rot-info rot-sm">
+                      <button type="button" class="btn btn-primary btn-sm">
+                        <i class="ri-pencil-line"></i>
+                      </button>
+                      <button type="button" class="btn btn-danger btn-sm">
+                        <i class="ri-delete-bin-6-line"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <!-- End Table with stripped rows -->
+            </div>
+          </div>
+          <!-- End VALOR Card -->
+        </div>
+      </div>
+      <div
+        class="tab-pane fade"
+        id="equipamentos-justified"
+        role="tabpanel"
+        aria-labelledby="equipamentos-tab"
+      >
+        <div class="row align-items-top">
+          <!-- EQUIPAMENTO Card -->
+          <div class="col-xxl-4 col-md-4">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  EQUIPAMENTO <span>| Selecione o equipamento a adicionar</span>
+                </h5>
+
+                <div class="d-flex align-items-center">
+                  <select
+                    class="form-select"
+                    aria-label="Default select example"
+                  >
+                    <option selected disabled>Escolha o equipamento</option>
+                    <option value="RENLACE">
+                      RÁDIO ENLACE (LINK DE RÁDIO)
+                    </option>
+                    <option value="RHT">RADIO TRANSCEPTOR - TIPO: HT</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <!-- End EQUIPAMENTO Card -->
+
+            <!-- End CONTRATO Card -->
+          </div>
+          <!-- CODIGO ITEM Card -->
+          <div class="col-xxl-4 col-md-4">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  CODIGO ITEM
+                  <span>| Selecione o código do item a adicionar</span>
+                </h5>
+
+                <div class="d-flex align-items-center">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"
+                      ><i class="ri-navigation-line"></i
+                    ></span>
+                    <input
+                      type="text"
+                      class="form-control mb-0"
+                      placeholder="Código Item"
+                      aria-label="Local"
+                      aria-describedby="basic-addon1"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End CODIGO ITEM Card -->
+          <!-- CODIGO MATERIAL Card -->
+          <div class="col-xxl-4 col-md-4">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  CODIGO MATERIAL
+                  <span>| Selecione o código do material a adicionar</span>
+                </h5>
+
+                <div class="d-flex align-items-center">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"
+                      ><i class="ri-navigation-line"></i
+                    ></span>
+                    <input
+                      type="text"
+                      class="form-control mb-0"
+                      placeholder="Código Item"
+                      aria-label="Local"
+                      aria-describedby="basic-addon1"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End CODIGO Material Card -->
+          <!-- ESPEFICICAÇÃO Card -->
+          <div class="col-xxl-6 col-md-6">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  ESPEFICICAÇÃO
+                  <span>| Descreva a especificação do material</span>
+                </h5>
+
+                <div class="d-flex align-items-center">
+                  <textarea
+                    class="form-control"
+                    style="height: 130px; font-size: 0.8em"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+            <!-- End ESPEFICICAÇÃO Card -->
+          </div>
+          <!-- End Default Tabs -->
+          <div class="col-xxl-6 col-md-6">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <!--Start Classe-->
+                <div
+                  class="d-flex flex-row justify-content-around align-items-center"
+                >
+                  <h5 class="card-title">Classe</h5>
+                  <select
+                    class="form-select w-50 ms-2"
+                    aria-label="Default select example"
+                  >
+                    <option selected disabled>Classe</option>
+                    <option value="consumo">Consumo</option>
+                    <option value="permanente">Permanente</option>
+                  </select>
+                </div>
+                <!--End Classe-->
+                <!--Start Situação-->
+                <div
+                  class="d-flex flex-row justify-content-around align-items-center"
+                >
+                  <h5 class="card-title">Situação</h5>
+                  <select
+                    class="form-select w-50 ms-2"
+                    aria-label="Default select example"
+                  >
+                    <option selected disabled>Situação</option>
+                    <option value="consumo">Ativo</option>
+                    <option value="permanente">Inativo</option>
+                  </select>
+                </div>
+                <!--End Situação-->
+                <!--Start El/Item-->
+                <div
+                  class="d-flex flex-row justify-content-around align-items-center"
+                >
+                  <h5 class="card-title">El/Item</h5>
+                  <div class="d-flex align-items-center">
+                    <select
+                      class="form-select w-10 me-2"
+                      id="select-rp"
+                      aria-label="Default select example"
+                      style="width: 90px"
+                    >
+                      <option selected disabled value="">
+                        Escolha a elemento
+                      </option>
+                      <option value="el-40">40</option>
+                      <option value="el-52">52</option>
+                      <option value="el-30">30</option>
+                    </select>
+                    <select
+                      class="form-select w-10 me-2"
+                      id="select-rp2"
+                      aria-label="Default select example"
+                      style="width: 90px"
+                    >
+                      <option selected disabled value="">
+                        Escolha a elemento
+                      </option>
+                      <option value="cel-XX">XX</option>
+                      <option value="cel-01">01</option>
+                      <option value="cel-02">02</option>
+                      <option value="cel-03">03</option>
+                      <option value="cel-04">04</option>
+                      <option value="cel-05">05</option>
+                      <option value="cel-06">06</option>
+                      <option value="cel-07">07</option>
+                      <option value="cel-08">08</option>
+                      <option value="cel-09">09</option>
+                    </select>
+                  </div>
+                </div>
+                <!--End El/Item-->
+              </div>
+            </div>
+          </div>
+          <div class="col-xxl-6 col-md-6">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <!--Start Valor-->
+                <div class="d-flex flex-column justify-content-start">
+                  <h5 class="card-title">
+                    Valor <span>| Valor unitário</span>
+                  </h5>
+                  <div class="input-group mb-3">
+                    <span
+                      class="input-group-text text-success"
+                      id="basic-addon1"
+                      ><i class="ri-money-dollar-circle-line"></i
+                    ></span>
+                    <input
+                      type="text"
+                      id="equipUnit"
+                      oninput="formatToCurrency(this)"
+                    />
+                  </div>
+                </div>
+                <!--End Valor-->
+                <!--Start Status-->
+                <div class="d-flex flex-column justify-content-start">
+                  <h5 class="card-title">
+                    Status<span>| Status atual do material</span>
+                  </h5>
+                  <select
+                    class="form-select w-50 ms-2"
+                    aria-label="Default select example"
+                  >
+                    <option selected disabled>Status</option>
+                    <option value="pend-aq">Aquisição Pendente</option>
+                    <option value="pend-aq">Entrega Pendente</option>
+                    <option value="entregue">Entregue</option>
+                    <option value="distribuido">Distribuído</option>
+                    <option value="nolocal">No local</option>
+                  </select>
+                </div>
+                <!--End Status-->
+              </div>
+            </div>
+          </div>
+          <div class="col-xxl-6 col-md-6">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <!--Start Local-->
+                <div class="d-flex flex-column justify-content-start">
+                  <h5 class="card-title">
+                    Local<span>| Local onde o equipamento se encontra</span>
+                  </h5>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"></span>
+                    <input
+                      type="text"
+                      class="form-control mb-0"
+                      placeholder="LOCAL"
+                      aria-label="Local"
+                      aria-describedby="basic-addon1"
+                    />
+                  </div>
+                </div>
+                <!--End Local-->
+                <!--Start Destino-->
+                <div class="d-flex flex-column justify-content-start">
+                  <h5 class="card-title">
+                    Destino<span>| Para onde será destinado</span>
+                  </h5>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"></span>
+                    <input
+                      type="text"
+                      class="form-control mb-0"
+                      placeholder="Destino"
+                      aria-label="Destino"
+                      aria-describedby="basic-addon1"
+                    />
+                  </div>
+                </div>
+                <!--End Destino-->
+              </div>
+            </div>
+          </div>
+          <!--Botão para adicionar textos-->
+          <div class="row d-flex justify-content-center align-items-center">
+            <div class="btn btn-primary w-50 fw-bold mb-3">
+              Adicionar equipamento
+            </div>
+          </div>
+          <!--Fim de botões para adicionar textos-->
+          <div class="line-container">
+            <div class="line"></div>
+            <span class="span-line">Equipamentos</span>
+            <div class="line"></div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <!-- Tabela de Equipamentos -->
+              <table class="table table-striped table-sm table-dot">
+                <thead>
+                  <tr>
+                    <th scope="col" class="rot-info rot-sm">Titulo</th>
+                    <th scope="col" class="rot-info rot-sm">El/Item</th>
+                    <th scope="col" class="rot-info rot-sm">Classe</th>
+                    <th scope="col" class="rot-info rot-sm">Valor</th>
+                    <th scope="col" class="rot-info rot-sm">Local</th>
+                    <th scope="col" class="rot-info rot-sm">Destino</th>
+                    <th scope="col" class="rot-info rot-sm">Ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="rot-info rot-sm">Radio Transceptor Portáril</td>
+                    <td class="rot-info rot-sm">52.06</td>
+                    <td class="rot-info rot-sm">Permanente</td>
+                    <td class="rot-info rot-sm">R$ 8.000,00</td>
+                    <td class="rot-info rot-sm">NTS</td>
+                    <td class="rot-info rot-sm">10ºBBM</td>
+                    <td class="rot-info rot-sm">
+                      <button type="button" class="btn btn-primary btn-sm">
+                        <i class="ri-pencil-line"></i>
+                      </button>
+                      <button type="button" class="btn btn-danger btn-sm">
+                        <i class="ri-delete-bin-6-line"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <!-- End Table with stripped rows -->
+            </div>
+          </div>
+          <!-- End VALOR Card -->
+        </div>
+      </div>
+
+      <div
+        class="tab-pane fade"
+        id="servicos-justified"
+        role="tabpanel"
+        aria-labelledby="servicos-tab"
+      >
+        <div class="row align-items-top">
+          <!-- SERVIÇO Card -->
+          <div class="col-xxl-4 col-md-4">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  SERVIÇO <span>| Selecione o serviço a adicionar</span>
+                </h5>
+
+                <div class="d-flex align-items-center">
+                  <select
+                    class="form-select"
+                    aria-label="Default select example"
+                  >
+                    <option selected disabled>Escolha o serviço</option>
+                    <option value="INSTREP">Instalação de Repetidora</option>
+                    <option value="LICDMR">Licenças DMR</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <!-- End SERVIÇO Card -->
+
+            <!-- End CONTRATO Card -->
+          </div>
+          <!-- CODIGO ITEM Card -->
+          <div class="col-xxl-4 col-md-4">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  CODIGO ITEM
+                  <span>| Selecione o código do item a adicionar</span>
+                </h5>
+
+                <div class="d-flex align-items-center">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"
+                      ><i class="ri-navigation-line"></i
+                    ></span>
+                    <input
+                      type="text"
+                      class="form-control mb-0"
+                      placeholder="Código Item"
+                      aria-label="Local"
+                      aria-describedby="basic-addon1"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End CODIGO ITEM Card -->
+          <!-- CODIGO MATERIAL Card -->
+          <div class="col-xxl-4 col-md-4">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  CODIGO MATERIAL
+                  <span>| Selecione o código do material a adicionar</span>
+                </h5>
+
+                <div class="d-flex align-items-center">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"
+                      ><i class="ri-navigation-line"></i
+                    ></span>
+                    <input
+                      type="text"
+                      class="form-control mb-0"
+                      placeholder="Código Item"
+                      aria-label="Local"
+                      aria-describedby="basic-addon1"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End CODIGO Material Card -->
+          <!-- ESPEFICICAÇÃO Card -->
+          <div class="col-xxl-6 col-md-6">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  ESPEFICICAÇÃO
+                  <span>| Descreva a especificação do material</span>
+                </h5>
+
+                <div class="d-flex align-items-center">
+                  <textarea
+                    class="form-control"
+                    style="height: 130px; font-size: 0.8em"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+            <!-- End ESPEFICICAÇÃO Card -->
+          </div>
+          <!-- End Default Tabs -->
+          <div class="col-xxl-6 col-md-6">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <!--Start Situação-->
+                <div
+                  class="d-flex flex-row justify-content-around align-items-center"
+                >
+                  <h5 class="card-title">Situação</h5>
+                  <select
+                    class="form-select w-50 ms-2"
+                    aria-label="Default select example"
+                  >
+                    <option selected disabled>Situação</option>
+                    <option value="consumo">Ativo</option>
+                    <option value="permanente">Inativo</option>
+                  </select>
+                </div>
+                <!--End Situação-->
+                <!--Start El/Item-->
+                <div
+                  class="d-flex flex-row justify-content-around align-items-center"
+                >
+                  <h5 class="card-title">El/Item</h5>
+                  <div class="d-flex align-items-center">
+                    <select
+                      class="form-select w-10 me-2"
+                      id="select-rp"
+                      aria-label="Default select example"
+                      style="width: 90px"
+                    >
+                      <option selected disabled value="">
+                        Escolha a elemento
+                      </option>
+                      <option value="el-40">40</option>
+                      <option value="el-52">52</option>
+                      <option value="el-30">30</option>
+                    </select>
+                    <select
+                      class="form-select w-10 me-2"
+                      id="select-rp2"
+                      aria-label="Default select example"
+                      style="width: 90px"
+                    >
+                      <option selected disabled value="">
+                        Escolha a elemento
+                      </option>
+                      <option value="cel-XX">XX</option>
+                      <option value="cel-01">01</option>
+                      <option value="cel-02">02</option>
+                      <option value="cel-03">03</option>
+                      <option value="cel-04">04</option>
+                      <option value="cel-05">05</option>
+                      <option value="cel-06">06</option>
+                      <option value="cel-07">07</option>
+                      <option value="cel-08">08</option>
+                      <option value="cel-09">09</option>
+                    </select>
+                  </div>
+                </div>
+                <!--End El/Item-->
+              </div>
+            </div>
+          </div>
+          <div class="col-xxl-6 col-md-6">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <!--Start Valor-->
+                <div class="d-flex flex-column justify-content-start">
+                  <h5 class="card-title">
+                    Valor <span>| Valor unitário</span>
+                  </h5>
+                  <div class="input-group mb-3">
+                    <span
+                      class="input-group-text text-success"
+                      id="basic-addon1"
+                      ><i class="ri-money-dollar-circle-line"></i
+                    ></span>
+                    <input
+                      type="text"
+                      id="equipUnit"
+                      oninput="formatToCurrency(this)"
+                    />
+                  </div>
+                </div>
+                <!--End Valor-->
+                <!--Start Status-->
+                <div class="d-flex flex-column justify-content-start">
+                  <h5 class="card-title">
+                    Status<span>| Status atual do Serviço</span>
+                  </h5>
+                  <select
+                    class="form-select w-50 ms-2"
+                    aria-label="Default select example"
+                  >
+                    <option selected disabled>Status</option>
+                    <option value="distribuido">Entregue</option>
+                    <option value="naodistribuido">Não-Entregue</option>
+                  </select>
+                </div>
+                <!--End Status-->
+              </div>
+            </div>
+          </div>
+          <div class="col-xxl-6 col-md-6">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <!--Start Destino-->
+                <div class="d-flex flex-column justify-content-start">
+                  <h5 class="card-title">
+                    Destino<span>| Para onde será destinado</span>
+                  </h5>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"></span>
+                    <input
+                      type="text"
+                      class="form-control mb-0"
+                      placeholder="Destino"
+                      aria-label="Destino"
+                      aria-describedby="basic-addon1"
+                    />
+                  </div>
+                </div>
+                <!--End Destino-->
+              </div>
+            </div>
+          </div>
+          <!--Botão para adicionar textos-->
+          <div class="row d-flex justify-content-center align-items-center">
+            <div class="btn btn-primary w-50 fw-bold mb-3">
+              Adicionar Serviço
+            </div>
+          </div>
+          <!--Fim de botões para adicionar textos-->
+          <div class="line-container">
+            <div class="line"></div>
+            <span class="span-line">Serviços</span>
+            <div class="line"></div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <!-- Table with stripped rows -->
+              <table class="table table-striped table-sm table-dot">
+                <thead>
+                  <tr>
+                    <th scope="col" class="rot-info rot-sm">Titulo</th>
+                    <th scope="col" class="rot-info rot-sm">El/Item</th>
+                    <th scope="col" class="rot-info rot-sm">Classe</th>
+                    <th scope="col" class="rot-info rot-sm">Situação</th>
+                    <th scope="col" class="rot-info rot-sm">Valor</th>
+                    <th scope="col" class="rot-info rot-sm">Local</th>
+                    <th scope="col" class="rot-info rot-sm">Destino</th>
+                    <th scope="col" class="rot-info rot-sm">Ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="rot-info rot-sm">Licença DMR Tier III</td>
+                    <td class="rot-info rot-sm">40.02</td>
+                    <td class="rot-info rot-sm">Consumo</td>
+                    <td class="rot-info rot-sm">Ativo</td>
+                    <td class="rot-info rot-sm">R$ 800,00</td>
+                    <td class="rot-info rot-sm">NTS</td>
+                    <td class="rot-info rot-sm">10ºBBM</td>
+                    <td class="rot-info rot-sm">
+                      <button type="button" class="btn btn-primary btn-sm">
+                        <i class="ri-pencil-line"></i>
+                      </button>
+                      <button type="button" class="btn btn-danger btn-sm">
+                        <i class="ri-delete-bin-6-line"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <!-- End Table with stripped rows -->
+            </div>
+          </div>
+          <!-- End VALOR Card -->
+        </div>
+      </div>
+      <div
+        class="tab-pane fade"
+        id="cronograma-justified"
+        role="tabpanel"
+        aria-labelledby="cronograma-tab"
+      >
+        <!--Inicio do formulário para inserir tarefas no cronograma-->
+        <div class="row align-items-top">
+          <!-- TIPO Card -->
+          <div class="col-xxl-4 col-md-4">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  TAREFA
+                  <span>| Tarefa a executar</span>
+                </h5>
+                <div class="d-flex align-items-center">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"></span>
+                    <textarea
+                      class="form-control"
+                      style="height: 75px; font-size: 0.8em"
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End TIPO Card -->
+          <!-- BENEFICIADO Card -->
+          <div class="col-xxl-4 col-md-4">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  Responsável
+                  <span>| Responsável pelo registro</span>
+                </h5>
+                <div class="d-flex align-items-center">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"
+                      ><i class="ri-navigation-line"></i
+                    ></span>
+                    <input
+                      type="text"
+                      class="form-control mb-0"
+                      placeholder="Responsável"
+                      aria-label="Local"
+                      aria-describedby="basic-addon1"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End BENEFICIADO Card -->
+          <!-- LOCALIZADO Card -->
+          <div class="col-xxl-4 col-md-4">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  Status
+                  <span>| Status atual do cronograma </span>
+                </h5>
+                <div class="d-flex align-items-center">
+                  <select
+                    class="form-select"
+                    aria-label="Default select example"
+                  >
+                    <option selected disabled>Escolha o status atual</option>
+                    <option value="init">A iniciar</option>
+                    <option value="walk">Em andamento</option>
+                    <option value="finish">Concluido</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row align-items-top">
+            <!-- DATA INICIO Card -->
+            <div class="col-xxl-6 col-md-6">
+              <div class="card info-card revenue-card">
+                <div class="card-body">
+                  <!-- PRIMEIRA DATA PLANO-->
+                  <h5 class="card-title">
+                    DATA INICIAL PLANEJADA<span>| Início planejado</span>
+                  </h5>
+                  <div class="d-flex align-items-center">
+                    <div class="mb-3">
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="dateInitialInput"
+                      />
+                    </div>
+                  </div>
+                  <!-- FIM DATA PLANO-->
+                  <!-- PRIMEIRA DATA REAL-->
+                  <h5 class="card-title">
+                    DATA FINAL PLANEJADA<span>| Fim planejado </span>
+                  </h5>
+                  <div class="d-flex align-items-center">
+                    <div class="mb-3">
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="dateInitialInput"
+                      />
+                    </div>
+                  </div>
+                  <!-- FIM DATA REAL-->
+                </div>
+              </div>
+            </div>
+            <!-- End DATA INICIO Card -->
+            <!-- DATA FINAL Card -->
+            <div class="col-xxl-6 col-md-6">
+              <div class="card info-card revenue-card">
+                <div class="card-body">
+                  <!-- PRIMEIRA DATA -->
+                  <h5 class="card-title">
+                    DATA INICIAL REAL<span>| Início Real</span>
+                  </h5>
+                  <div class="d-flex align-items-center">
+                    <div class="mb-3">
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="dateInitialInput"
+                      />
+                    </div>
+                  </div>
+                  <!-- FIM DATA -->
+                  <!-- PRIMEIRA DATA -->
+                  <h5 class="card-title">
+                    DATA FINAL REAL <span>| Fim Real</span>
+                  </h5>
+                  <div class="d-flex align-items-center">
+                    <div class="mb-3">
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="dateInitialInput"
+                      />
+                    </div>
+                  </div>
+                  <!-- FIM DATA -->
+                </div>
+              </div>
+            </div>
+            <!-- End DATA FINAL Card -->
+          </div>
+          <!-- End LOCALIZADO Card -->
+        </div>
+        <!--Botão para adicionar textos-->
+        <div class="row d-flex justify-content-center align-items-center">
+          <div class="btn btn-primary w-50 fw-bold mb-3">Adicionar Tarefa</div>
+        </div>
+        <!--Fim de botões para adicionar textos-->
+        <!--Fim do formulário para inserir tarefas no cronograma-->
+        <div class="line-container">
+          <div class="line"></div>
+          <span class="span-line">Cronograma</span>
+          <div class="line"></div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <!-- Table with stripped rows -->
+            <table class="table table-striped table-sm table-dot">
+              <thead>
+                <tr>
+                  <th scope="col" class="rot-info rot-sm">Tarefa</th>
+                  <th scope="col" class="rot-info rot-sm">Status</th>
+                  <th scope="col" class="rot-info rot-sm">Responsável</th>
+                  <th scope="col" class="rot-info rot-sm">Início</th>
+                  <th scope="col" class="rot-info rot-sm">Fim</th>
+                  <th scope="col" class="rot-info rot-sm">Duração(dias)</th>
+                  <th scope="col" class="rot-info rot-sm">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="rot-info rot-sm">Instalação de Repetidoras</td>
+                  <td class="rot-info rot-sm">
+                    <span class="badge bg-warning"> Em Andamento</span>
+                  </td>
+                  <td class="rot-info rot-sm">Motorola Solutions</td>
+                  <td class="rot-info rot-sm">14/05/2023</td>
+                  <td class="rot-info rot-sm">26/06/2023</td>
+                  <td class="rot-info rot-sm">14 dias</td>
+                  <td class="rot-info rot-sm">
+                    <button type="button" class="btn btn-primary btn-sm">
+                      <i class="ri-pencil-line"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm">
+                      <i class="ri-delete-bin-6-line"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <!-- End Table with stripped rows -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="tab-pane fade"
+      id="observacoes-justified"
+      role="tabpanel"
+      aria-labelledby="observacoes-tab"
+    >
+      <!--Inicio do formulário Observaçoes-->
+      <div class="row align-items-top">
+        <!-- TIPO Card -->
+        <div class="col">
+          <div class="card info-card revenue-card">
+            <div class="card-body">
+              <h5 class="card-title">
+                Descrição
+                <span
+                  >| Faça uma breve destrição da observação ou pendencia</span
+                >
+              </h5>
+              <div class="d-flex align-items-center">
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon1"></span>
+                  <textarea
+                    class="form-control"
+                    style="height: 75px; font-size: 0.8em"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End TIPO Card -->
+        <!-- BENEFICIADO Card -->
+      </div>
+      <div class="row align-items-top">
+        <!-- LOCALIZADO Card -->
+        <div class="col-xxl-6 col-md-6">
+          <div class="card info-card revenue-card">
+            <div class="card-body">
+              <h5 class="card-title">
+                Categoria
+                <span>| Status atual do cronograma </span>
+              </h5>
+              <div class="d-flex align-items-center">
+                <select class="form-select" aria-label="Default select example">
+                  <option selected disabled>Escolha a categoria</option>
+                  <option value="pending">Pendência</option>
+                  <option value="obs">Observação</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xxl-6 col-md-6">
+          <div class="card info-card revenue-card">
+            <div class="card-body">
+              <h5 class="card-title">
+                DATA <span>| Início de Criação</span>
+              </h5>
+              <div class="d-flex align-items-center">
+                  <input
+                    type="date"
+                    class="form-control me-5"
+                    id="dateObsInput"
+                  />
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End BENEFICIADO Card -->
+
+        <!--Fim do formulário Observaçoes-->
+
+        <!--Inicio do formulário para inserir tarefas no observacao-->
+        <div class="row align-items-top">
+          <div class="line-container">
+            <div class="line"></div>
+            <span class="span-line">Observações</span>
+            <div class="line"></div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <!-- Table with stripped rows -->
+              <table class="table table-striped table-sm table-dot">
+                <thead>
+                  <tr>
+                    <th scope="col" class="rot-info rot-sm">Descrição</th>
+                    <th scope="col" class="rot-info rot-sm">Categoria</th>
+                    <th scope="col" class="rot-info rot-sm">Data</th>
+                    <th scope="col" class="rot-info rot-sm">Ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="rot-info rot-sm">
+                      Falta de estrutura compatível para alimentar as questoes
+                      basicas
+                    </td>
+                    <td class="rot-info rot-sm">Pendência</td>
+                    <td class="rot-info rot-sm">14/05/2023</td>
+                    <td class="rot-info rot-sm">
+                      <button type="button" class="btn btn-primary btn-sm">
+                        <i class="ri-pencil-line"></i>
+                      </button>
+                      <button type="button" class="btn btn-danger btn-sm">
+                        <i class="ri-delete-bin-6-line"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <!-- End Table with stripped rows -->
+            </div>
+          </div>
+        </div>
+        {% endblock %} {% block 'myscripts' %}
+        <!-- Função que exibe ou oculta os selects de acordo com a seleção de RP Ou PG -->
+        <script>
+          window.onload = function () {
+            const statusSelect = document.querySelector(".form-select");
+            const rpSelect = document.getElementById("select-rp");
+            const pgSelect = document.getElementById("select-pg");
+            const terceirosElement = document.getElementById("terceiros");
+
+            // inicia ambos selects ocultos
+            rpSelect.style.display = "none";
+            pgSelect.style.display = "none";
+
+            statusSelect.addEventListener("change", function () {
+              // esconde ambos selects
+              rpSelect.style.display = "none";
+              pgSelect.style.display = "none";
+              terceirosElement.style.display = "block"; // mostra "Terceiros"
+
+              if (this.value === "RP") {
+                rpSelect.style.display = "block";
+                terceirosElement.style.display = "none"; // oculta "Terceiros"
+              } else if (this.value === "PG") {
+                pgSelect.style.display = "block";
+                terceirosElement.style.display = "none"; // oculta "Terceiros"
+              }
+            });
+          };
+          document
+            .getElementById("button-addon1")
+            .addEventListener("click", function () {
+              const inputText = document.getElementById("inputText");
+              const listContainer = document.getElementById("listContainer");
+
+              // Verifica se o texto já existe na lista
+              if (!listContainer.innerHTML.includes(inputText.value)) {
+                // Cria um novo item da lista
+                const newItem = document.createElement("div");
+                newItem.classList.add(
+                  "d-flex",
+                  "flex-row",
+                  "justify-content-between",
+                  "w-100",
+                  "align-items-center",
+                  "mb-1"
+                );
+                newItem.innerHTML = `<p class="labelsei">${inputText.value}</p> <button class="btn btn-danger btn-sm me-2" onclick="removeItem(event)">X</button>`;
+
+                // Adiciona o novo item à lista
+                listContainer.appendChild(newItem);
+              }
+
+              // Limpa o campo de entrada
+              inputText.value = "";
+            });
+
+          function removeItem(event) {
+            const item = event.target.parentNode;
+            item.parentNode.removeChild(item);
+          }
+
+          function formatToCurrency(element) {
+            let input = element.value;
+            input = input.replace(/[\D]/g, ""); // Remove tudo que não é número
+            input = input.replace(/(\d)(\d{2})$/, "$1,$2"); // Coloca vírgula antes dos últimos 2 dígitos
+            input = input.replace(/(?=(\d{3})+(\D))\B/g, "."); // Coloca ponto a cada 3 dígitos
+            element.value = `R$ ${input}`;
+          }
+        </script>
+        {% endblock %}
+      </div>
+    </div>
+  </div>
+</div>

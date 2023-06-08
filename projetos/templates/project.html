@@ -1,0 +1,53 @@
+{% extends 'base.html' %} {% load static %} {% load filters %} {% block 'title'%}Projetos{%endblock%} {% block 'head' %}
+<link rel="stylesheet" href="{% static 'css/full-style.css' %}" />
+{% endblock %} {% block 'subtitle' %}Equipamentos de {{tipo|tipo_projeto}}{% endblock %} {% block 'content' %}
+<div class="row align-items-top">
+  <div class="col">
+    <!-- Default Card -->
+    <div class="card">
+      <div class="card-body">
+        <div class="row d-flex flex-row mb-2 align-items-center">
+          <div class="col d-flex justify-content-center">
+            <h5 class="card-title w-100 text-center">Expansão DMR Tier III - 2º e 4º COB</h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <!-- Card with header and footer -->
+            <div class="card">
+              <div class="card-header">
+                <h5 class="font-weight-bold text-center title-projeto">
+Equipamentos de Radiocomunicação
+                </h5>
+              </div>
+              <div class="card-body body-projeto">
+                <p><span>Data:</span> 15/05/2023</p>
+                <p><span>Tipo:</span>Material</p>
+                <p><span>Localização:</span>NTS</p>
+                <p><span>Valor:</span> R$ 1.000.000,00</p>
+
+                <div class="card-footer text-primary d-flex justify-content-between">
+                  <div>
+                  Radio <i class="ri-price-tag-3-fill"></i>
+                </div>
+                  <div>
+                    <a href="{% url 'pacoteview' %}" class="btn btn-success btn-sm"><i class="bi bi-eye"></i></a>
+                    <a href="{% url 'pacoteedit' %}" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
+                  </div>
+                </div>
+              </div>
+              <!-- End Card with header and footer -->
+            </div>
+          </div>
+          <!-- End Default Card -->
+        </div>
+        <!-- Onde serão colocados os cards-->
+      </div>
+      <div class="card-footer text-primary"></div>
+      <!-- End Card with header and footer -->
+    </div>
+    <!-- End Default Card -->
+  </div>
+</div>
+
+{% endblock %}

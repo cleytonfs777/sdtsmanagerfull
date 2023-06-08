@@ -1,0 +1,100 @@
+{% extends 'base.html' %} {% load static %} {% block 'title'%}Projetos{%endblock%} {% block 'head' %}
+<link rel="stylesheet" href="{% static 'css/full-style.css' %}" />
+{% endblock %} {% block 'subtitle' %}Projetos{% endblock %} {% block 'content' %}
+{% if messages %} {% for message in messages %}
+<div class="alert {{message.tags}} stilo-message">{{message}}</div>
+{% endfor %} {% endif %}
+<div class="row align-items-top">
+  <!-- Fase Card -->
+  <div class="col">
+    <div class="card info-card revenue-card">
+      <div class="card-body">
+        <h5 class="card-title border-bottom">
+            Cadastro de Projetos
+          <span>| Crie um novo projeto abaixo</span>
+        </h5>
+        <div class="row align-items-top">
+            <div class="card-body">
+                <!-- Multi Columns Form -->
+                <form class="row g-3" method='POST'>
+                    {% csrf_token %}
+                    <div class="col-md-6">
+                    <label for="inputTitulo" class="form-label">Título</label>
+                    <input type="text" class="form-control" id="inputTitulo" name="inputTitulo">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputTipo" class="form-label">Tipo</label>
+                        <select id="inputTipo" class="form-select" name="inputTipo">
+                          <option disabled selected>Selecione o tipo</option>
+                          <option value="despesa">Despesa</option>
+                          <option value="receita">Receita</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 d-flex flex-column">
+                            <label for="inputResp" class="form-label me-2">Responsável</label>
+                            <input type="text" class="form-control" id="inputResp" name="inputResp">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="descricao">Descrição</label>
+                        <textarea
+                        id="descricao"
+                        name="descricao"
+                        class="form-control"
+                        required
+                        ></textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputEtiqueta" class="form-label">Etiqueta</label>
+                        <select id="inputEtiqueta" name="inputEtiqueta" class="form-select">
+                          <option disabled selected>Selecione a etiqueta</option>
+                          <option value="radio">Radio</option>
+                          <option value="telefonia">Telefonia</option>
+                          <option value="audioevideo">Audio e Vídeo</option>
+                          <option value="outros">Outros</option>
+                        </select>
+                    </div>
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-success fw-bold px-5 mx-4 mt-5">Criar Projeto</button>
+                    <button type="reset" class="btn btn-secondary fw-bold px-5 mx-4 mt-5">Limpar</button>
+                  </div>
+                </form><!-- End Multi Columns Form -->
+  
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var etapas = Array.from(
+        document.querySelectorAll("#form-etapas .form-etapa")
+      );
+      var count = etapas.length;
+      var current = 0;
+
+      var btnsNext = Array.from(document.querySelectorAll(".btn-next"));
+      var btnsPrev = Array.from(document.querySelectorAll(".btn-prev"));
+
+      btnsNext.forEach((btn) => {
+        btn.addEventListener("click", function () {
+          if (current < count - 1) {
+            etapas[current].classList.remove("ativo");
+            current++;
+            etapas[current].classList.add("ativo");
+          }
+        });
+      });
+
+      btnsPrev.forEach((btn) => {
+        btn.addEventListener("click", function () {
+          if (current > 0) {
+            etapas[current].classList.remove("ativo");
+            current--;
+            etapas[current].classList.add("ativo");
+          }
+        });
+      });
+    });
+  </script>
+  {% endblock %}
+</div>

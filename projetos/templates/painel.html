@@ -1,0 +1,181 @@
+{% extends 'base.html' %} {% load static %} {% block 'title'%}Projetos{%endblock%} {% block 'head' %}
+<link rel="stylesheet" href="{% static 'css/full-style.css' %}" />
+{% endblock %} {% block 'subtitle' %}Painel{% endblock %} {% block 'content' %}
+{% if messages %} {% for message in messages %}
+<div class="alert {{message.tags}} stilo-message">{{message}}</div>
+{% endfor %} {% endif %}
+<div class="card">
+  <div class="card-body mt-4">
+    <!-- Default Tabs -->
+    <ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
+      <li class="nav-item flex-fill" role="presentation">
+        <button
+          class="nav-link w-100 active fw-bold text-success"
+          id="receita-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#receita-justified"
+          type="button"
+          role="tab"
+          aria-controls="receita"
+          aria-selected="true"
+        >
+          Projetos de Receita
+        </button>
+      </li>
+      <li class="nav-item flex-fill" role="presentation">
+        <button
+          class="nav-link w-100 fw-bold text-danger"
+          id="despesa-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#despesa-justified"
+          type="button"
+          role="tab"
+          aria-controls="despesa"
+          aria-selected="false"
+        >
+          Projetos de Despesa
+        </button>
+      </li>
+    </ul>
+    <div class="tab-content pt-2" id="myTabjustifiedContent">
+      <div
+        class="tab-pane fade show active"
+        id="receita-justified"
+        role="tabpanel"
+        aria-labelledby="receita-tab"
+      >
+        <div class="card">
+          <div class="card-body">
+            <div class="row d-flex flex-row mb-2 align-items-center">
+              <div class="col-md-9 col-6">
+                <a
+                  href="{% url 'newprojectrecet' %}"
+                  class="btn btn-success w-100 fw-bold mt-2 mx-4"
+                  >Novo Projeto</a
+                >
+              </div>
+              <div class="col-md-2 col-6">
+                <select
+                  class="form-select form-select-sm mx-4"
+                  aria-label=".form-select-sm example"
+                >
+                  <option selected>2023</option>
+                  <option value="1">2022</option>
+                  <option value="2">2021</option>
+                  <option value="3">2020</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              {% for projeto in projetos %} {% if projeto.tipo == 'receita' %}
+              <div class="col-md-3">
+                <!-- Card with header and footer -->
+                <div class="card">
+                  <div class="card-header">
+                    <h5 class="font-weight-bold text-center title-projeto">
+                      <a href="{% url 'project' %}?tipo=1"
+                        >{{projeto.titulo}}</a
+                      >
+                    </h5>
+                  </div>
+                  <div class="card-body body-projeto">
+                    <p class="card-text">
+                      <span>Descrição:</span> {{projeto.descricao|truncatechars:50 }}
+                    </p>
+                    <p><span>Data:</span> {{projeto.created_at}}</p>
+                    <p><span>Valor:</span> R$ 1.000.000,00</p>
+
+                    {% if projeto.etiqueta == 'radio' %}
+                    <div class="card-footer text-primary text-uppercase">
+                      {{projeto.etiqueta}}
+                      <i class="ri-price-tag-3-fill"></i>
+                    </div>
+                    {% elif projeto.etiqueta == 'telefonia' %}
+                    <div class="card-footer text-success text-uppercase">
+                      {{projeto.etiqueta}}
+                      <i class="ri-phone-fill"></i>
+                    </div>
+                    {% endif %}
+                  </div>
+                  <!-- End Card with header and footer -->
+                </div>
+              </div>
+              {% endif %} {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="tab-pane fade"
+        id="despesa-justified"
+        role="tabpanel"
+        aria-labelledby="despesa-tab"
+      >
+        <div class="card">
+          <div class="card-body">
+            <div class="row d-flex align-items-center mb-3">
+              <div class="col-md-9 col-6">
+                <a
+                  href="{% url 'newprojectrecet' %}"
+                  class="btn btn-danger w-100 fw-bold mt-2 mx-4"
+                  >Novo Projeto</a
+                >
+              </div>
+
+              <div class="col-md-2 col-6">
+                <select
+                  class="form-select form-select-sm mx-4"
+                  aria-label=".form-select-sm example"
+                >
+                  <option selected>2023</option>
+                  <option value="1">2022</option>
+                  <option value="2">2021</option>
+                  <option value="3">2020</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              {% for projeto in projetos %} {% if projeto.tipo == 'despesa' %}
+              <div class="col-md-3">
+                <!-- Card with header and footer -->
+                <div class="card">
+                  <div class="card-header">
+                    <h5 class="font-weight-bold text-center title-projeto">
+                      <a href="{% url 'project' %}?tipo=1"
+                        >{{projeto.titulo}}</a
+                      >
+                    </h5>
+                  </div>
+                  <div class="card-body body-projeto">
+                    <p class="card-text">
+                      <span>Descrição:</span> {{ projeto.descricao|truncatechars:50 }}
+                    </p>
+                    <p><span>Data:</span> {{projeto.created_at}}</p>
+                    <p><span>Valor:</span> R$ 1.000.000,00</p>
+
+                    {% if projeto.etiqueta == 'radio' %}
+                    <div class="card-footer text-primary text-uppercase">
+                      {{projeto.etiqueta}}
+                      <i class="ri-price-tag-3-fill"></i>
+                    </div>
+                    {% elif projeto.etiqueta == 'telefonia' %}
+                    <div class="card-footer text-success text-uppercase">
+                      {{projeto.etiqueta}}
+                      <i class="ri-phone-fill"></i>
+                    </div>
+                    {% endif %}
+                  </div>
+                  <!-- End Card with header and footer -->
+                </div>
+              </div>
+              {% endif %} {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Default Tabs -->
+  </div>
+</div>
+
+{% endblock %}

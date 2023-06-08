@@ -1,0 +1,339 @@
+{% extends 'base.html' %} {% load static %} {% block 'title'%}Projetos{% endblock %} {% block 'head' %}
+<link rel="stylesheet" href="{% static 'css/full-style.css' %}" />
+{% endblock %} {% block 'subtitle' %}Equipamentos de Radiocomunicação{% endblock %} {% block 'content' %}
+<div class="row align-items-top">
+  <!-- Fase Card -->
+  <div class="col-xxl-6 col-md-6">
+    <div class="card info-card revenue-card">
+      <div class="card-body">
+        <h5 class="card-title border-bottom">
+          Andamento
+          <span>| Informações gerais de andamento</span>
+        </h5>
+        <div class="row align-items-top">
+          <div class="col-md-6 d-flex flex-row align-items-center">
+            <div class="fw-bold rotulo-chart my-3 me-2">Status:</div>
+            <span class="span-info">RP em Andamento</span>
+          </div>
+          <div class="col-md-6 d-flex flex-row align-items-center">
+            <div class="fw-bold rotulo-chart my-3 me-2">Fase:</div>
+            <span class="span-info">Elaboração de ETP</span>
+          </div>
+          <div class="col-md-6 d-flex flex-row align-items-center">
+            <div class="fw-bold rotulo-chart my-3 me-2">Natureza:</div>
+            <span class="span-info">Radiocomunicação</span>
+          </div>
+          <div class="col-md-6 d-flex flex-row align-items-center">
+            <div class="fw-bold rotulo-chart my-3 me-2">Tipo:</div>
+            <span class="span-info">Material</span>
+          </div>
+          <div class="col-md-6 d-flex flex-row align-items-center">
+            <div class="fw-bold rotulo-chart my-3 me-2">Beneficiado:</div>
+            <span class="span-info">1ºBBM</span>
+          </div>
+          <div class="col-md-6 d-flex flex-row align-items-center">
+            <div class="fw-bold rotulo-chart my-3 me-2">Localizado:</div>
+            <span class="span-info">NTS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Fase Card -->
+  <!-- Documentos Card -->
+  <div class="col-xxl-6 col-md-6">
+    <div class="card info-card revenue-card">
+      <div class="card-body">
+        <h5 class="card-title border-bottom">
+          Documentos
+          <span>| Documentação referencia ao Projeto</span>
+        </h5>
+        <div class="row align-items-top">
+          <div class="col-md-6">
+            <div class="col d-flex flex-row align-items-center">
+              <div class="fw-bold rotulo-chart my-3 me-2">Contrato:</div>
+              <span class="span-info">1245788</span>
+            </div>
+            <div class="col d-flex flex-row align-items-center">
+              <div class="fw-bold rotulo-chart my-3 me-2">Data Inicial:</div>
+              <span class="span-info">25/05/2023</span>
+            </div>
+            <div class="col d-flex flex-row align-items-center">
+              <div class="fw-bold rotulo-chart my-3 me-2">Data Inicial:</div>
+              <span class="span-info">25/05/2024</span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="col d-flex flex-row align-items-center">
+              <div class="fw-bold rotulo-chart mt-2">Sei Relacionado</div>
+            </div>
+            <div class="col d-flex flex-row align-items-center">
+              <div class="mybox">
+                <div
+                  class="d-flex flex-row justify-content-center"
+                  style="border-bottom: 2px solid #012970"
+                >
+                  <p class="sei-list rot-full m-2">
+                    1401.0001.00265488/2023-56
+                  </p>
+                  <button class="btn btn-sm">
+                    <i class="bi bi-clipboard"></i>
+                  </button>
+                </div>
+                <div
+                  class="d-flex flex-row justify-content-center"
+                  style="border-bottom: 2px solid #012970"
+                >
+                  <p class="m-0 sei-list rot-full m-2">
+                    1401.0001.00265488/2023-56
+                  </p>
+                  <button class="btn btn-sm">
+                    <i class="bi bi-clipboard"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Documentos Card -->
+  </div>
+  <!-- End Row -->
+  <!-- Second Row -->
+  <div class="row align-items-top">
+        <!-- Dotação Card -->
+        <div class="col-xxl-12 col-md-12">
+          <div class="card info-card revenue-card">
+            <div class="card-body">
+              <div class="card-body">
+                <h5 class="card-title border-bottom">
+                  Dotação Orçamentária
+                  <span>| Dotação orçamentária utilizada no pacote</span>
+                </h5>
+                <!-- Small tables -->
+                <div class="table-wrapper">
+                    <table class="table table-sm">
+                      <thead class="table-primary table-header">
+                        <tr>
+                          <th scope="col" class="rot-info rot-sm">Dotação</th>
+                          <th scope="col" class="rot-info rot-sm">Data</th>
+                          <th scope="col" class="rot-info rot-sm">Sei</th>
+                        </tr>
+                      </thead>
+                      <tbody class="table-body">
+                        <tr>
+                          <td class="rot-info rot-sm">1400.0001.52.55.1022.558.65.55.5</td>
+                          <td class="rot-info rot-sm">14/08/2023</td>
+                          <td class="rot-info rot-sm">1400.001.0004578/2023-93
+                            <button class="btn btn-sm">
+                            <i class="bi bi-clipboard"></i>
+                          </button>
+                        </td>
+
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- End small tables -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Dotação Card -->
+        <!-- Cronograma Card -->
+        <div class="col-xxl-12 col-md-12">
+          <div class="card info-card revenue-card">
+            <div class="card-body">
+              <div class="card-body">
+                <h5 class="card-title border-bottom">
+                  Cronograma
+                  <span>| Cronograma completo de todas as etapas</span>
+                </h5>
+                <!-- Small tables -->
+                <div class="table-wrapper">
+                    <table class="table table-sm table-dot">
+                      <thead class="table-primary table-header">
+                        <tr>
+                          <th scope="col" class="rot-info rot-sm">Tarefa</th>
+                          <th scope="col" class="rot-info rot-sm">Status</th>
+                          <th scope="col" class="rot-info rot-sm">Responsável</th>
+                          <th scope="col" class="rot-info rot-sm">Início</th>
+                          <th scope="col" class="rot-info rot-sm">Fim</th>
+                          <th scope="col" class="rot-info rot-sm">Duração</th>
+                        </tr>
+                      </thead>
+                      <tbody class="table-body">
+                        <tr>
+                          <td class="rot-info rot-sm">Instalação de Repetidoras</td>
+                          <td class="rot-info rot-sm"><span class="badge bg-warning"> Em Andamento</span></td>
+                          <td class="rot-info rot-sm">Motorola</td>
+                          <td class="rot-info rot-sm">14/05/2023</td>
+                          <td class="rot-info rot-sm">26/06/2023</td>
+                          <td class="rot-info rot-sm">14 dias</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- End small tables -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Cronograma Card -->
+
+        <!-- Equipamentos Card -->
+        <div class="col-xxl-12 col-md-12">
+          <div class="card info-card revenue-card">
+            <div class="card-body">
+              <div class="card-body">
+                <h5 class="card-title border-bottom">
+                  Equipamentos
+                  <span>| Equipamentos que compoem o pacote</span>
+                </h5>
+                <!-- Small tables -->
+                <div class="table-wrapper">
+                    <table class="table table-sm table-dot">
+                      <thead class="table-primary table-header">
+                        <tr>
+                          <th scope="col" class="rot-info rot-sm">Titulo</th>
+                          <th scope="col" class="rot-info rot-sm">El/Item</th>
+                          <th scope="col" class="rot-info rot-sm">Classe</th>
+                          <th scope="col" class="rot-info rot-sm">Valor</th>
+                          <th scope="col" class="rot-info rot-sm">Local</th>
+                          <th scope="col" class="rot-info rot-sm">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody class="table-body">
+                        <tr>
+                          <td class="rot-info rot-sm">Radio Transceptor Portáril</td>
+                          <td class="rot-info rot-sm">52.06</td>
+                          <td class="rot-info rot-sm"> Permanente</td>
+                          <td class="rot-info rot-sm">R$ 8.000,00</td>
+                          <td class="rot-info rot-sm">NTS</td>
+                          <td class="rot-info rot-sm"><span class="badge bg-danger">Não Distribuido</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- End small tables -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Equipamentos Card -->
+
+
+                <!-- Serviços Card -->
+                <div class="col-xxl-12 col-md-12">
+                  <div class="card info-card revenue-card">
+                    <div class="card-body">
+                      <div class="card-body">
+                        <h5 class="card-title border-bottom">
+                          Serviços
+                          <span>| Equipamentos que compoem o pacote</span>
+                        </h5>
+                        <!-- Small tables -->
+                        <div class="table-wrapper">
+                            <table class="table table-sm table-dot">
+                              <thead class="table-primary table-header">
+                                <tr>
+                                  <th scope="col" class="rot-info">Titulo</th>
+                                  <th scope="col" class="rot-info">El/Item</th>
+                                  <th scope="col" class="rot-info">Classe</th>
+                                  <th scope="col" class="rot-info">Situação</th>
+                                  <th scope="col" class="rot-info">Valor</th>
+                                  <th scope="col" class="rot-info">Local</th>
+                                  <th scope="col" class="rot-info">Status</th>
+                                </tr>
+                              </thead>
+                              <tbody class="table-body">
+                                <tr>
+                                  <td class="rot-info rot-sm">Licença DMR Tier III</td>
+                                  <td class="rot-info rot-sm">40.02</td>
+                                  <td class="rot-info rot-sm">Consumo</td>
+                                  <td class="rot-info rot-sm">Ativo</td>
+                                  <td class="rot-info rot-sm">R$ 800,00</td>
+                                  <td class="rot-info rot-sm">NTS</td>
+                                  <td class="rot-info rot-sm"><span class="badge bg-success">No local</span></td>                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                          <!-- End small tables -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- End Serviços Card -->
+                <!-- Observaçoes Card -->
+                <div class="col-xxl-12 col-md-12">
+                  <div class="card info-card revenue-card">
+                    <div class="card-body">
+                      <div class="card-body">
+                        <h5 class="card-title border-bottom">
+                          Observações e Pendências
+                          <span>| Informações adicionais para o projeto</span>
+                        </h5>
+                        <ul class="list-unstyled mb-3">
+                          <li class="mb-3 text-primary border-bottom">
+                            <div class="form-check">
+                              <label class="form-check-label" for="flexCheckDefault" >
+                                Pendente de laudo de torres
+                              </label>
+                              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            </div>
+                          </li>
+                          <li class="mb-3 text-primary border-bottom">
+                            <div class="form-check">
+                              <label class="form-check-label" for="flexCheckDefault">
+                                Falta assinatura para liberação da torre
+                              </label>
+                              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            </div>
+                          </li>
+                          <li class="mb-3 text-primary border-bottom">
+                            <div class="form-check">
+                              <label class="form-check-label" for="flexCheckDefault">
+                                Procuração está pendente de assinatura com a CHEM
+                              </label>
+                              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            </div>
+                          </li>
+                          <li class="mb-3 text-primary border-bottom">
+                            <div class="form-check">
+                              <label class="form-check-label" for="flexCheckDefault">
+                                A PMMG deve liberar 25 postes
+                              </label>
+                              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            </div>
+                          </li>
+                        </ul>
+                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <script>
+                  window.onload = function() {
+                    var inputs = document.querySelectorAll(".form-check-input");
+                  
+                    inputs.forEach(function(input) {
+                      input.addEventListener('click', function() {
+                        var label = this.parentNode.querySelector('.form-check-label');
+                        if (this.checked) {
+                          label.classList.add('text-tachado');
+                        } else {
+                          label.classList.remove('text-tachado');
+                        }
+                      });
+                    });
+                  }
+                  
+                </script>
+                <!-- End Observaçoes Card -->  
+    {% endblock %}
+

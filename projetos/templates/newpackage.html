@@ -1,0 +1,149 @@
+{% extends 'base.html' %} {% load static %} {% block 'title'%}Projetos{%endblock%} {% block 'head' %}
+<link rel="stylesheet" href="{% static 'css/full-style.css' %}" />
+<style>
+  #form-etapas .form-etapa {
+    display: none;
+  }
+
+  #form-etapas .form-etapa.ativo {
+    display: block;
+  }
+</style>
+{% endblock %} {% block 'subtitle' %}Painel{% endblock %} {% block 'content' %}
+<div class="row align-items-top">
+  <!-- Fase Card -->
+  <div class="col">
+    <div class="card info-card revenue-card">
+      <div class="card-body">
+        <h5 class="card-title border-bottom">
+          Andamento
+          <span>| Informações gerais de andamento</span>
+        </h5>
+        <div class="row align-items-top">
+            <form id="form-etapas" action="">
+              <!-- Etapa 1 -->
+              <div class="form-etapa ativo">
+                <div class="form-group">
+                  <label for="nome">Nome</label>
+                  <input type="text" id="nome" class="form-control" required />
+                </div>
+                <div class="form-group">
+                  <label for="sobrenome">Sobrenome</label>
+                  <input
+                    type="text"
+                    id="sobrenome"
+                    class="form-control"
+                    required
+                  />
+                </div>
+                <button
+                  class="btn btn-outline-success btn-next mt-4"
+                  type="button"
+                >
+                  Próximo
+                </button>
+              </div>
+              <!-- Etapa 2 -->
+              <div class="form-etapa">
+                <div class="form-group">
+                  <label for="idade">Idade</label>
+                  <input
+                    type="number"
+                    id="idade"
+                    class="form-control"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="escola">Escola</label>
+                  <input
+                    type="text"
+                    id="escola"
+                    class="form-control"
+                    required
+                  />
+                </div>
+                <button
+                  class="btn btn-outline-success btn-next mt-4"
+                  type="button"
+                >
+                  Próximo
+                </button>
+                <button
+                  class="btn btn-outline-success btn-prev mt-4"
+                  type="button"
+                >
+                  Voltar
+                </button>
+              </div>
+              <!-- Etapa 3 -->
+              <div class="form-etapa">
+                <div class="form-group">
+                  <label for="observacoes">Observações</label>
+                  <textarea
+                    id="observacoes"
+                    class="form-control"
+                    required
+                  ></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="matricula">Matrícula</label>
+                  <input
+                    type="text"
+                    id="matricula"
+                    class="form-control"
+                    required
+                  />
+                </div>
+                <button
+                  class="btn btn-outline-success btn-submit mt-4"
+                  type="submit"
+                >
+                  Cadastrar
+                </button>
+                <button
+                  class="btn btn-outline-success btn-prev mt-4"
+                  type="button"
+                >
+                  Voltar
+                </button>
+              </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var etapas = Array.from(
+        document.querySelectorAll("#form-etapas .form-etapa")
+      );
+      var count = etapas.length;
+      var current = 0;
+
+      var btnsNext = Array.from(document.querySelectorAll(".btn-next"));
+      var btnsPrev = Array.from(document.querySelectorAll(".btn-prev"));
+
+      btnsNext.forEach((btn) => {
+        btn.addEventListener("click", function () {
+          if (current < count - 1) {
+            etapas[current].classList.remove("ativo");
+            current++;
+            etapas[current].classList.add("ativo");
+          }
+        });
+      });
+
+      btnsPrev.forEach((btn) => {
+        btn.addEventListener("click", function () {
+          if (current > 0) {
+            etapas[current].classList.remove("ativo");
+            current--;
+            etapas[current].classList.add("ativo");
+          }
+        });
+      });
+    });
+  </script>
+  {% endblock %}
+</div>
