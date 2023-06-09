@@ -1,0 +1,841 @@
+{% extends 'base.html' %} {% load static %} {% block 'title'%}Projetos{%endblock%} {% block 'head' %}
+<link rel="stylesheet" href="{% static 'css/full-style.css' %}" />
+<style>
+  #form-etapas .form-etapa {
+    display: none;
+  }
+
+  #form-etapas .form-etapa.ativo {
+    display: block;
+  }
+</style>
+{% endblock %} {% block 'subtitle' %}Painel{% endblock %} {% block 'content' %}
+<div class="row align-items-top">
+  <!-- Fase Card -->
+  <div class="col">
+    <div class="card info-card revenue-card">
+      <div class="card-body">
+        <h5 class="card-title border-bottom">
+          Andamento
+          <span>| Informações gerais de andamento</span>
+        </h5>
+        <div class="row align-items-top">
+          <form id="form-etapas" action="">
+            <!-- Etapa 1 -->
+            <div class="form-etapa ativo">
+              <div class="row align-items-top">
+                <!--Inicio Conteudo-->
+                <div class="row align-items-top">
+                  <!-- Status Card -->
+                  <div class="col-xxl-4 col-md-4">
+                    <div class="card info-card revenue-card">
+                      <div class="card-body">
+                        <h5 class="card-title">
+                          STATUS <span>| Informe o andamento do projeto</span>
+                        </h5>
+                        <div class="d-flex align-items-center">
+                          <select
+                            class="form-select"
+                            aria-label="Default select example"
+                          >
+                            <option selected disabled>
+                              Escolha o Status do projeto
+                            </option>
+                            <option value="PJ">Planejamento</option>
+                            <option value="RP">RP em andamento</option>
+                            <option value="PG">PG em andamento</option>
+                            <option value="EMP">Empenhado</option>
+                            <option value="AGE">Aguardando entrega</option>
+                            <option value="ENT">Entregue</option>
+                            <option value="INS">Instalado</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- End Status Card -->
+                  <!-- Fase Card -->
+                  <div class="col-xxl-4 col-md-4">
+                    <div class="card info-card revenue-card">
+                      <div class="card-body">
+                        <h5 class="card-title">
+                          FASE
+                          <span>| Indique a fase caso tenha escolhido RP ou PG</span>
+                        </h5>
+                        <div class="d-flex align-items-center">
+                          <select
+                            class="form-select"
+                            id="select-rp_new"
+                            aria-label="Default select example"
+                          >
+                            <option selected disabled value="">
+                              Escolha a fase do RP
+                            </option>
+                            <option value="rp-etp">Elaboração do ETP</option>
+                            <option value="rp-orcamentos">
+                              Obtenção de Orçamentos
+                            </option>
+                            <option value="rp-precos">Mapa de Preços</option>
+                            <option value="rp-autorizacao-dlf">
+                              Pedido de autorização DLF
+                            </option>
+                            <option value="rp-gestao">
+                              Solicitação de Gestão de RP
+                            </option>
+                            <option value="rp-minuta">
+                              Elaboração Minuta do Termo de Referência
+                            </option>
+                            <option value="rp-correcao-minuta">
+                              Correção Minuta do Termo de Referência (ASSJUR)
+                            </option>
+                            <option value="rp-correcao-etp">
+                              Correção ETP (ASSJUR)
+                            </option>
+                            <option value="rp-formulario-adesao">
+                              Formulário de Adesão
+                            </option>
+                            <option value="rp-encaminhado-gol">
+                              Encaminhado a Gol
+                            </option>
+                            <option value="rp-impugnacao">
+                              Respondendo impugnação
+                            </option>
+                            <option value="rp-resposta-documentacao">
+                              Resposta a documentação
+                            </option>
+                          </select>
+                          <select
+                            class="form-select"
+                            id="select-pg-new"
+                            aria-label="Default select example"
+                          >
+                            <option selected disabled value="">
+                              Escolha a fase do PG
+                            </option>
+                            <option value="pg-autorizacao-dlf">
+                              Pedido de autorização DLF
+                            </option>
+                            <option value="pg-etp">Elaboração do ETP</option>
+                            <option value="pg-orcamentos">
+                              Obtenção de Orçamentos
+                            </option>
+                            <option value="pg-precos">Mapa de Preços</option>
+                            <option value="pg-minuta">
+                              Elaboração Minuta do Termo de Referência
+                            </option>
+                            <option value="pg-extrato">Extrato de Crédito</option>
+                            <option value="pg-correcao-minuta">
+                              Correção Minuta do Termo de Referência (ASSJUR)
+                            </option>
+                            <option value="pg-correcao-etp">
+                              Correção ETP (ASSJUR)
+                            </option>
+                          </select>
+                          <div id="terceiros-new" class="fw-bold text-primary h5">
+                            Terceiros
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- End Fase Card -->
+                  <!-- Natureza Card -->
+                  <div class="col-xxl-4 col-md-4">
+                    <div class="card info-card revenue-card">
+                      <div class="card-body">
+                        <h5 class="card-title">
+                          NATUREZA <span>| Classifique a natureza do projeto</span>
+                        </h5>
+                        <div class="d-flex align-items-center">
+                          <select
+                            class="form-select"
+                            aria-label="Default select example"
+                          >
+                            <option selected disabled>
+                              Escolha a Natureza projeto
+                            </option>
+                            <option value="RD">Radiocomunicação</option>
+                            <option value="TL">Telefonia</option>
+                            <option value="AV">Audio e video</option>
+                            <option value="OT">Outros</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- End Natureza Card -->
+                </div>
+        
+                <div class="row align-items-top">
+                  <!-- TIPO Card -->
+                  <div class="col-xxl-4 col-md-4">
+                    <div class="card info-card revenue-card">
+                      <div class="card-body">
+                        <h5 class="card-title">
+                          TIPO
+                          <span>| Tipo a ser fornecido se material ou serviço</span>
+                        </h5>
+                        <div class="d-flex align-items-center">
+                          <select
+                            class="form-select"
+                            aria-label="Default select example"
+                          >
+                            <option selected disabled>Escolha o Tipo</option>
+                            <option value="MT">Material</option>
+                            <option value="SV">Serviço</option>
+                            <option value="MTSV">Material/Serviço</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- End TIPO Card -->
+                  <!-- BENEFICIADO Card -->
+                  <div class="col-xxl-4 col-md-4">
+                    <div class="card info-card revenue-card">
+                      <div class="card-body">
+                        <h5 class="card-title">
+                          BENEFICIADO
+                          <span>| Local a ser beneficiado com o pacote</span>
+                        </h5>
+                        <div class="d-flex align-items-center">
+                          <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1"
+                              ><i class="ri-navigation-line"></i
+                            ></span>
+                            <input
+                              type="text"
+                              class="form-control mb-0"
+                              placeholder="Alvo"
+                              aria-label="Local"
+                              aria-describedby="basic-addon1"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- End BENEFICIADO Card -->
+                  <!-- LOCALIZADO Card -->
+                  <div class="col-xxl-4 col-md-4">
+                    <div class="card info-card revenue-card">
+                      <div class="card-body">
+                        <h5 class="card-title">
+                          LOCALIZADO
+                          <span
+                            >| Local em que se encontra atualmente o equipamento</span
+                          >
+                        </h5>
+                        <div class="d-flex align-items-center">
+                          <select
+                            class="form-select"
+                            aria-label="Default select example"
+                          >
+                            <option selected disabled>
+                              Escolha o local atual do equipamento
+                            </option>
+                            <option value="NTS">NTS</option>
+                            <option value="CSM">CSM</option>
+                            <option value="FNC">Fornecedor</option>
+                            <option value="DLF">DLF</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- End LOCALIZADO Card -->
+                </div>
+                <!--Fim Conteudo-->
+              </div>
+              <!-- Fim Etapa 1 -->
+              <button
+                class="btn btn-outline-success btn-next mt-4"
+                type="button"
+              >
+                Próximo
+              </button>
+            </div>
+            <!-- Etapa 2 -->
+            <div class="form-etapa">
+              <div class="row align-items-top">
+                <!--Inicio Conteudo-->
+                <div class="row align-items-top">
+                  <!-- CONTRATO Card -->
+                  <div class="col-xxl-4 col-md-4">
+                    <div class="card info-card revenue-card">
+                      <div class="card-body">
+                        <h5 class="card-title">
+                          CONTRATO <span>| Nº do Contrato do Pacote</span>
+                        </h5>
+                        <div class="d-flex align-items-center">
+                          <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">Nº</span>
+                            <input
+                              type="text"
+                              class="form-control mb-0"
+                              placeholder="Contrato"
+                              aria-label="Local"
+                              aria-describedby="basic-addon1"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- End CONTRATO Card -->
+                  <!-- DATA INICIO Card -->
+                  <div class="col-xxl-4 col-md-4">
+                    <div class="card info-card revenue-card">
+                      <div class="card-body">
+                        <h5 class="card-title">
+                          DATA INICIAL <span>| Início da Vigência</span>
+                        </h5>
+                        <div class="d-flex align-items-center">
+                          <div class="mb-3">
+                            <input
+                              type="date"
+                              class="form-control"
+                              id="dateInitialInput"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- End DATA INICIO Card -->
+                  <!-- DATA FINAL Card -->
+                  <div class="col-xxl-4 col-md-4">
+                    <div class="card info-card revenue-card">
+                      <div class="card-body">
+                        <h5 class="card-title">
+                          DATA FINAL <span>| Início da Vigência</span>
+                        </h5>
+                        <div class="d-flex align-items-center">
+                          <div class="mb-3">
+                            <input
+                              type="date"
+                              class="form-control"
+                              id="dateInitialInput"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- End DATA FINAL Card -->
+                  <!-- LOCALIZADO Card -->
+                  <div class="col-xxl-6 col-md-6">
+                    <div class="card info-card revenue-card">
+                      <div class="card-body">
+                        <h5 class="card-title">
+                          SEI <span>| Numero de documento referência</span>
+                        </h5>
+                        <div class="d-flex flex-column align-items-center">
+                          <div class="input-group mb-3">
+                            <button
+                              class="btn btn-primary fw-bold"
+                              type="button"
+                              id="button-addon1-new"
+                            >
+                              +
+                            </button>
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="inputText-new"
+                              placeholder=""
+                              aria-label="Example text with button addon"
+                              aria-describedby="button-addon1-new"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- End LOCALIZADO Card -->
+                  <!-- LOCALIZADO Card -->
+                  <div class="col-xxl-6 col-md-6">
+                    <div class="card info-card revenue-card">
+                      <div class="card-body">
+                        <div class="d-flex flex-column align-items-center">
+                          <div
+                            class="list-container d-flex flex-column justify-content-around w-100"
+                            id="listContainer-new"
+                            style="height: 8.8em; overflow-y: auto"
+                          ></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- input que deve ser escontido --> 
+                  <input type="hidden" name="hiddensei" id="hiddensei" value="">
+                  <!-- End LOCALIZADO Card -->
+                </div>
+                <!--Fim Conteudo-->
+              </div>
+              <!-- Fim Etapa 2 -->
+              <button
+                class="btn btn-outline-success btn-prev mt-4"
+                type="button"
+              >
+                Voltar
+              </button>
+              <button
+                class="btn btn-outline-success btn-next mt-4"
+                type="button"
+              >
+                Próximo
+              </button>
+            </div>
+            <!-- Etapa 2 -->
+            <div class="form-etapa">
+              <div class="row align-items-top">
+                <!--Inicio Conteudo-->
+                <div class="row align-items-top">
+                  <!-- Fonte Card -->
+                  <div class="col">
+                    <div class="card info-card revenue-card w-100">
+                      <div class="card-body">
+                        <h5 class="card-title">
+                          DOTAÇÃO ORÇAMENTÁRIA <span>| Selecione uma das dotações disponíveis ou cadastre uma nova</span>
+                        </h5>
+                        <div class="d-flex align-items-center">
+                          <select
+                            class="form-select"
+                            aria-label="Default select example"
+                          >
+                            <option selected disabled>
+                              Escolha a fonte de pagamento
+                            </option>
+                            <option value="95">95.1</option>
+                            <option value="53">53.1</option>
+                            <option value="46">46.1</option>
+                            <option value="42">42.1</option>
+                          </select>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+
+                        <div class="btn btn-primary w-50 fw-bold my-2 mt-4">
+                          Adicionar Dotação
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="line-container">
+                    <div class="line"></div>
+                    <span class="span-line">OU</span>
+                    <div class="line"></div>
+                  </div>
+                  <!-- End Fonte Card -->
+                  <!-- AÇÃO Card -->
+                  <div class="col-xxl-6 col-md-6">
+                    <div class="card info-card revenue-card">
+                      <div class="card-body">
+                        <h5 class="card-title">
+                          FONTE <span>| Escolha a fonte de pagamento</span>
+                        </h5>
+                        <div class="d-flex align-items-center">
+                          <select
+                            class="form-select"
+                            aria-label="Default select example"
+                          >
+                            <option selected disabled>
+                              Escolha a fonte de pagamento
+                            </option>
+                            <option value="95">95.1</option>
+                            <option value="53">53.1</option>
+                            <option value="46">46.1</option>
+                            <option value="42">42.1</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <h5 class="card-title">
+                          AÇÃO <span>| Selecione a ação alvo do pacote</span>
+                        </h5>
+                        <div class="d-flex align-items-center">
+                          <select
+                          class="form-select"
+                          aria-label="Default select example"
+                          >
+                          <option selected disabled>
+                            Escolha o ação alvo do projeto
+                          </option>
+                          <option value="4469">4469</option>
+                          <option value="4470">4470</option>
+                          <option value="4472">4472</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                          EL/ITEM <span>| Indique o elemento item necessário</span>
+                        </h5>
+                        <div class="d-flex align-items-center">
+                          <select
+                            class="form-select w-20 me-2"
+                            id="select-rp"
+                            aria-label="Default select example"
+                          >
+                            <option selected disabled value="">
+                              Escolha a elemento
+                            </option>
+                            <option value="el-40">40</option>
+                            <option value="el-52">52</option>
+                            <option value="el-30">30</option>
+                          </select>
+                          <select
+                            class="form-select w-20 me-2"
+                            id="select-rp2"
+                            aria-label="Default select example"
+                          >
+                            <option selected disabled value="">
+                              Escolha a elemento
+                            </option>
+                            <option value="cel-XX">XX</option>
+                            <option value="cel-01">01</option>
+                            <option value="cel-02">02</option>
+                            <option value="cel-03">03</option>
+                            <option value="cel-04">04</option>
+                            <option value="cel-05">05</option>
+                            <option value="cel-06">06</option>
+                            <option value="cel-07">07</option>
+                            <option value="cel-08">08</option>
+                            <option value="cel-09">09</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- End AÇÃO Card -->
+
+                  <!-- CONTA Card -->
+                  <div class="col-xxl-6 col-md-6">
+                    <div class="card info-card revenue-card">
+                      <div class="card-body">
+                        <h5 class="card-title">
+                          CONTA <span>| Indique a conta utilizada para pagamento</span>
+                        </h5>
+                        <div class="d-flex align-items-center">
+                          <select
+                            class="form-select"
+                            aria-label="Default select example"
+                          >
+                            <option selected disabled>Escolha a Conta</option>
+                            <option value="100">100</option>
+                            <option value="200">200</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <h5 class="card-title">
+                          VALOR <span>| Valor total a ser empenhado para a fonte</span>
+                        </h5>
+                        <div class="d-flex align-items-center">
+                          <div class="input-group mb-3">
+                            <span
+                              class="input-group-text text-success"
+                              id="basic-addon1"
+                              ><i class="ri-money-dollar-circle-line"></i
+                            ></span>
+                            <input
+                              type="text"
+                              id="moneyInput"
+                              oninput="formatToCurrency(this)"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <h5 class="card-title">SEI <span>SEI de Referência</span></h5>
+                        <div class="d-flex align-items-center">
+                          <div class="input-group mb-3">
+                            <span
+                              class="input-group-text text-success"
+                              id="basic-addon1"
+                              ><i class="ri-file-4-line"></i
+                            ></span>
+                            <input type="text" id="seiRefFin" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--Botão para adicionar textos-->
+                  <div class="row d-flex justify-content-center align-items-center">
+                    <div class="btn btn-success w-50 fw-bold mb-3">
+                      Criar Nova Dotação
+                    </div>
+                  </div>
+                  <!--Fim de botões para adicionar textos-->
+                  <div class="line-container">
+                    <div class="line"></div>
+                    <span class="span-line">Dotações Orçamentárias</span>
+                    <div class="line"></div>
+                  </div>
+                  <div class="card">
+                    <div class="card-body">
+                      <!-- Table with stripped rows -->
+                      <table class="table table-striped table-sm table-dot">
+                        <thead>
+                          <tr>
+                            <th scope="col" class="rot-info rot-sm">Dotação</th>
+                            <th scope="col" class="rot-info rot-sm">Sei</th>
+                            <th scope="col" class="rot-info rot-sm">Ações</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="rot-info rot-sm">Brandon Jacob</td>
+                            <td class="rot-info rot-sm">Designer</td>
+                            <td class="rot-info rot-sm">
+                              <button type="button" class="btn btn-primary btn-sm">
+                                <i class="ri-pencil-line"></i>
+                              </button>
+                              <button type="button" class="btn btn-danger btn-sm">
+                                <i class="ri-delete-bin-6-line"></i>
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <!-- End Table with stripped rows -->
+                    </div>
+                  </div>
+                  <!-- End VALOR Card -->
+                </div>
+                <!--Fim Conteudo-->
+              </div>
+              <!-- Fim Etapa 2 -->
+              <button
+                class="btn btn-outline-success btn-prev mt-4"
+                type="button"
+              >
+                Voltar
+              </button>
+              <button
+                class="btn btn-outline-success btn-next mt-4"
+                type="button"
+              >
+                Próximo
+              </button>
+            </div>
+            <!-- Etapa 2 -->
+            <div class="form-etapa">
+              <div class="row align-items-top">
+                <!--Inicio Conteudo-->
+                TEXTE4
+                <!--Fim Conteudo-->
+              </div>
+              <!-- Fim Etapa 2 -->
+              <button
+                class="btn btn-outline-success btn-prev mt-4"
+                type="button"
+              >
+                Voltar
+              </button>
+              <button
+                class="btn btn-outline-success btn-next mt-4"
+                type="button"
+              >
+                Próximo
+              </button>
+            </div>
+            <!-- Etapa 2 -->
+            <div class="form-etapa">
+              <div class="row align-items-top">
+                <!--Inicio Conteudo-->
+                TEXTE5
+                <!--Fim Conteudo-->
+              </div>
+              <!-- Fim Etapa 2 -->
+              <button
+                class="btn btn-outline-success btn-prev mt-4"
+                type="button"
+              >
+                Voltar
+              </button>
+              <button
+                class="btn btn-outline-success btn-next mt-4"
+                type="button"
+              >
+                Próximo
+              </button>
+            </div>
+            <!-- Etapa 2 -->
+            <div class="form-etapa">
+              <div class="row align-items-top">
+                <!--Inicio Conteudo-->
+                TEXTE6
+                <!--Fim Conteudo-->
+              </div>
+              <!-- Fim Etapa 2 -->
+              <button
+                class="btn btn-outline-success btn-prev mt-4"
+                type="button"
+              >
+                Voltar
+              </button>
+              <button
+                class="btn btn-outline-success btn-next mt-4"
+                type="button"
+              >
+                Próximo
+              </button>
+            </div>
+            <!-- Etapa 3 -->
+            <div class="form-etapa">
+              <div class="row align-items-top">
+                <!--Inicio Conteudo-->
+                TEXTE7
+                <!--Fim Conteudo-->
+              </div>
+              <!-- Fim Etapa 3 -->
+              <button
+                class="btn btn-outline-success btn-prev mt-4"
+                type="button"
+              >
+                Voltar
+              </button>
+              <button
+                class="btn btn-success btn-submit mt-4 ms-5"
+                type="submit"
+                style="margin-left: 5em !important; width: 70%"
+              >
+                Cadastrar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var etapas = Array.from(
+        document.querySelectorAll("#form-etapas .form-etapa")
+      );
+      var count = etapas.length;
+      var current = 0;
+
+      var btnsNext = Array.from(document.querySelectorAll(".btn-next"));
+      var btnsPrev = Array.from(document.querySelectorAll(".btn-prev"));
+
+      btnsNext.forEach((btn) => {
+        btn.addEventListener("click", function () {
+          if (current < count - 1) {
+            etapas[current].classList.remove("ativo");
+            current++;
+            etapas[current].classList.add("ativo");
+          }
+        });
+      });
+
+      btnsPrev.forEach((btn) => {
+        btn.addEventListener("click", function () {
+          if (current > 0) {
+            etapas[current].classList.remove("ativo");
+            current--;
+            etapas[current].classList.add("ativo");
+          }
+        });
+      });
+
+    // Ajusta display para RP, PG e Terceiros
+    const statusSelect = document.querySelector(".form-select");
+            const rpSelect = document.getElementById("select-rp_new");
+            const pgSelect = document.getElementById("select-pg-new");
+            const terceirosElement = document.getElementById("terceiros-new");
+
+            // inicia ambos selects ocultos
+            rpSelect.style.display = "none";
+            pgSelect.style.display = "none";
+
+            statusSelect.addEventListener("change", function () {
+              // esconde ambos selects
+              rpSelect.style.display = "none";
+              pgSelect.style.display = "none";
+              terceirosElement.style.display = "block"; // mostra "Terceiros"
+
+              if (this.value === "RP") {
+                rpSelect.style.display = "block";
+                terceirosElement.style.display = "none"; // oculta "Terceiros"
+              } else if (this.value === "PG") {
+                pgSelect.style.display = "block";
+                terceirosElement.style.display = "none"; // oculta "Terceiros"
+              }
+            });
+
+    });
+    document
+            .getElementById("button-addon1-new")
+            .addEventListener("click", function () {
+              const inputText = document.getElementById("inputText-new");
+              const listContainer = document.getElementById("listContainer-new");
+
+              // Verifica se o texto já existe na lista
+              if (!listContainer.innerHTML.includes(inputText.value)) {
+                // Cria um novo item da lista
+                const newItem = document.createElement("div");
+                newItem.classList.add(
+                  "d-flex",
+                  "flex-row",
+                  "justify-content-between",
+                  "w-100",
+                  "align-items-center",
+                  "mb-1"
+                );
+                newItem.innerHTML = `<p class="labelsei">${inputText.value}</p> <button class="btn btn-danger btn-sm me-2" onclick="removeItem(event)">X</button>`;
+
+                // Adiciona o novo item à lista
+                listContainer.appendChild(newItem);
+              }
+
+              // Limpa o campo de entrada
+              inputText.value = "";
+            });
+
+          function removeItem(event) {
+            const item = event.target.parentNode;
+            item.parentNode.removeChild(item);
+          }
+        // Função que será chamada sempre que um elemento for adicionado ou removido de "maincontent"
+      // Seleciona o nó que será observado
+const targetNode = document.getElementById('listContainer-new');
+
+// Cria uma instância de observer
+const observer = new MutationObserver((mutationsList, observer) => {
+    // Itera sobre todas as mutações que acabaram de ocorrer
+    for(let mutation of mutationsList) {
+        // Se o `mutation.type` for `childList`, adiciona o conteúdo do elemento p ao input hidden
+        if(mutation.type === 'childList') {
+            let textValues = '';
+            let childDivs = targetNode.children;
+            for (let i = 0; i < childDivs.length; i++) {
+                // Acessa o conteúdo do elemento p dentro da div
+                let pContent = childDivs[i].getElementsByTagName('p')[0].textContent;
+                textValues += pContent + ';';
+            }
+
+            // Remove o último ';'
+            textValues = textValues.slice(0, -1);
+
+            // Armazena os valores no input hidden
+            document.getElementById('hiddensei').value = textValues;
+        }
+    }
+});
+
+// Configuração do observer: quais mutações serão observadas
+const config = { attributes: false, childList: true, subtree: false };
+
+// Inicia a observação do nó configurado
+observer.observe(targetNode, config);
+
+
+
+  </script>
+  {% endblock %}
+</div>

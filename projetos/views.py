@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
-from .models import Projeto
+from .models import PacoteDespesa, PacoteReceita, Projeto
 
 
 @login_required
@@ -14,9 +14,18 @@ def painel(request):
 
 
 @login_required
-def project(request):
+def project(request, id_project):
     tipo = request.GET.get('tipo')
-    return render(request, 'project.html', {'tipo': tipo})
+    projeto = get_object_or_404(Projeto, pk=id_project)
+    pacotes_despesa = PacoteDespesa.objects.filter(projeto=id_project)
+    pacotes_receita = PacoteReceita.objects.filter(projeto=id_project)
+    context = {
+        'tipo': tipo,
+        'projeto': projeto,
+        'pacotes_despesa': pacotes_despesa,
+        'pacotes_receita': pacotes_receita,
+    }
+    return render(request, 'project.html', context)
 
 
 @login_required
@@ -50,3 +59,10 @@ def newprojectrecet(request):
         messages.add_message(request, messages.SUCCESS,
                              'Projeto cadastrado com sucesso')
         return redirect(reverse('painel'))
+
+
+@login_required
+def newpackagedesp(request, id_project):
+    if request.method == 'GET':
+
+        return render(request, 'newpackagedesp.html', {'id_project': id_project})

@@ -73,7 +73,7 @@
                 <div class="card">
                   <div class="card-header">
                     <h5 class="font-weight-bold text-center title-projeto">
-                      <a href="{% url 'project' %}?tipo=1"
+                      <a href="{% url 'project' projeto.id %}?tipo=2"
                         >{{projeto.titulo}}</a
                       >
                     </h5>
@@ -94,6 +94,16 @@
                     <div class="card-footer text-success text-uppercase">
                       {{projeto.etiqueta}}
                       <i class="ri-phone-fill"></i>
+                    </div>
+                    {% elif projeto.etiqueta == 'audioevideo' %}
+                    <div class="card-footer text-danger text-uppercase">
+                      {{projeto.etiqueta}}
+                      <i class="ri-live-fill"></i>                    
+                    </div>
+                    {% elif projeto.etiqueta == 'outros' %}
+                    <div class="card-footer text-warning text-uppercase">
+                      {{projeto.etiqueta}}
+                      <i class="ri-file-list-fill"></i>
                     </div>
                     {% endif %}
                   </div>
@@ -141,7 +151,7 @@
                 <div class="card">
                   <div class="card-header">
                     <h5 class="font-weight-bold text-center title-projeto">
-                      <a href="{% url 'project' %}?tipo=1"
+                      <a href="{% url 'project' projeto.id %}?tipo=1"
                         >{{projeto.titulo}}</a
                       >
                     </h5>

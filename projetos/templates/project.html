@@ -7,8 +7,15 @@
     <div class="card">
       <div class="card-body">
         <div class="row d-flex flex-row mb-2 align-items-center">
-          <div class="col d-flex justify-content-center">
-            <h5 class="card-title w-100 text-center">Expansão DMR Tier III - 2º e 4º COB</h5>
+          <div class="col-md-7 d-flex justify-content-center">
+            <h5 class="card-title w-100 text-center">{{projeto.titulo}}</h5>
+          </div>
+          <div class="col-md-3 col-6">
+            <a
+              href="{% url 'newpackagedesp' projeto.id%}"
+              class="btn btn-success w-100 fw-bold mt-2 mx-4"
+              >Adicionar Pacote</a
+            >
           </div>
         </div>
         <div class="row">
@@ -17,12 +24,12 @@
             <div class="card">
               <div class="card-header">
                 <h5 class="font-weight-bold text-center title-projeto">
-Equipamentos de Radiocomunicação
+
                 </h5>
               </div>
               <div class="card-body body-projeto">
-                <p><span>Data:</span> 15/05/2023</p>
-                <p><span>Tipo:</span>Material</p>
+                <p><span>Data:</span> {{projeto.created_at}}</p>
+                <p><span>Tipo:</span>{{projeto.tipo}}</p>
                 <p><span>Localização:</span>NTS</p>
                 <p><span>Valor:</span> R$ 1.000.000,00</p>
 

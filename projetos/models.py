@@ -160,9 +160,10 @@ class Cronograma(models.Model):
 
 class Orcamento(models.Model):
     empresa = models.CharField(max_length=100)
-    Equipamentos = models.ManyToManyField(
-        Equipamentos)
-    Servicos = models.ManyToManyField(Servicos)
+    equipamentos = models.ManyToManyField(
+        Equipamentos, related_name='orcamento_equipamentos')
+    Servicos = models.ManyToManyField(
+        Servicos, related_name='orcamento_servicos')
     data = models.DateField(blank=True, null=True)
     arquivos = models.CharField(max_length=100)
 
@@ -177,25 +178,31 @@ class PacoteDespesa(models.Model):
     localizado_em = models.CharField(max_length=100, blank=True, null=True)
     doc_ref = models.CharField(max_length=100, blank=True, null=True)
     Contrato = models.CharField(max_length=100, blank=True, null=True)
-    orcamentos = models.ForeignKey(Orcamento, on_delete=models.DO_NOTHING)
-    dot_orc = models.ForeignKey(
-        DotacaoOrcamentaria, on_delete=models.DO_NOTHING)
+    orcamentos = models.ManyToManyField(
+        Orcamento, related_name='orcamentos')
+    dot_orc = models.ManyToManyField(
+        DotacaoOrcamentaria, related_name='pacote_despesa_dot_orc')
     cronograma = models.ForeignKey(
         Cronograma, on_delete=models.DO_NOTHING)
-    equipamentos = models.ForeignKey(
-        Equipamentos, on_delete=models.DO_NOTHING)
-    servicos = models.ForeignKey(Servicos, on_delete=models.DO_NOTHING)
+    equipamentos = models.ManyToManyField(
+        Equipamentos, related_name='pacote_despesa_equipamentos')
+    servicos = models.ManyToManyField(
+        Servicos, related_name='pacote_despesa_servicos')
     observacoes = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    projeto = models.ForeignKey(Projeto, on_delete=models.DO_NOTHING)
 
 
 class PacoteReceita(models.Model):
     etiqueta = models.CharField(max_length=20, choices=choices_etiqueta)
     natureza_desp = models.CharField(max_length=20, choices=choice_nat_desp)
-    dot_orc = models.ForeignKey(
-        DotacaoOrcamentaria, on_delete=models.DO_NOTHING)
+    dot_orc = models.ManyToManyField(
+        DotacaoOrcamentaria, related_name='pacote_receita_dot_orc')
     unid_exec = models.CharField(max_length=100, blank=True, null=True)
     doc_ref = models.CharField(max_length=100, blank=True, null=True)
     status = models.CharField(max_length=20, choices=choice_status_receita)
     observacoes = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    projeto = models.ForeignKey(Projeto, on_delete=models.DO_NOTHING)
