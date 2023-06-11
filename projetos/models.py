@@ -15,6 +15,7 @@ choices_nat = (
     ('servico', 'Serviço'),
     ('materialservico', 'Material/Serviço')
 )
+
 choice_nat_desp = (
     ('custeio', 'Custeio'),
     ('capital', 'Capital'),
@@ -61,69 +62,37 @@ class DotacaoOrcamentaria(models.Model):
         return self.elemento_item
 
 
-class Equipamentos(models.Model):
+class EquipamentoServico(models.Model):
     choices_classe = (
         ('consumo', 'Consumo'),
         ('permanente', 'Permanente')
     )
-    choices_sit = (
-        ('ativo', 'Ativo'),
-        ('inativo', 'Inativo'),
-        ('suspenso', 'Suspenso')
+    choices_tipo = (
+        ('equipamento', 'Equipamento'),
+        ('servico', 'Serviço')
     )
-    choices_entrega_instalacao = (
-        ('demanda', 'Demanda'),
-        ('licitacao', 'Licitacao'),
-        ('aentregar', 'A entregar'),
-        ('entregue', 'Entregue'),
-        ('ainstalar', 'A instalar'),
-        ('instalado', 'Instalado')
-    )
+
     titulo = models.CharField(max_length=50)
+    tipo = models.CharField(max_length=20, choices=choices_tipo)
     especificacao = models.TextField(blank=True, null=True)
-    codigo_material = models.CharField(max_length=10, blank=True, null=True)
+    registro_preco = models.CharField(max_length=10, blank=True, null=True)
     codigo_item = models.CharField(max_length=10, blank=True, null=True)
     elemento_item = models.CharField(max_length=8, blank=True, null=True)
     classe = models.CharField(max_length=10, choices=choices_classe)
-    situacao = models.CharField(
-        max_length=20, choices=choices_sit, blank=True, null=True)
-    contrato = models.CharField(max_length=10, blank=True, null=True)
-    valor_1 = models.DecimalField(
-        max_digits=10, decimal_places=2, blank=True, null=True)
-    valor_2 = models.DecimalField(
-        max_digits=10, decimal_places=2, blank=True, null=True)
-    valor_3 = models.DecimalField(
-        max_digits=10, decimal_places=2, blank=True, null=True)
-    valor_medio = models.DecimalField(
-        max_digits=10, decimal_places=2, blank=True, null=True)
     valor_portal = models.DecimalField(
         max_digits=10, decimal_places=2, blank=True, null=True)
-    entrega_instalacao = models.CharField(
-        max_length=20, choices=choices_entrega_instalacao)
-    data_entrega = models.DateField(blank=True, null=True)
-    data_instalacao = models.DateField(blank=True, null=True)
-    local_distribuicao = models.CharField(
-        max_length=30, blank=True, null=True)
-    localizacao = models.CharField(max_length=20, blank=True, null=True)
-    observacoes = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.titulo
 
 
-class Servicos(models.Model):
-    choices_status_servico = (
-        ('realizado', 'Realizado'), ('pendente', 'Pendente'))
-
+class Cronograma(models.Model):
     titulo = models.CharField(max_length=100)
-    especificacao = models.TextField(blank=True, null=True)
-    codigo_material = models.CharField(max_length=10, blank=True, null=True)
-    codigo_item = models.CharField(max_length=10, blank=True, null=True)
-    elemento_item = models.CharField(max_length=10, blank=True, null=True)
-    status_servico = models.CharField(
-        max_length=20, choices=choices_status_servico)
-    contrato = models.CharField(max_length=10, blank=True, null=True)
-    data_servico = models.DateField(blank=True, null=True)
-    local_distribuicao = models.CharField(
-        max_length=50, blank=True, null=True)
+    descricao = models.TextField(blank=True, null=True)
     observacoes = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.titulo
 
 
 class Tasks_Cronograma(models.Model):
@@ -146,26 +115,20 @@ class Tasks_Cronograma(models.Model):
     data_inicio_real = models.DateField(blank=True, null=True)
     data_fim_real = models.DateField(blank=True, null=True)
     observacoes = models.TextField(blank=True, null=True)
+    cronograma = models.ForeignKey(
+        Cronograma, on_delete=models.CASCADE, related_name='tasks', null=True)
 
-
-class Cronograma(models.Model):
-    titulo = models.CharField(max_length=100)
-    descricao = models.TextField(blank=True, null=True)
-    data_inicio = models.DateField(blank=True, null=True)
-    data_fim = models.DateField(blank=True, null=True)
-    observacoes = models.TextField(blank=True, null=True)
-    tasks = models.ManyToManyField(
-        Tasks_Cronograma)
+    def __str__(self):
+        return self.titulo
 
 
 class Orcamento(models.Model):
     empresa = models.CharField(max_length=100)
-    equipamentos = models.ManyToManyField(
-        Equipamentos, related_name='orcamento_equipamentos')
-    Servicos = models.ManyToManyField(
-        Servicos, related_name='orcamento_servicos')
     data = models.DateField(blank=True, null=True)
     arquivos = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.empresa
 
 
 class PacoteDespesa(models.Model):
@@ -177,21 +140,59 @@ class PacoteDespesa(models.Model):
     beneficiado = models.CharField(max_length=100, blank=True, null=True)
     localizado_em = models.CharField(max_length=100, blank=True, null=True)
     doc_ref = models.CharField(max_length=100, blank=True, null=True)
-    Contrato = models.CharField(max_length=100, blank=True, null=True)
-    orcamentos = models.ManyToManyField(
-        Orcamento, related_name='orcamentos')
-    dot_orc = models.ManyToManyField(
-        DotacaoOrcamentaria, related_name='pacote_despesa_dot_orc')
+    contrato = models.CharField(max_length=100, blank=True, null=True)
     cronograma = models.ForeignKey(
         Cronograma, on_delete=models.DO_NOTHING)
-    equipamentos = models.ManyToManyField(
-        Equipamentos, related_name='pacote_despesa_equipamentos')
-    servicos = models.ManyToManyField(
-        Servicos, related_name='pacote_despesa_servicos')
     observacoes = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     projeto = models.ForeignKey(Projeto, on_delete=models.DO_NOTHING)
+    pacotereceita = models.ManyToManyField(
+        'PacoteReceita', related_name='pacote_despesa_pacotereceita')
+
+    def __str__(self):
+        return self.etiqueta
+
+
+class PacoteDespesaEquipamentoServico(models.Model):
+    choices_sit = (
+        ('ativo', 'Ativo'),
+        ('inativo', 'Inativo'),
+        ('suspenso', 'Suspenso')
+    )
+    choices_entrega_instalacao = (
+        ('demanda', 'Demanda'),
+        ('licitacao', 'Licitacao'),
+        ('aentregar', 'A entregar'),
+        ('entregue', 'Entregue'),
+        ('ainstalar', 'A instalar'),
+        ('instalado', 'Instalado')
+    )
+    pacotedespesa = models.ForeignKey(PacoteDespesa, on_delete=models.CASCADE)
+    equipamento = models.ForeignKey(
+        EquipamentoServico, on_delete=models.CASCADE)
+    situacao = models.CharField(
+        max_length=20, choices=choices_sit, blank=True, null=True)
+    valor_1 = models.DecimalField(
+        max_digits=10, decimal_places=2, blank=True, null=True)
+    valor_2 = models.DecimalField(
+        max_digits=10, decimal_places=2, blank=True, null=True)
+    valor_3 = models.DecimalField(
+        max_digits=10, decimal_places=2, blank=True, null=True)
+    valor_medio = models.DecimalField(
+        max_digits=10, decimal_places=2, blank=True, null=True)
+    entrega_instalacao = models.CharField(
+        max_length=20, choices=choices_entrega_instalacao)
+    data_entrega = models.DateField(blank=True, null=True)
+    data_instalacao = models.DateField(blank=True, null=True)
+    observacoes = models.TextField(blank=True, null=True)
+    local = models.CharField(max_length=100)  # Define as per your needs
+    destino = models.CharField(max_length=100)  # Define as per your needs
+    quantidade = models.IntegerField(default=1)
+    usa_preco_portal = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.equipamento.titulo
 
 
 class PacoteReceita(models.Model):
@@ -206,3 +207,6 @@ class PacoteReceita(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     projeto = models.ForeignKey(Projeto, on_delete=models.DO_NOTHING)
+
+    def __str__(self):
+        return self.etiqueta

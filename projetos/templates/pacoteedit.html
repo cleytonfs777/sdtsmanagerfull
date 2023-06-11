@@ -4,7 +4,11 @@
 <div class="row d-flex justify-content-center align-items-center mb-3">
   Equipamentos de Radiocomunicação
 </div>
-{% endblock %} {% block 'content' %}
+{% endblock %} 
+{% block 'content' %}
+{% if messages %} {% for message in messages %}
+<div class="alert {{message.tags}} stilo-message">{{message}}</div>
+{% endfor %} {% endif %}
 <div class="card">
   <div class="card-body">
     <div class="row d-flex flex-row justify-content-between align-items-center">
@@ -1654,14 +1658,6 @@
           function removeItem(event) {
             const item = event.target.parentNode;
             item.parentNode.removeChild(item);
-          }
-
-          function formatToCurrency(element) {
-            let input = element.value;
-            input = input.replace(/[\D]/g, ""); // Remove tudo que não é número
-            input = input.replace(/(\d)(\d{2})$/, "$1,$2"); // Coloca vírgula antes dos últimos 2 dígitos
-            input = input.replace(/(?=(\d{3})+(\D))\B/g, "."); // Coloca ponto a cada 3 dígitos
-            element.value = `R$ ${input}`;
           }
         </script>
         {% endblock %}

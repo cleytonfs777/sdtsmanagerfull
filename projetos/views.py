@@ -4,7 +4,10 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
-from .models import PacoteDespesa, PacoteReceita, Projeto
+from utils.tratamentos import removereais, trataelementoitem
+
+from .models import (DotacaoOrcamentaria, EquipamentoServico, PacoteDespesa,
+                     PacoteReceita, Projeto)
 
 
 @login_required
@@ -63,6 +66,42 @@ def newprojectrecet(request):
 
 @login_required
 def newpackagedesp(request, id_project):
-    if request.method == 'GET':
+    if request.method == 'POST':
+        titleItem = request.POST.get('titleItem', '')
+        especItem = request.POST.get('especItem', '')
+        rpCode = request.POST.get('rpCode', '')
+        itemCode = request.POST.get('itemCode', '')
+        elItem = trataelementoitem(
+            request.POST.get('elItem', ''))  # Tratamento
+        classItem = request.POST.get('classItem', '')
+        valPortItem = removereais(request.POST.get('valPortItem', 0))
+        categoryItem = request.POST.get('categoryItem', '')
 
-        return render(request, 'newpackagedesp.html', {'id_project': id_project})
+        if titleItem == '' or especItem == '' or elItem == '' or classItem == '':
+            messages.add_message(request, messages.ERROR,
+                                 'Todos os campos são obrigatórios')
+            return redirect(reverse('newpackagedesp', kwargs={'id_project': id_project}))
+
+        EquipamentoServico.objects.create(
+            titulo=titleItem,
+            especificacao=especItem,
+            tipo=categoryItem,
+            registro_preco=rpCode,
+            codigo_item=itemCode,
+            elemento_item=elItem,
+            classe=classItem,
+            valor_portal=valPortItem,
+
+        )
+        messages.add_message(request, messages.SUCCESS,
+                             'Equipamento cadastrado com sucesso')
+        return redirect(reverse('newpackagedesp', kwargs={'id_project': id_project}))
+
+    else:
+        equipamentos = EquipamentoServico.objects.all()
+        return render(request, 'newpackagedesp.html', {'id_project': id_project, 'equipamentos': equipamentos})
+
+
+@login_required
+def createpackage(request, id_project):
+    ...

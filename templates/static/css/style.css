@@ -1337,3 +1337,6 @@ td {
 label.text-tachado{
   text-decoration: line-through;
  }
+label {
+    color: #012970!important;
+ }
