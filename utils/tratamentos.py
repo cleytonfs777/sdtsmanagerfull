@@ -15,7 +15,7 @@ def removereais(valor):
     valor_t = valor_t.replace('R$', '')
     valor_t = valor_t.replace('.', '')
     valor_t = valor_t.replace(',', '.')
-    return valor_t
+    return valor_t.strip()
 
 
 def inserereais(valor):

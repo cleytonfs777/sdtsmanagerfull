@@ -27,7 +27,7 @@
     table-layout: fixed; /* Garante que as células da tabela sejam de largura igual */
   }
 </style>
-{% endblock %} {% block 'subtitle' %}Painel{% endblock %} {% block 'content' %}
+{% endblock %} {% block 'subtitle' %}Pacote aquisição - {{name_project}}{% endblock %} {% block 'content' %}
 {% if messages %} {% for message in messages %}
 <div class="alert {{message.tags}} stilo-message">{{message}}</div>
 {% endfor %} {% endif %}
@@ -37,26 +37,51 @@
     <div class="card info-card revenue-card">
       <div class="card-body">
         <div class="row align-items-top">
-          <form id="form-etapas" action="{% url 'createpackage' id_project %}">
+          <form id="form-etapas" action="{% url 'createpackage' id_project %}" method="POST">
+            {% csrf_token %}
             <!-- Etapa 1 -->
             <div class="form-etapa ativo">
               <h5 class="card-title border-bottom">
                 Andamento
                 <span>| Informações gerais do pacote</span>
+                <button type="reset" onclick="clearSession()" class="btn btn-secondary btn-sm ms-sm-5"><i class="bi bi-eraser"></i></button>
               </h5>
               <div class="row align-items-top">
                 <!--Inicio Conteudo-->
+                
                 <div class="row align-items-top">
-                  <!-- Status Card -->
-                  <div class="col-xxl-4 col-md-4">
+                  <div class="col">
                     <div class="card info-card revenue-card">
                       <div class="card-body">
                         <h5 class="card-title">
-                          STATUS <span>| Informe o andamento do projeto</span>
+                          TITULO <span>| Escolha um titulo para identificar seu pacote</span>
+                        </h5>
+                        <div class="d-flex align-items-center">
+                          <input
+                          type="text"
+                          class="form-control mb-0 changeble-item"
+                          placeholder=""
+                          aria-label="Local"
+                          aria-describedby="basic-addon1"
+                          id="inputTitlePacote"
+                          name="inputTitlePacote"
+                        />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row align-items-top">
+                  <!-- Status Card -->
+                  <div class="col-xxl-6 col-md-6">
+                    <div class="card info-card revenue-card">
+                      <div class="card-body">
+                        <h5 class="card-title">
+                          FASE <span>| Informe o andamento do projeto</span>
                         </h5>
                         <div class="d-flex align-items-center">
                           <select
-                            class="form-select"
+                            class="form-select changeble-item"
                             aria-label="Default select example"
                             id = "selectStatusNew"
                             name = "selectStatusNew"
@@ -78,19 +103,19 @@
                   </div>
                   <!-- End Status Card -->
                   <!-- Fase Card -->
-                  <div class="col-xxl-4 col-md-4">
+                  <div class="col-xxl-6 col-md-6">
                     <div class="card info-card revenue-card">
                       <div class="card-body">
                         <h5 class="card-title">
-                          FASE
+                          ESPECIFICA
                           <span
-                            >| Indique a fase caso tenha escolhido RP ou
+                            >| Especifique a fase caso tenha escolhido RP ou
                             PG</span
                           >
                         </h5>
                         <div class="d-flex align-items-center">
                           <select
-                            class="form-select"
+                            class="form-select changeble-item"
                             id="selectnewrp"
                             name="selectnewrp"
                             aria-label="Default select example"
@@ -132,9 +157,9 @@
                             </option>
                           </select>
                           <select
-                            class="form-select"
-                            id="selectPgNew"
-                            name="selectPgNew"
+                            class="form-select changeble-item"
+                            id="selectnewpg"
+                            name="selectnewpg"
                             aria-label="Default select example"
                           >
                             <option selected disabled value="">
@@ -162,135 +187,74 @@
                             </option>
                           </select>
                           <div
-                            id="terceiros-new"
+                            id="terceiros"
                             class="fw-bold text-primary h5"
+                            name="terceiros"
                           >
-                            Terceiros
+                            terceiros
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <!-- End Fase Card -->
+
+                </div>
+
+                <div class="row align-items-top">
                   <!-- Natureza Card -->
-                  <div class="col-xxl-4 col-md-4">
+                  <div class="col-xxl-6 col-md-6">
+                    <div class="card info-card revenue-card">
+                      <div class="card-body">
+                        <h5 class="card-title">
+                          Etiqueta
+                          <span>| Classifique a Etiqueta do projeto</span>
+                        </h5>
+                        <div class="d-flex align-items-center">
+                          <select
+                            class="form-select changeble-item"
+                            aria-label="Default select example"
+                            id="selectEtiquetaNew"
+                            name="selectEtiquetaNew"
+                          >
+                            <option selected disabled>
+                              Escolha a Etiqueta projeto
+                            </option>
+                            <option value="radio">Radiocomunicação</option>
+                            <option value="telefonia">Telefonia</option>
+                            <option value="audioevideo">Audio e video</option>
+                            <option value="outros">Outros</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- TIPO Card -->
+                  <div class="col-xxl-6 col-md-6">
                     <div class="card info-card revenue-card">
                       <div class="card-body">
                         <h5 class="card-title">
                           NATUREZA
-                          <span>| Classifique a natureza do projeto</span>
+                          <span
+                            >| Natureza a ser fornecido se material ou serviço</span
+                          >
                         </h5>
                         <div class="d-flex align-items-center">
                           <select
-                            class="form-select"
+                            class="form-select changeble-item"
                             aria-label="Default select example"
                             id="selectNaturezaNew"
                             name="selectNaturezaNew"
                           >
-                            <option selected disabled>
-                              Escolha a Natureza projeto
-                            </option>
-                            <option value="RD">Radiocomunicação</option>
-                            <option value="TL">Telefonia</option>
-                            <option value="AV">Audio e video</option>
-                            <option value="OT">Outros</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- End Natureza Card -->
-                </div>
-
-                <div class="row align-items-top">
-                  <!-- TIPO Card -->
-                  <div class="col-xxl-4 col-md-4">
-                    <div class="card info-card revenue-card">
-                      <div class="card-body">
-                        <h5 class="card-title">
-                          TIPO
-                          <span
-                            >| Tipo a ser fornecido se material ou serviço</span
-                          >
-                        </h5>
-                        <div class="d-flex align-items-center">
-                          <select
-                            class="form-select"
-                            aria-label="Default select example"
-                            id="selectTipoNew"
-                            name="selectTipoNew"
-                          >
                             <option selected disabled>Escolha o Tipo</option>
-                            <option value="MT">Material</option>
-                            <option value="SV">Serviço</option>
-                            <option value="MTSV">Material/Serviço</option>
+                            <option value="material">Material</option>
+                            <option value="servico">Serviço</option>
+                            <option value="materialservico">Material/Serviço</option>
                           </select>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <!-- End TIPO Card -->
-                  <!-- BENEFICIADO Card -->
-                  <div class="col-xxl-4 col-md-4">
-                    <div class="card info-card revenue-card">
-                      <div class="card-body">
-                        <h5 class="card-title">
-                          BENEFICIADO
-                          <span
-                            >| Local a ser beneficiado. Ex:. 1ºBBM, NTS</span
-                          >
-                        </h5>
-                        <div class="d-flex align-items-center">
-                          <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1"
-                              ><i class="ri-navigation-line"></i
-                            ></span>
-                            <input
-                              type="text"
-                              class="form-control mb-0"
-                              placeholder="Alvo"
-                              aria-label="Local"
-                              aria-describedby="basic-addon1"
-                              id = "inputBeneficiadoNew"
-                              name = "inputBeneficiadoNew"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- End BENEFICIADO Card -->
-                  <!-- LOCALIZADO Card -->
-                  <div class="col-xxl-4 col-md-4">
-                    <div class="card info-card revenue-card">
-                      <div class="card-body">
-                        <h5 class="card-title">
-                          LOCALIZADO
-                          <span
-                            >| Local em que se encontra atualmente o
-                            equipamento</span
-                          >
-                        </h5>
-                        <div class="d-flex align-items-center">
-                          <select
-                            class="form-select"
-                            aria-label="Default select example"
-                            id="selectLocalizadoNew"
-                            name="selectLocalizadoNew"
-                          >
-                            <option selected disabled>
-                              Escolha o local atual do equipamento
-                            </option>
-                            <option value="NTS">NTS</option>
-                            <option value="CSM">CSM</option>
-                            <option value="FNC">Fornecedor</option>
-                            <option value="DLF">DLF</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- End LOCALIZADO Card -->
+
                 </div>
                 <!--Fim Conteudo-->
               </div>
@@ -307,6 +271,7 @@
               <h5 class="card-title border-bottom">
                 Documentos
                 <span>| Documentação de referencia ao projeto</span>
+                <button type="reset" onclick="clearSession()" class="btn btn-secondary btn-sm ms-sm-5"><i class="bi bi-eraser"></i></button>
               </h5>
               <div class="row align-items-top">
                 <!--Inicio Conteudo-->
@@ -325,7 +290,7 @@
                             >
                             <input
                               type="text"
-                              class="form-control mb-0"
+                              class="form-control mb-0 changeble-item"
                               placeholder="Contrato"
                               aria-label="Local"
                               aria-describedby="basic-addon1"
@@ -349,7 +314,7 @@
                           <div class="mb-3">
                             <input
                               type="date"
-                              class="form-control"
+                              class="form-control changeble-item"
                               id="dateInitialInput"
                               name="dateInitialInput"
                             />
@@ -370,7 +335,7 @@
                           <div class="mb-3">
                             <input
                               type="date"
-                              class="form-control"
+                              class="form-control changeble-item"
                               id="dateFinalInput"
                               name="dateFinalInput"
                             />
@@ -416,7 +381,7 @@
                       <div class="card-body">
                         <div class="d-flex flex-column align-items-center">
                           <div
-                            class="list-container d-flex flex-column justify-content-around w-100"
+                            class="list-container d-flex flex-column justify-content-around w-100 changeble-item"
                             id="listContainer-new"
                             style="height: 8.8em; overflow-y: auto"
                           ></div>
@@ -427,7 +392,7 @@
                   <!-- input que deve ser escontido -->
                   <input
                     type="text"
-                    class="form-control"
+                    class="form-control changeble-item"
                     name="hiddensei"
                     id="hiddensei"
                     value=""
@@ -455,6 +420,7 @@
               <h5 class="card-title border-bottom">
                 EQUIPAMENTOS/SERVIÇOS
                 <span>| Equipamentos e/ou Serviços que compoem o pacote</span>
+                <button type="reset" onclick="clearSession()" class="btn btn-secondary btn-sm ms-sm-5"><i class="bi bi-eraser"></i></button>
               </h5>
               <div class="row align-items-top">
                 <!--Inicio Conteudo-->
@@ -467,7 +433,7 @@
                       </h5>
                       <div class="d-flex align-items-center">
                         <select
-                          class="form-select"
+                          class="form-select changeble-item"
                           aria-label="Default select example"
                           id="selectCategoria"
                           name="selectCategoria"
@@ -489,7 +455,7 @@
                       </h5>
                       <div class="d-flex align-items-center">
                         <select
-                          class="form-select"
+                          class="form-select changeble-item"
                           aria-label="Default select example"
                           id="selectEquip"
                           name="selectEquip"
@@ -552,11 +518,12 @@
                           ></button>
                           <input
                             type="text"
-                            class="form-control"
+                            class="form-control changeble-item"
                             id="inputLocnew"
                             placeholder=""
                             aria-label="Example text with button addon"
                             aria-describedby="button-addon1-new"
+                            value=""
                           />
                         </div>
                       </div>
@@ -578,7 +545,7 @@
                           ></button>
                           <input
                             type="text"
-                            class="form-control"
+                            class="form-control changeble-item"
                             id="inputDestnew"
                             placeholder=""
                             aria-label="Example text with button addon"
@@ -604,7 +571,7 @@
                           ></button>
                           <input
                             type="number"
-                            class="form-control"
+                            class="form-control changeble-item"
                             id="inputQtnew"
                             placeholder=""
                             aria-label="Example text with button addon"
@@ -637,7 +604,7 @@
                             <input
                               type="text"
                               id="val1Item"
-                              class="form-control"
+                              class="form-control changeble-item"
                               name="val1Item"
                               oninput="formatToCurrency(this)"
                               onchange="calcMedia()"
@@ -652,7 +619,7 @@
                             <input
                               type="text"
                               id="val2Item"
-                              class="form-control"
+                              class="form-control changeble-item"
                               name="val2Item"
                               oninput="formatToCurrency(this)"
                               onchange="calcMedia()"
@@ -667,7 +634,7 @@
                             <input
                               type="text"
                               id="val3Item"
-                              class="form-control"
+                              class="form-control changeble-item"
                               name="val3Item"
                               oninput="formatToCurrency(this)"
                               onchange="calcMedia()"
@@ -684,7 +651,7 @@
                             <input
                               type="text"
                               id="valMedItem"
-                              class="form-control"
+                              class="form-control changeble-item"
                               name="valMedItem"
                               oninput="formatToCurrency(this)"
                             />
@@ -697,7 +664,7 @@
                             >
                             <div class="form-check form-switch">
                               <input
-                                class="form-check-input"
+                                class="form-check-input changeble-item"
                                 type="checkbox"
                                 id="flexSwitchCheckDefault"
                               />
@@ -732,7 +699,7 @@
                         <div class="row w-50">
                           <div class="col-12">
                             <select
-                              class="form-select"
+                              class="form-select changeble-item"
                               aria-label="Default"
                               id="statusItem"
                               name="statusItem"
@@ -776,7 +743,7 @@
                             >
                             <input
                               type="date"
-                              class="form-control"
+                              class="form-control changeble-item"
                               id="dateEntEquip"
                               name="dateEntEquip"
                             />
@@ -789,7 +756,7 @@
                             >
                             <input
                               type="date"
-                              class="form-control"
+                              class="form-control changeble-item"
                               id="dateInsEquip"
                               name="dateInsEquip"
                             />
@@ -819,7 +786,7 @@
                               >Observações</label
                             >
                             <textarea
-                              class="form-control"
+                              class="form-control changeble-item"
                               style="height: 130px; font-size: 0.8em"
                               id="obsItem"
                               name="obsItem"
@@ -909,8 +876,6 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <!--Aqui serão inseridas as rolls com equipamentos-->
-                          <!--Aqui serão inseridas as rolls com equipamentos-->
                         </tbody>
                       </table>
                       <!-- End Table with stripped rows -->
@@ -943,6 +908,7 @@
               <h5 class="card-title border-bottom">
                 CRONOGRAMA
                 <span>| Crie um cronograma para compor seu pacote</span>
+                <button type="reset" onclick="clearSession()" class="btn btn-secondary btn-sm ms-sm-5"><i class="bi bi-eraser"></i></button>
               </h5>
               <div class="row align-items-top">
                 <div class="col-xxl-12 col-md-12">
@@ -961,7 +927,7 @@
                           ></button>
                           <input
                             type="text"
-                            class="form-control"
+                            class="form-control changeble-item"
                             id="inputTitleCron"
                             name="inputTitleCron"
                             placeholder=""
@@ -988,7 +954,7 @@
                         <div class="row w-100">
                           <div class="col-md-12">
                             <textarea
-                              class="form-control"
+                              class="form-control changeble-item"
                               style="height: 130px; font-size: 0.8em"
                               id="desCron"
                               name="desCron"
@@ -1016,7 +982,7 @@
                         <div class="row w-100">
                           <div class="col-md-12">
                             <textarea
-                              class="form-control"
+                              class="form-control changeble-item"
                               style="height: 130px; font-size: 0.8em"
                               id="obsCron"
                               name="obsCron"
@@ -1075,7 +1041,7 @@
                             <th scope="col" class="rot-info rot-sm">Ações</th>
                           </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="changeble-item">
 
                         </tbody>
                       </table>
@@ -1086,7 +1052,7 @@
               </div>
               <input
               type="text"
-              class="form-control"
+              class="form-control changeble-item"
               name="hiddentasks"
               id="hiddentasks"
               value=""
@@ -1107,8 +1073,9 @@
             <!-- Etapa 5 -->
             <div class="form-etapa">
               <h5 class="card-title border-bottom">
-                OBSERVAÇÃO E PENDENCIAS
+                OBSERVAÇÕES E PENDÊNCIAS
                 <span>| Registre todas as obsevações e pendencias do projeto</span>
+                <button type="reset" onclick="clearSession()" class="btn btn-secondary btn-sm ms-sm-5"><i class="bi bi-eraser"></i></button>
               </h5>
               <div class="row align-items-top">
                 <!--Inicio Conteudo-->
@@ -1124,7 +1091,7 @@
                         <div class="row w-100">
                           <div class="col-md-12">
                             <textarea
-                              class="form-control"
+                              class="form-control changeble-item"
                               style="height: 130px; font-size: 0.8em"
                               id="descObsPen"
                               name="descObsPen"
@@ -1149,7 +1116,7 @@
                       </h5>
                       <div class="d-flex align-items-center">
                         <select
-                          class="form-select"
+                          class="form-select changeble-item"
                           aria-label="Default select example"
                           id="selectCategoriaObsPen"
                         >
@@ -1169,7 +1136,7 @@
                         <span>| Informe a data ou pendencia da reclamação</span>
                       </h5>
                       <div class="d-flex align-items-center">
-                        <input type="date" class="form-control" id="dateObsPen" name="dateObsPen" />
+                        <input type="date" class="form-control changeble-item" id="dateObsPen" name="dateObsPen" />
                       </div>
                     </div>
                   </div>
@@ -1211,7 +1178,7 @@
                             <th scope="col" class="rot-info rot-sm">Ações</th>
                           </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="changeble-item">
 
                         </tbody>
                       </table>
@@ -1222,7 +1189,7 @@
               </div>
               <input
               type="text"
-              class="form-control"
+              class="form-control changeble-item"
               name="hiddenobspend"
               id="hiddenobspend"
               value=""
@@ -1262,7 +1229,7 @@
           ></button>
         </div>
         <div class="modal-body">
-          <form action="{% url 'newpackagedesp' id_project %}" method="post">
+          <form action="{% url 'createequipserv' id_project %}" method="post">
             {% csrf_token %}
             <div class="container">
               <div class="row py-2">
@@ -1579,6 +1546,46 @@
 </div>
 <!-- End Modal Cronograma Scrollable-->
 <script>
+  // Função que seleciona a classe qual select ou div fica hidden (selectnewrp, selectnewpg ou terceiros) dependendo da option do select de id = selectStatusNew
+  function setEspecificaForFase(){
+    if(sessionStorage.getItem("selectStatusNew") == "PG"){
+      document.getElementById("selectnewpg").style.display = "block";
+      document.getElementById("selectnewrp").style.display = "none";
+      document.getElementById("terceiros").style.display = "none";
+    }else if(sessionStorage.getItem("selectStatusNew") == "RP"){
+      document.getElementById("selectnewpg").style.display = "none";
+      document.getElementById("selectnewrp").style.display = "block";
+      document.getElementById("terceiros").style.display = "none";
+    }else{
+      document.getElementById("selectnewpg").style.display = "none";
+      document.getElementById("selectnewrp").style.display = "none";
+      document.getElementById("terceiros").style.display = "block";
+    }
+  }
+
+  const refreshitem = document.querySelectorAll(".changeble-item");
+
+  refreshitem.forEach((item) => {
+    item.addEventListener("change", (e) => {
+      console.log(e.target.id);
+      if(e.target.id == "selectStatusNew"){
+        if(e.target.value == "PG"){
+          sessionStorage.setItem(e.target.id, e.target.value);
+          sessionStorage.setItem("selectnewpg", "");
+        }else if(e.target.value == "RP"){
+          sessionStorage.setItem(e.target.id, e.target.value);
+          sessionStorage.setItem("selectnewrp", "");
+          
+        }else{
+          sessionStorage.setItem(e.target.id, e.target.value);
+          sessionStorage.setItem("selectnewrp", "terceiros");
+        }
+      }else{
+        sessionStorage.setItem(e.target.id, e.target.value);
+      }
+    });
+  });
+
   document.getElementById('formAddTask').addEventListener('submit', function(e) {
     // Impedir o envio do formulário
     e.preventDefault();
@@ -1613,18 +1620,18 @@
     <td  class="rot-info rot-sm">${dataFinal}</td>
     <td  class="rot-info rot-sm">${calcularDiferencaDias(dataInicial, dataFinal)}</td>
     <td  class="rot-info rot-sm ocultar">${obstask}</td>
-    <td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)"><i class="ri-delete-bin-6-line"></i></button></td>`;
+    <td><button type="button" class="btn btn-danger btn-sm task" onclick="removeRow(this)"><i class="ri-delete-bin-6-line"></i></button></td>`;
 
     // Fecha o modal após o processamento do formulário
     var myModal = bootstrap.Modal.getInstance(document.getElementById('modalAddTask'));
     myModal.hide();
+    setCronoSession()
 
   });
 
-
-
   window.addEventListener('load', function() {
     document.getElementById('form-etapas').reset();
+    getAllValues()
   });
 
 
@@ -1666,42 +1673,59 @@
         }
       {% endfor %}
     });
-  });
-  document.addEventListener("DOMContentLoaded", function () {
+
     var etapas = Array.from(
       document.querySelectorAll("#form-etapas .form-etapa")
     );
     var count = etapas.length;
     var current = 0;
-
+  
     var btnsNext = Array.from(document.querySelectorAll(".btn-next"));
     var btnsPrev = Array.from(document.querySelectorAll(".btn-prev"));
-
+  
+    // Ao carregar a página, verifique se há uma etapa armazenada em sessionStorage
+    var savedStep = sessionStorage.getItem('currentStep');
+    if (savedStep) {
+      // Se houver, use-o como a etapa atual e exiba a etapa correta
+      current = parseInt(savedStep, 10);
+      etapas.forEach((etapa, index) => {
+        if (index === current) {
+          etapa.classList.add("ativo");
+        } else {
+          etapa.classList.remove("ativo");
+        }
+      });
+    }
+  
     btnsNext.forEach((btn) => {
       btn.addEventListener("click", function () {
         if (current < count - 1) {
           etapas[current].classList.remove("ativo");
           current++;
+          // Quando o usuário avança, salve a etapa atual em sessionStorage
+          sessionStorage.setItem('currentStep', current);
           etapas[current].classList.add("ativo");
         }
       });
     });
-
+  
     btnsPrev.forEach((btn) => {
       btn.addEventListener("click", function () {
         if (current > 0) {
           etapas[current].classList.remove("ativo");
           current--;
+          // Quando o usuário retrocede, salve a etapa atual em sessionStorage
+          sessionStorage.setItem('currentStep', current);
           etapas[current].classList.add("ativo");
         }
       });
     });
 
-    // Ajusta display para RP, PG e Terceiros
+    // Ajusta display para RP, PG e terceiros
     const statusSelect = document.querySelector(".form-select");
     const rpSelect = document.getElementById("selectnewrp");
-    const pgSelect = document.getElementById("selectPgNew");
-    const terceirosElement = document.getElementById("terceiros-new");
+    const pgSelect = document.getElementById("selectnewpg");
+    const terceirosElement = document.getElementById("terceiros");
 
     // inicia ambos selects ocultos
     rpSelect.style.display = "none";
@@ -1711,17 +1735,22 @@
       // esconde ambos selects
       rpSelect.style.display = "none";
       pgSelect.style.display = "none";
-      terceirosElement.style.display = "block"; // mostra "Terceiros"
+      terceirosElement.style.display = "block"; // mostra "terceiros"
 
       if (this.value === "RP") {
         rpSelect.style.display = "block";
-        terceirosElement.style.display = "none"; // oculta "Terceiros"
+        terceirosElement.style.display = "none"; // oculta "terceiros"
       } else if (this.value === "PG") {
         pgSelect.style.display = "block";
-        terceirosElement.style.display = "none"; // oculta "Terceiros"
+        terceirosElement.style.display = "none"; // oculta "terceiros"
       }
     });
+    setEspecificaForFase()
+
   });
+  
+
+
   document
     .getElementById("button-addon1-new")
     .addEventListener("click", function () {
@@ -1748,11 +1777,16 @@
 
       // Limpa o campo de entrada
       inputText.value = "";
+      setBoxSeiSession()
+
     });
+
+
 
   function removeItem(event) {
     const item = event.target.parentNode;
     item.parentNode.removeChild(item);
+    setBoxSeiSession()
   }
   // Função que será chamada sempre que um elemento for adicionado ou removido de "maincontent"
   // Seleciona o nó que será observado
@@ -1852,11 +1886,23 @@
     <td  class="rot-info rot-sm ocultar">${dateInsEquip}</td>
     <td  class="rot-info rot-sm ocultar">${obsItem}</td>
     <td  class="rot-info rot-sm">${inputDest}</td>
-    <td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)"><i class="ri-delete-bin-6-line"></i></button></td>`;
+    <td><button type="button" class="btn btn-danger btn-sm equipser" onclick="removeRow(this)"><i class="ri-delete-bin-6-line"></i></button></td>`;
+  
+    setEquipSession();
   }
   function removeRow(btn){
+    console.log(btn.classList)
     var row = btn.parentNode.parentNode;
     row.parentNode.removeChild(row);
+    if (btn.classList.contains("equipser")) {
+      setEquipSession()
+    }else if (btn.classList.contains("task")) {
+      setCronoSession()
+    }else if (btn.classList.contains("obspen")) {
+      setObsPenSession()
+    }
+    
+
   }
   function calcularDiferencaDias(dataInicial, dataFinal) {
     // Criar objetos Date a partir das strings de data
@@ -1893,13 +1939,16 @@
     <td  class="rot-info rot-sm">${descObsPen}</td>
     <td  class="rot-info rot-sm">${selectCategoriaObsPen}</td>
     <td  class="rot-info rot-sm">${dateObsPen}</td>
-    <td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)"><i class="ri-delete-bin-6-line"></i></button></td>`;
+    <td><button type="button" class="btn btn-danger btn-sm obspen" onclick="removeRow(this)"><i class="ri-delete-bin-6-line"></i></button></td>`;
 
   // Limpa os campos
 
   document.getElementById("descObsPen").value = ""
   document.getElementById("selectCategoriaObsPen").value = ""
   document.getElementById("dateObsPen").value = ""
+
+  setObsPenSession()
+  getAllValues()
 
 }
 
@@ -1908,11 +1957,10 @@ function generateTableString(idTable) {
   var table = document.getElementById(idTable);
   var rows = Array.from(table.rows).slice(1); // Ignora a primeira linha (cabeçalho)
   var result = rows.map((row) => {
-    return Array.from(row.cells).map(cell => cell.textContent).join(',');
+    return Array.from(row.cells).map(cell => cell.textContent).join('|');
   });
   return result.join(';');
 }
-
 
 // Supondo que 'myForm' é o id do seu formulário
 var formain = document.getElementById('form-etapas');
@@ -1922,13 +1970,12 @@ formain.addEventListener('submit', function(e) {
   if (confirmSubmit) {
     e.preventDefault();
     // Andamento
+    const titulo = document.getElementById("inputTitlePacote").value
     const status = document.getElementById("selectStatusNew").value
     const selectnewrp = document.getElementById("selectnewrp").value
-    const selectpgnew = document.getElementById("selectPgNew").value
+    const selectpgnew = document.getElementById("selectnewpg").value
+    const etiqueta = document.getElementById("selectEtiquetaNew").value
     const natureza = document.getElementById("selectNaturezaNew").value
-    const tipo = document.getElementById("selectTipoNew").value
-    const beneficiado = document.getElementById("inputBeneficiadoNew").value
-    const localizado = document.querySelector("#selectLocalizadoNew").value
     // Documentos
     const contrato = document.getElementById("inputContratoNew").value
     const dataInitCont = document.getElementById("dateInitialInput").value
@@ -1948,13 +1995,12 @@ formain.addEventListener('submit', function(e) {
     document.getElementById('hiddenobspend').value = obsPendencias
 
     // Faz um print de todos os valores
+    console.log(`Titulo: ${titulo}`)
     console.log(`Status: ${status}`)
     console.log(`RP: ${selectnewrp}`)
     console.log(`PG: ${selectpgnew}`)
+    console.log(`Etiqueta: ${etiqueta}`)
     console.log(`Natureza: ${natureza}`)
-    console.log(`Tipo: ${tipo}`)
-    console.log(`Beneficiado: ${beneficiado}`)
-    console.log(`Localizado: ${localizado}`)
     console.log(`Contrato: ${contrato}`)
     console.log(`Data Inicial Contrato: ${dataInitCont}`)
     console.log(`Data Final Contrato: ${dataFinalCont}`)
@@ -1966,13 +2012,62 @@ formain.addEventListener('submit', function(e) {
     console.log(`Tarefas Cronograma: ${taksCronograma}`)
     console.log(`Observações/Pendências: ${obsPendencias}`)
     // Faz o submit do formulário
-    /*
-    form.submit();
-    */
+
+    formain.submit();
+  
   }else{
     e.preventDefault();
   }
 });
+function setEquipSession(){
+  const mytablequip = document.querySelector("#main-table>tbody");
+  // Pegar o conteudo de tbody e gravar em uma variável de sessão
+  console.log(mytablequip.innerHTML)
+  sessionStorage.setItem('equipamentos', mytablequip.innerHTML);
+}
+function setCronoSession(){
+  const mytablecrono = document.querySelector("#listTaskTable>tbody");
+  // Pegar o conteudo de tbody e gravar em uma variável de sessão
+  console.log(mytablecrono.innerHTML)
+  sessionStorage.setItem('cronograma', mytablecrono.innerHTML);
+}
+function setObsPenSession(){
+  const mytableobspen = document.querySelector("#listObsPenTable>tbody");
+  // Pegar o conteudo de tbody e gravar em uma variável de sessão
+  console.log(mytableobspen.innerHTML)
+  sessionStorage.setItem('obspen', mytableobspen.innerHTML);
+}
+
+function setBoxSeiSession(){
+  // Pega o conteudo da div com id = listContainer-new e grava em uma variável de sessão
+  const listContainer = document.getElementById("listContainer-new");
+  sessionStorage.setItem('sei', listContainer.innerHTML);
+  
+}
+
+function clearSession(){
+  sessionStorage.clear();
+  location.reload();
+}
+
+function getAllValues() {
+  // Configura o value de cada campo do formulário de id "form-etapas" com o valor armazenado em sessionStorage
+  document.querySelectorAll("#form-etapas .changeble-item").forEach((item) => {
+    item.value = sessionStorage.getItem(item.id);
+  });
+  // Pega o conteudo que está dentro da variavel de sessão sei e insere dentro da div com id = listContainer-new
+  document.getElementById("listContainer-new").innerHTML = sessionStorage.getItem('sei');
+
+  // Pega o conteudo que está dentro da variavel de sessão equipamentos e insere dentro da tbody com id = main-table
+  document.getElementById("main-table").getElementsByTagName("tbody")[0].innerHTML = sessionStorage.getItem('equipamentos');
+
+  // Pega o conteudo que está dentro da variavel de sessão cronograma e insere dentro da tbody com id = listTaskTable
+  document.getElementById("listTaskTable").getElementsByTagName("tbody")[0].innerHTML = sessionStorage.getItem('cronograma');
+
+  // Pega o conteudo que está dentro da variavel de sessão obspen e insere dentro da tbody com id = listObsPenTable
+  document.getElementById("listObsPenTable").getElementsByTagName("tbody")[0].innerHTML = sessionStorage.getItem('obspen');
+}
+
 </script>
 {% endblock %}
 

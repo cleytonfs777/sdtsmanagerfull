@@ -33,12 +33,8 @@ choice_status_receita = (
 
 
 class Projeto(models.Model):
-    choices_tipo = (
-        ('despesa', 'Despesa'),
-        ('receita', 'Receita'),
-    )
+
     titulo = models.CharField(max_length=100)
-    tipo = models.CharField(max_length=10, choices=choices_tipo)
     responsavel = models.CharField(max_length=100, blank=True, null=True)
     descricao = models.TextField(blank=True, null=True)
     etiqueta = models.CharField(max_length=20, choices=choices_etiqueta)
@@ -63,6 +59,12 @@ class DotacaoOrcamentaria(models.Model):
 
 
 class EquipamentoServico(models.Model):
+
+    choices_sit = (
+        ('ativo', 'Ativo'),
+        ('inativo', 'Inativo'),
+        ('suspenso', 'Suspenso')
+    )
     choices_classe = (
         ('consumo', 'Consumo'),
         ('permanente', 'Permanente')
@@ -72,8 +74,8 @@ class EquipamentoServico(models.Model):
         ('servico', 'Serviço')
     )
 
-    titulo = models.CharField(max_length=50)
     tipo = models.CharField(max_length=20, choices=choices_tipo)
+    titulo = models.CharField(max_length=100)
     especificacao = models.TextField(blank=True, null=True)
     registro_preco = models.CharField(max_length=10, blank=True, null=True)
     codigo_item = models.CharField(max_length=10, blank=True, null=True)
@@ -81,6 +83,8 @@ class EquipamentoServico(models.Model):
     classe = models.CharField(max_length=10, choices=choices_classe)
     valor_portal = models.DecimalField(
         max_digits=10, decimal_places=2, blank=True, null=True)
+    situacao = models.CharField(
+        max_length=20, choices=choices_sit, blank=True, null=True)
 
     def __str__(self):
         return self.titulo
@@ -90,6 +94,8 @@ class Cronograma(models.Model):
     titulo = models.CharField(max_length=100)
     descricao = models.TextField(blank=True, null=True)
     observacoes = models.TextField(blank=True, null=True)
+    pacote_despesa = models.ForeignKey(
+        'PacoteAquisicao', on_delete=models.CASCADE, related_name='cronogramas', null=True)
 
     def __str__(self):
         return self.titulo
@@ -131,35 +137,82 @@ class Orcamento(models.Model):
         return self.empresa
 
 
-class PacoteDespesa(models.Model):
+class ObservacaoPendencia(models.Model):
+    choices_categorias = (
+        ('pendencia', 'Pendência'),
+        ('observacao', 'Observação'),
+    )
+    choices_class = (
+        ('aconcluir', 'A concluir'),
+        ('concluido', 'Concluído'),
+    )
+    decricao = models.TextField(blank=True, null=True)
+    categoria = models.CharField(max_length=20, choices=choices_categorias)
+    data_obs_pend = models.DateField(blank=True, null=True)
+    class_obs_pend = models.CharField(max_length=20, choices=choices_class)
+    pacote_despesa = models.ForeignKey(
+        'PacoteAquisicao', on_delete=models.CASCADE, related_name='observacoes_pendencias', null=True)
 
-    fase = models.CharField(max_length=100)
-    esp_fase = models.CharField(max_length=100, blank=True, null=True)
-    etiqueta = models.CharField(max_length=20, choices=choices_etiqueta)
+
+class PacoteAquisicao(models.Model):
+
+    choices_fase = (
+        ('PJ', 'Planejamento'),
+        ('RP', 'RP em andamento'),
+        ('PG', 'PG em andamento'),
+        ('EMP', 'Empenhado'),
+        ('AGE', 'Aguardando entrega'),
+        ('ENT', 'Entregue'),
+        ('INS', 'Instalado')
+    )
+
+    choices_esp_fase = (
+        ('rp-etp', 'Elaboração do ETP'),
+        ('rp-orcamentos', 'Obtenção de Orçamentos'),
+        ('rp-precos', 'Mapa de Preços'),
+        ('rp-autorizacao-dlf', 'Pedido de autorização DLF'),
+        ('rp-gestao', 'Solicitação de Gestão de RP'),
+        ('rp-minuta', 'Elaboração Minuta do Termo de Referência'),
+        ('rp-correcao-minuta', 'Correção Minuta do Termo de Referência (ASSJUR)'),
+        ('rp-correcao-etp', 'Correção ETP (ASSJUR)'),
+        ('rp-formulario-adesao', 'Formulário de Adesão'),
+        ('rp-encaminhado-gol', 'Encaminhado a Gol'),
+        ('rp-impugnacao', 'Respondendo impugnação'),
+        ('rp-resposta-documentacao', 'Resposta a documentação'),
+        ('pg-autorizacao-dlf', 'Pedido de autorização DLF'),
+        ('pg-etp', 'Elaboração do ETP'),
+        ('pg-orcamentos', 'Obtenção de Orçamentos'),
+        ('pg-precos', 'Mapa de Preços'),
+        ('pg-minuta', 'Elaboração Minuta do Termo de Referência'),
+        ('pg-extrato', 'Extrato de Crédito'),
+        ('pg-correcao-minuta', 'Correção Minuta do Termo de Referência (ASSJUR)'),
+        ('pg-correcao-etp', 'Correção ETP (ASSJUR)'),
+        ('Terceiros', 'Terceiros'),
+    )
+
+    titulo = models.CharField(max_length=100)
+    status = models.CharField(
+        max_length=100, choices=choices_fase, blank=True, null=True)
+    fase = models.CharField(
+        max_length=100, choices=choices_esp_fase, blank=True, null=True)
+    etiqueta = models.CharField(
+        max_length=20, choices=choices_etiqueta)  # Vai vir via url
     natureza = models.CharField(max_length=20, choices=choices_nat)
-    beneficiado = models.CharField(max_length=100, blank=True, null=True)
-    localizado_em = models.CharField(max_length=100, blank=True, null=True)
-    doc_ref = models.CharField(max_length=100, blank=True, null=True)
     contrato = models.CharField(max_length=100, blank=True, null=True)
-    cronograma = models.ForeignKey(
-        Cronograma, on_delete=models.DO_NOTHING)
-    observacoes = models.TextField(blank=True, null=True)
+    contratoinit = models.DateField(blank=True, null=True)
+    contratoend = models.DateField(blank=True, null=True)
+    doc_ref = models.CharField(max_length=100, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    projeto = models.ForeignKey(Projeto, on_delete=models.DO_NOTHING)
-    pacotereceita = models.ManyToManyField(
-        'PacoteReceita', related_name='pacote_despesa_pacotereceita')
+    projeto = models.ForeignKey(
+        Projeto, on_delete=models.DO_NOTHING, related_name='pacote_aquisicao')
 
     def __str__(self):
-        return self.etiqueta
+        return self.titulo
 
 
-class PacoteDespesaEquipamentoServico(models.Model):
-    choices_sit = (
-        ('ativo', 'Ativo'),
-        ('inativo', 'Inativo'),
-        ('suspenso', 'Suspenso')
-    )
+class PacoteAquisicaoEquipamentoServico(models.Model):
+
     choices_entrega_instalacao = (
         ('demanda', 'Demanda'),
         ('licitacao', 'Licitacao'),
@@ -168,11 +221,10 @@ class PacoteDespesaEquipamentoServico(models.Model):
         ('ainstalar', 'A instalar'),
         ('instalado', 'Instalado')
     )
-    pacotedespesa = models.ForeignKey(PacoteDespesa, on_delete=models.CASCADE)
+    pacotedespesa = models.ForeignKey(
+        PacoteAquisicao, on_delete=models.CASCADE, related_name='despesa_equipamento')
     equipamento = models.ForeignKey(
-        EquipamentoServico, on_delete=models.CASCADE)
-    situacao = models.CharField(
-        max_length=20, choices=choices_sit, blank=True, null=True)
+        EquipamentoServico, on_delete=models.CASCADE, related_name='pacote_equipamento')
     valor_1 = models.DecimalField(
         max_digits=10, decimal_places=2, blank=True, null=True)
     valor_2 = models.DecimalField(
@@ -181,6 +233,7 @@ class PacoteDespesaEquipamentoServico(models.Model):
         max_digits=10, decimal_places=2, blank=True, null=True)
     valor_medio = models.DecimalField(
         max_digits=10, decimal_places=2, blank=True, null=True)
+    usa_preco_portal = models.BooleanField(default=False)
     entrega_instalacao = models.CharField(
         max_length=20, choices=choices_entrega_instalacao)
     data_entrega = models.DateField(blank=True, null=True)
@@ -189,15 +242,21 @@ class PacoteDespesaEquipamentoServico(models.Model):
     local = models.CharField(max_length=100)  # Define as per your needs
     destino = models.CharField(max_length=100)  # Define as per your needs
     quantidade = models.IntegerField(default=1)
-    usa_preco_portal = models.BooleanField(default=False)
 
     def __str__(self):
         return self.equipamento.titulo
 
 
-class PacoteReceita(models.Model):
+class PacoteEmpenho(models.Model):
+    choices_tipo_pacote = (
+        ('despesa', 'Despesa'),
+        ('receita', 'Receita')
+    )
+    titulo = models.CharField(max_length=100)
     etiqueta = models.CharField(max_length=20, choices=choices_etiqueta)
     natureza_desp = models.CharField(max_length=20, choices=choice_nat_desp)
+    tipo_pacote = models.CharField(
+        max_length=20, choices=choices_tipo_pacote, blank=True, null=True)
     dot_orc = models.ManyToManyField(
         DotacaoOrcamentaria, related_name='pacote_receita_dot_orc')
     unid_exec = models.CharField(max_length=100, blank=True, null=True)
