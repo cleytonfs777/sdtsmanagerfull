@@ -1,52 +1,52 @@
 {% extends 'base.html' %} {% load static %} {% load filters %} {% block 'title'%}Projetos{%endblock%} {% block 'head' %}
 <link rel="stylesheet" href="{% static 'css/full-style.css' %}" />
-{% endblock %} {% block 'subtitle' %}Equipamentos de {{tipo|tipo_projeto}}{% endblock %} {% block 'content' %}
+{% endblock %} {% block 'subtitle' %}Projeto {{projeto.titulo}}{% endblock %} {% block 'content' %}
+
 <div class="row align-items-top">
   <div class="col">
     <!-- Default Card -->
     <div class="card">
       <div class="card-body">
         <div class="row d-flex flex-row mb-2 align-items-center">
-          <div class="col-md-7 d-flex justify-content-center">
-            <h5 class="card-title w-100 text-center">{{projeto.titulo}}</h5>
-          </div>
-          <div class="col-md-3 col-6">
+
+          <div class="d-flex justify-content-end align-items-center">
             <a
-              href="{% url 'newpackagedesp' projeto.id%}"
-              class="btn btn-success w-100 fw-bold mt-2 mx-4"
+              
+              class="btn btn-success fw-bold mt-4 mx-4"
+              data-bs-toggle="modal"
+              data-bs-target="#modalTypePackage"
               >Adicionar Pacote</a
             >
           </div>
         </div>
         <div class="row">
+          {% for pacote in pacotes_aquisicao %}
           <div class="col-md-4">
             <!-- Card with header and footer -->
             <div class="card">
-              <div class="card-header">
-                <h5 class="font-weight-bold text-center title-projeto">
+              <p class="fw-bold text-center h6 p-2 w-100 mb-3" style="background:#cccecf;">{{pacote.titulo}}</p>
 
-                </h5>
-              </div>
               <div class="card-body body-projeto">
-                <p><span>Data:</span> {{projeto.created_at}}</p>
-                <p><span>Tipo:</span>{{projeto.tipo}}</p>
-                <p><span>Localização:</span>NTS</p>
-                <p><span>Valor:</span> R$ 1.000.000,00</p>
+                <p><span>Data: </span> {{pacote.created_at}}</p>
+                <p><span>Tipo: </span>{{pacote.natureza}}</p>
+                <p><span>Valor: </span> <span class="main-value" style="font-size:1.2em;color:green;">{{pacote.id|value_pacote}}</span></p>
 
                 <div class="card-footer text-primary d-flex justify-content-between">
                   <div>
-                  Radio <i class="ri-price-tag-3-fill"></i>
+                  {{pacote.etiqueta}} <i class="ri-price-tag-3-fill"></i>
                 </div>
                   <div>
-                    <a href="{% url 'pacoteview' %}" class="btn btn-success btn-sm"><i class="bi bi-eye"></i></a>
-                    <a href="{% url 'pacoteedit' %}" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
+                    <a href="{% url 'pacoteview' pacote.id %}" class="btn btn-success btn-sm"><i class="bi bi-eye"></i></a>
+                    <a href="{% url 'pacoteedit'%}" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
                   </div>
                 </div>
               </div>
               <!-- End Card with header and footer -->
             </div>
           </div>
+          {% endfor %}
           <!-- End Default Card -->
+          <hr>
         </div>
         <!-- Onde serão colocados os cards-->
       </div>
@@ -54,6 +54,41 @@
       <!-- End Card with header and footer -->
     </div>
     <!-- End Default Card -->
+  </div>
+</div>
+<div class="modal fade" id="modalTypePackage" tabindex="-1">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold">Selecione o tipo de pacote que deseja criar</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+          {% csrf_token %}
+          <div class="container">
+            <div class="row py-2">
+              <div class="col-md-12">
+                <a href="#" class="btn btn-success w-100 py-3 fw-bold">Pacote de Receita</a>
+              </div>
+            </div>
+            <div class="row py-2">
+              <div class="col-md-12">
+                <a href="#" class="btn btn-danger w-100 py-3 fw-bold">Pacote de Despesa</a>
+              </div>
+            </div>
+            <div class="row py-2">
+              <div class="col-md-12">
+                <a href="{% url 'newpackageaqu' projeto.id %}" class="btn btn-secondary w-100 py-3 fw-bold">Pacote de Aquisição</a>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
   </div>
 </div>
 
