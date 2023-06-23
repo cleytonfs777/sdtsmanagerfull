@@ -1,6 +1,17 @@
 {% extends 'base.html' %} {% load static %} {% load filters %} {% block 'title'%}Projetos{% endblock %} {% block 'head' %}
 <link rel="stylesheet" href="{% static 'css/full-style.css' %}" />
-{% endblock %} {% block 'subtitle' %}{{pacote.titulo}}{% endblock %} {% block 'content' %}
+<style>
+  .minha-tabela {
+      min-width: 680px;
+      overflow-x: auto;
+  }
+  .table-wrapper {
+    overflow-x: auto;
+}
+
+  </style>  
+{% endblock %} {% block 'subtitle' %}{{pacote.titulo}}<a href="{% url 'pacoteedit' pacote.id %}" class="btn btn-warning ms-4">Editar Pacote</a>{% endblock %} {% block 'content' %}
+
 <div class="row align-items-top">
   <!-- Fase Card -->
   <div class="col-xxl-6 col-md-6">
@@ -11,7 +22,6 @@
           <span>| Informações gerais de andamento</span>
         </h5>
         <div class="row align-items-top">
-          
           <div class="col-md-6 d-flex flex-row align-items-center">
             <div class="fw-bold rotulo-chart my-3 me-2">Status:</div>
             <span class="span-info">{{pacote.get_status_display}}</span>
@@ -49,7 +59,9 @@
             </div>
             <div class="col d-flex flex-row align-items-center">
               <div class="fw-bold rotulo-chart my-3 me-2">Data Inicial:</div>
-              <span class="span-info">{{pacote.contratoinit|date:"d/m/Y"}}</span>
+              <span class="span-info"
+                >{{pacote.contratoinit|date:"d/m/Y"}}</span
+              >
             </div>
             <div class="col d-flex flex-row align-items-center">
               <div class="fw-bold rotulo-chart my-3 me-2">Data Final:</div>
@@ -57,32 +69,32 @@
             </div>
           </div>
           <div class="col-md-6">
-            <div class="col d-flex flex-row align-items-center">
+            <div class="col d-flex flex-row justify-content-center align-items-center mb-2">
               <div class="fw-bold rotulo-chart mt-2">Sei Relacionado</div>
             </div>
-          
+
             <div class="col d-flex flex-row align-items-center">
               <div class="mybox">
-                {% if pacote.doc_ref %}
-                {% for sei in pacote.doc_ref|split %}
-                    <div class="d-flex flex-row justify-content-center" style="border-bottom: 2px solid #012970">
-                        <p class="m-0 sei-list rot-full m-2">
-                            {{ sei }}
-                        </p>
-                        <button class="btn btn-sm">
-                          <i class="bi bi-clipboard"></i>
-                        </button>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <div class="d-flex flex-row justify-content-center" style="border-bottom: 2px solid #012970">
-                    <p class="m-0 sei-list rot-full m-2">
-                        Nenhum documento encontrado
-                    </p>
+                {% if pacote.doc_ref %} {% for sei in pacote.doc_ref|split %}
+                <div
+                  class="d-flex flex-row justify-content-center"
+                  style="border-bottom: 2px solid #012970"
+                >
+                  <p class="m-0 sei-list rot-full m-2">{{ sei }}</p>
+                  <button class="btn btn-sm">
+                    <i class="bi bi-clipboard"></i>
+                  </button>
                 </div>
-            {% endif %}
-            
-
+                {% endfor %} {% else %}
+                <div
+                  class="d-flex flex-row justify-content-center"
+                  style="border-bottom: 2px solid #012970"
+                >
+                  <p class="m-0 sei-list rot-full m-2">
+                    Nenhum documento encontrado
+                  </p>
+                </div>
+                {% endif %}
               </div>
             </div>
           </div>
@@ -94,238 +106,332 @@
   <!-- End Row -->
   <!-- Second Row -->
   <div class="row align-items-top">
-        <!-- Dotação Card -->
-        <div class="col-xxl-12 col-md-12">
-          <div class="card info-card revenue-card">
-            <div class="card-body">
-              <div class="card-body">
-                <h5 class="card-title border-bottom">
-                  Dotação Orçamentária
-                  <span>| Dotação orçamentária utilizada no pacote</span>
-                </h5>
-                <!-- Small tables -->
-                <div class="table-wrapper">
-                    <table class="table table-sm">
-                      <thead class="table-primary table-header">
-                        <tr>
-                          <th scope="col" class="rot-info rot-sm">Dotação</th>
-                          <th scope="col" class="rot-info rot-sm">Data</th>
-                          <th scope="col" class="rot-info rot-sm">Sei</th>
-                        </tr>
-                      </thead>
-                      <tbody class="table-body">
-                        <tr>
-                          <td class="rot-info rot-sm">1400.0001.52.55.1022.558.65.55.5</td>
-                          <td class="rot-info rot-sm">14/08/2023</td>
-                          <td class="rot-info rot-sm">1400.001.0004578/2023-93
-                            <button class="btn btn-sm">
-                            <i class="bi bi-clipboard"></i>
-                          </button>
-                        </td>
+    <!-- Equipamentos Card -->
+    <div class="col-xxl-12 col-md-12">
+      <div class="card info-card revenue-card">
+        <div class="card-body">
+          <div class="card-body">
+            <h5 class="card-title border-bottom">
+              Equipamentos
+              <span>| Equipamentos que compoem o pacote</span>
+              <button
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#modalEquipAll"
+                class="ms-5 btn btn-outline-success btn-sm"
+              >
+                <i class="bi bi-eye"></i>
+              </button>
+            </h5>
+            <!-- Small tables -->
+            <div class="table-wrapper overflow-auto">
+              
+              <table class="table table-sm table-dot table-striped text-center minha-tabela">
+                <thead class="table-primary table-header">
+                  <tr>
+                    <th scope="col" class="rot-info rot-sm d-flex justify-content-center">Titulo</th>
+                    <th scope="col" class="rot-info rot-sm d-flex justify-content-center">El/Item</th>
+                    <th scope="col" class="rot-info rot-sm d-flex justify-content-center">Classe</th>
+                    <th scope="col" class="rot-info rot-sm d-flex justify-content-center">Qtd</th>
+                    <th scope="col" class="rot-info rot-sm d-flex justify-content-center">Valor Total</th>
+                    <th scope="col" class="rot-info rot-sm d-flex justify-content-center">Local</th>
+                    <th scope="col" class="rot-info rot-sm d-flex justify-content-center">Destino</th>
+                    <th scope="col" class="rot-info rot-sm d-flex justify-content-center">E | D | I</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-min" class="table-body">
+                  {% for equipamento in equipamentos %}
+                  <tr>
+                    <td class="rot-info rot-sm">
+                      {{equipamento.equipamento.titulo}}
+                    </td>
+                    <td class="rot-info rot-sm">
+                      {{equipamento.equipamento.elemento_item}}
+                    </td>
 
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <!-- End small tables -->
-                </div>
+                    <td class="rot-info rot-sm">
+                      {{equipamento.equipamento.classe}}
+                    </td>
+                    {% if equipamento.usa_preco_portal %}
+
+                    <td class="rot-info rot-sm">{{equipamento.quantidade}}</td>
+                    <td class="rot-info rot-sm">
+                      {{equipamento.quantidade|totequip:equipamento.equipamento.valor_portal}}
+                    </td>
+                    {% else %}
+
+                    <td class="rot-info rot-sm">{{equipamento.quantidade}}</td>
+                    <td class="rot-info rot-sm">
+                      {{equipamento.quantidade|totequip:equipamento.valor_medio|value_to_real}}
+                    </td>
+                    {% endif %}
+                    <td class="rot-info rot-sm">{{equipamento.local}}</td>
+                    <td class="rot-info rot-sm">{{equipamento.destino}}</td>
+                    <td class="rot-info rot-sm">
+                      {% if equipamento.data_entrega %}
+                      <i class="bi bi-circle-fill text-success"></i>
+                      {% else %}
+                      <i class="bi bi-circle-fill text-danger"></i>
+                      {% endif %}
+                      |
+                      {% if equipamento.destino %}
+                      <i class="bi bi-circle-fill text-success"></i>
+                      {% else %}
+                      <i class="bi bi-circle-fill text-danger"></i>
+                      {% endif %} 
+                      |
+                      {% if equipamento.data_instalacao %}
+                      <i class="bi bi-circle-fill text-success"></i>
+                      {% else %}
+                      <i class="bi bi-circle-fill text-danger"></i>
+                      {% endif %}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              <div>
+                <h5 class="card-title border-bottom">
+                  VALOR TOTAL: R$ 54.230,00
+                </h5>
               </div>
             </div>
+            <!-- End small tables -->
           </div>
         </div>
-        <!-- End Dotação Card -->
-        <!-- Cronograma Card -->
-        <div class="col-xxl-12 col-md-12">
-          <div class="card info-card revenue-card">
-            <div class="card-body">
-              <div class="card-body">
-                <h5 class="card-title border-bottom">
-                  Cronograma
-                  <span>| Cronograma completo de todas as etapas</span>
-                </h5>
-                <!-- Small tables -->
-                <div class="table-wrapper">
-                    <table class="table table-sm table-dot">
-                      <thead class="table-primary table-header">
-                        <tr>
-                          <th scope="col" class="rot-info rot-sm">Tarefa</th>
-                          <th scope="col" class="rot-info rot-sm">Status</th>
-                          <th scope="col" class="rot-info rot-sm">Responsável</th>
-                          <th scope="col" class="rot-info rot-sm">Início</th>
-                          <th scope="col" class="rot-info rot-sm">Fim</th>
-                          <th scope="col" class="rot-info rot-sm">Duração</th>
-                        </tr>
-                      </thead>
-                      <tbody class="table-body">
-                        <tr>
-                          <td class="rot-info rot-sm">Instalação de Repetidoras</td>
-                          <td class="rot-info rot-sm"><span class="badge bg-warning"> Em Andamento</span></td>
-                          <td class="rot-info rot-sm">Motorola</td>
-                          <td class="rot-info rot-sm">14/05/2023</td>
-                          <td class="rot-info rot-sm">26/06/2023</td>
-                          <td class="rot-info rot-sm">14 dias</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <!-- End small tables -->
-                </div>
-              </div>
-            </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Equipamentos Card -->
+  <!-- Cronograma Card -->
+  <div class="col-xxl-12 col-md-12">
+    <div class="card info-card revenue-card">
+      <div class="card-body">
+        <div class="card-body">
+          {% for cronograma in cronogramas %}
+          <h5 class="card-title border-bottom">
+            Cronograma
+            <span>| {{cronograma.titulo}}</span>
+          </h5>
+          <!-- Small tables -->
+          <div class="table-wrapper">
+            <table class="table table-sm table-dot">
+              <thead class="table-primary table-header">
+                <tr>
+                  <th scope="col" class="rot-info rot-sm">Descrição</th>
+                  <th scope="col" class="rot-info rot-sm">Tarefa</th>
+                  <th scope="col" class="rot-info rot-sm">Status</th>
+                  <th scope="col" class="rot-info rot-sm">Prioridade</th>
+                  <th scope="col" class="rot-info rot-sm">Início</th>
+                  <th scope="col" class="rot-info rot-sm">Fim</th>
+                  <th scope="col" class="rot-info rot-sm">Duração</th>
+                </tr>
+              </thead>
+              <tbody class="table-body">
+                {% for task in cronograma.id|alltasks %}
+                <tr>
+                  <td class="rot-info rot-sm">{{task.descricao}}</td>
+                  <td class="rot-info rot-sm">{{task.titulo}}</td>
+                  <td class="rot-info rot-sm">
+                    {% if task.status == 'pendente'%}
+                    <span class="badge bg-danger">{{task.get_status_display}}</span>
+                    {% elif task.status == 'emexecucao'%}
+                    <span class="badge bg-secondary">{{task.get_status_display}}</span>
+                    {% else %}
+                    <span class="badge bg-success">{{task.get_status_display}}</span>
+                    {% endif %}
+                  </td>
+                  <td class="rot-info rot-sm">{{task.get_prioridade_display}}</td>
+                  {% if task.data_inicio_real %}
+                  <td class="rot-info rot-sm">{{task.data_inicio_real|date:"d/m/Y"}}<span class="badge bg-primary ms-2">R</span></td>
+                  {% else %}
+                  <td class="rot-info rot-sm">{{task.data_inicio_planejada|date:"d/m/Y"}}<span class="badge bg-primary ms-2">P</span></td>
+                  {% endif %}
+                  {% if task.data_fim_real%}
+                  <td class="rot-info rot-sm">{{task.data_fim_real|date:"d/m/Y"}}<span class="badge bg-primary ms-2">R</span></td>
+                  {% else %}
+                  <td class="rot-info rot-sm">{{task.data_fim_planejada|date:"d/m/Y"}}<span class="badge bg-primary ms-2">P</span></td>
+                  {% endif %}
+                  <td class="rot-info rot-sm">{{task.diferenca_de_dias}} Dias</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
           </div>
+          <!-- End small tables -->
+          {% endfor %}
         </div>
-        <!-- End Cronograma Card -->
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Cronograma Card -->
 
-        <!-- Equipamentos Card -->
-        <div class="col-xxl-12 col-md-12">
-          <div class="card info-card revenue-card">
-            <div class="card-body">
-              <div class="card-body">
-                <h5 class="card-title border-bottom">
-                  Equipamentos
-                  <span>| Equipamentos que compoem o pacote</span>
-                </h5>
-                <!-- Small tables -->
-                <div class="table-wrapper">
-                    <table class="table table-sm table-dot">
-                      <thead class="table-primary table-header">
-                        <tr>
-                          <th scope="col" class="rot-info rot-sm">Titulo</th>
-                          <th scope="col" class="rot-info rot-sm">El/Item</th>
-                          <th scope="col" class="rot-info rot-sm">Classe</th>
-                          <th scope="col" class="rot-info rot-sm">Valor</th>
-                          <th scope="col" class="rot-info rot-sm">Local</th>
-                          <th scope="col" class="rot-info rot-sm">Status</th>
-                        </tr>
-                      </thead>
-                      <tbody class="table-body">
-                        <tr>
-                          <td class="rot-info rot-sm">Radio Transceptor Portáril</td>
-                          <td class="rot-info rot-sm">52.06</td>
-                          <td class="rot-info rot-sm"> Permanente</td>
-                          <td class="rot-info rot-sm">R$ 8.000,00</td>
-                          <td class="rot-info rot-sm">NTS</td>
-                          <td class="rot-info rot-sm"><span class="badge bg-danger">Não Distribuido</span></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <!-- End small tables -->
-                </div>
-              </div>
-            </div>
+<!-- Observaçoes Card -->
+<div class="col-xxl-12 col-md-12">
+  <div class="card info-card revenue-card">
+    <div class="card-body">
+      <div class="card-body">
+        <h5 class="card-title border-bottom">
+          Observações e Pendências
+          <span>| Informações adicionais para o projeto</span>
+        </h5>
+          <!-- Small tables -->
+          <div class="table-wrapper">
+            <table class="table table-sm table-dot">
+              <thead class="table-primary table-header">
+                <tr>
+                  <th scope="col" class="rot-info rot-sm">Descrição</th>
+                  <th scope="col" class="rot-info rot-sm">Categoria</th>
+                  <th scope="col" class="rot-info rot-sm">Data</th>
+                  <th scope="col" class="rot-info rot-sm">status</th>
+                </tr>
+              </thead>
+              <tbody class="table-body">
+                {% for obpen in obspens %}
+                <tr>
+                  <td class="rot-info rot-sm">{{obpen.decricao}}</td>
+                  <td class="rot-info rot-sm">{{obpen.get_categoria_display}}</td>
+                  <td class="rot-info rot-sm">{{obpen.data_obs_pend}}</td>
+                  <td class="rot-info rot-sm">{{obpen.get_class_obs_pend_display}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
           </div>
+          <!-- End small tables -->
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="modalEquipAll" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="ms-4 modal-title fw-bold text-uppercase text-center">
+            Lista de Equipamentos detalhado
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
         </div>
-        <!-- End Equipamentos Card -->
+        <div class="modal-body">
+          <table class="table table-sm table-dot w-100 text-center table-striped h-100" id="table-equip">
+            <thead class="table-primary table-header">
+              <tr>
+                <th scope="col" class="rot-info rot-sm d-flex justify-content-center">Titulo</th>
+                <th scope="col" class="rot-info rot-sm d-flex justify-content-center">El/Item</th>
+                <th scope="col" class="rot-info rot-sm d-flex justify-content-center">Codigo</th>
+                <th scope="col" class="rot-info rot-sm d-flex justify-content-center">Situação</th>
+                <th scope="col" class="rot-info rot-sm d-flex justify-content-center">RP</th>
+                <th scope="col" class="rot-info rot-sm d-flex justify-content-center">Classe</th>
+                <th scope="col" class="rot-info rot-sm d-flex justify-content-center">
+                  Valor Unt
+                </th>
+                <th scope="col" class="rot-info rot-sm d-flex justify-content-center">Qtd</th>
+                <th scope="col" class="rot-info rot-sm d-flex justify-content-center">
+                  Valor Total
+                </th>
+                <th scope="col" class="rot-info rot-sm d-flex justify-content-center">Local</th>
+                <th scope="col" class="rot-info rot-sm d-flex justify-content-center">Destino</th>
+                <th scope="col" class="rot-info rot-sm d-flex justify-content-center">Data Entr</th>
+                <th scope="col" class="rot-info rot-sm d-flex justify-content-center">Data Inst</th>
+                <th scope="col" class="rot-info rot-sm d-flex justify-content-center">E | D | I</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-esp" class="table-body">
+              {% for equipamento in equipamentos %}
+              <tr>
+                <td class="rot-info rot-sm">
+                  {{equipamento.equipamento.titulo}}
+                </td>
+                <td class="rot-info rot-sm">
+                  {{equipamento.equipamento.elemento_item}}
+                </td>
+                <td class="rot-info rot-sm">
+                  {{equipamento.equipamento.codigo_item}}
+                </td>
+                <td class="rot-info rot-sm">
+                  {{equipamento.equipamento.situacao}}
+                </td>
+                <td class="rot-info rot-sm">
+                  {{equipamento.equipamento.registro_preco}}
+                </td>
+                <td class="rot-info rot-sm">
+                  {{equipamento.equipamento.classe}}
+                </td>
+                {% if equipamento.usa_preco_portal %}
+                <td colspan="2" class="rot-info rot-sm">
+                  {{equipamento.equipamento.valor_portal|value_to_real}}
+                </td>
+                <td class="rot-info rot-sm">{{equipamento.quantidade}}</td>
+                <td class="rot-info rot-sm">
+                  {{equipamento.quantidade|totequip:equipamento.equipamento.valor_portal}}
+                </td>
+                {% else %}
+                <td colspan="2" class="rot-info rot-sm">
+                  {{equipamento.valor_medio|value_to_real}}
+                </td>
+                <td class="rot-info rot-sm">{{equipamento.quantidade}}</td>
+                <td class="rot-info rot-sm">
+                  {{equipamento.quantidade|totequip:equipamento.valor_medio|value_to_real}}
+                </td>
+                {% endif %}
+                <td class="rot-info rot-sm">{{equipamento.local}}</td>
+                <td class="rot-info rot-sm">{{equipamento.destino}}</td>
+                <td class="rot-info rot-sm">
+                  {{equipamento.data_entrega|date:"d/m/Y"}}
+                </td>
+                <td class="rot-info rot-sm">
+                  {{equipamento.data_instalacao|date:"d/m/Y"}}
+                </td>
+                <td class="rot-info rot-sm">
+                  {% if equipamento.data_entrega %}
+                  <i class="bi bi-circle-fill text-success"></i>
+                  {% else %}
+                  <i class="bi bi-circle-fill text-danger"></i>
+                  {% endif %}
+                  |
+                  {% if equipamento.destino %}
+                  <i class="bi bi-circle-fill text-success"></i>
+                  {% else %}
+                  <i class="bi bi-circle-fill text-danger"></i>
+                  {% endif %} 
+                  |
+                  {% if equipamento.data_instalacao %}
+                  <i class="bi bi-circle-fill text-success"></i>
+                  {% else %}
+                  <i class="bi bi-circle-fill text-danger"></i>
+                  {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    window.onload = function () {
+      var inputs = document.querySelectorAll(".form-check-input");
 
+      inputs.forEach(function (input) {
+        input.addEventListener("click", function () {
+          var label = this.parentNode.querySelector(".form-check-label");
+          if (this.checked) {
+            label.classList.add("text-tachado");
+          } else {
+            label.classList.remove("text-tachado");
+          }
+        });
+      });
+      //
+    };
 
-                <!-- Serviços Card -->
-                <div class="col-xxl-12 col-md-12">
-                  <div class="card info-card revenue-card">
-                    <div class="card-body">
-                      <div class="card-body">
-                        <h5 class="card-title border-bottom">
-                          Serviços
-                          <span>| Equipamentos que compoem o pacote</span>
-                        </h5>
-                        <!-- Small tables -->
-                        <div class="table-wrapper">
-                            <table class="table table-sm table-dot">
-                              <thead class="table-primary table-header">
-                                <tr>
-                                  <th scope="col" class="rot-info">Titulo</th>
-                                  <th scope="col" class="rot-info">El/Item</th>
-                                  <th scope="col" class="rot-info">Classe</th>
-                                  <th scope="col" class="rot-info">Situação</th>
-                                  <th scope="col" class="rot-info">Valor</th>
-                                  <th scope="col" class="rot-info">Local</th>
-                                  <th scope="col" class="rot-info">Status</th>
-                                </tr>
-                              </thead>
-                              <tbody class="table-body">
-                                <tr>
-                                  <td class="rot-info rot-sm">Licença DMR Tier III</td>
-                                  <td class="rot-info rot-sm">40.02</td>
-                                  <td class="rot-info rot-sm">Consumo</td>
-                                  <td class="rot-info rot-sm">Ativo</td>
-                                  <td class="rot-info rot-sm">R$ 800,00</td>
-                                  <td class="rot-info rot-sm">NTS</td>
-                                  <td class="rot-info rot-sm"><span class="badge bg-success">No local</span></td>                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                          <!-- End small tables -->
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- End Serviços Card -->
-                <!-- Observaçoes Card -->
-                <div class="col-xxl-12 col-md-12">
-                  <div class="card info-card revenue-card">
-                    <div class="card-body">
-                      <div class="card-body">
-                        <h5 class="card-title border-bottom">
-                          Observações e Pendências
-                          <span>| Informações adicionais para o projeto</span>
-                        </h5>
-                        <ul class="list-unstyled mb-3">
-                          <li class="mb-3 text-primary border-bottom">
-                            <div class="form-check">
-                              <label class="form-check-label" for="flexCheckDefault" >
-                                Pendente de laudo de torres
-                              </label>
-                              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            </div>
-                          </li>
-                          <li class="mb-3 text-primary border-bottom">
-                            <div class="form-check">
-                              <label class="form-check-label" for="flexCheckDefault">
-                                Falta assinatura para liberação da torre
-                              </label>
-                              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            </div>
-                          </li>
-                          <li class="mb-3 text-primary border-bottom">
-                            <div class="form-check">
-                              <label class="form-check-label" for="flexCheckDefault">
-                                Procuração está pendente de assinatura com a CHEM
-                              </label>
-                              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            </div>
-                          </li>
-                          <li class="mb-3 text-primary border-bottom">
-                            <div class="form-check">
-                              <label class="form-check-label" for="flexCheckDefault">
-                                A PMMG deve liberar 25 postes
-                              </label>
-                              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            </div>
-                          </li>
-                        </ul>
-                        
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <script>
-                  window.onload = function() {
-                    var inputs = document.querySelectorAll(".form-check-input");
-                  
-                    inputs.forEach(function(input) {
-                      input.addEventListener('click', function() {
-                        var label = this.parentNode.querySelector('.form-check-label');
-                        if (this.checked) {
-                          label.classList.add('text-tachado');
-                        } else {
-                          label.classList.remove('text-tachado');
-                        }
-                      });
-                    });
-                  }
-                  
-                </script>
-                <!-- End Observaçoes Card -->  
-    {% endblock %}
-
+  </script>
+  <!-- End Observaçoes Card -->
+  {% endblock %}
+</div>

@@ -1327,9 +1327,11 @@ td {
 .table-sm.table-dot tr {
   display: flex;
 }
+
 .table-sm.table-dot th:nth-child(1), .table-sm.table-dot td:nth-child(1) {
   flex: 2;
 }
+
 
 .table-sm.table-dot th, .table-sm.table-dot td {
   flex: 1;
@@ -1340,3 +1342,11 @@ label.text-tachado{
 label {
     color: #012970!important;
  }
+ .th-text-center {
+  text-align: center !important;
+}
+
+#tbody-esp.table-body {
+  max-height: 100%;
+  overflow: auto;
+}

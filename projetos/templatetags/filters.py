@@ -1,7 +1,7 @@
 from django import template
 from django.db.models import Case, FloatField, Sum, When
 
-from projetos.models import (PacoteAquisicao,
+from projetos.models import (Cronograma, PacoteAquisicao,
                              PacoteAquisicaoEquipamentoServico, Projeto)
 
 register = template.Library()
@@ -15,6 +15,11 @@ def tipo_projeto(value):
         return 'Receita'
     else:
         return 'Outros'
+
+
+@register.filter(name='value_to_real')
+def value_to_real(value):
+    return f'R$ {value:,.2f}'.replace(',', 'v').replace('.', ',').replace('v', '.') if value else 'R$ 0,00'
 
 
 @register.filter(name='value_pacote')
@@ -43,3 +48,16 @@ def split(value):
         return value.split(";")
     else:
         return [value]
+
+
+@register.filter(name='totequip')
+def totequip(qtd, value):
+    return qtd * value
+
+
+@register.filter(name="alltasks")
+def alltasks(id_cron):
+    cronograma = Cronograma.objects.get(id=id_cron)
+    tasks = cronograma.tasks.all()
+
+    return tasks

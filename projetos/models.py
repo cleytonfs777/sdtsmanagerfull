@@ -127,6 +127,15 @@ class Tasks_Cronograma(models.Model):
     def __str__(self):
         return self.titulo
 
+    def diferenca_de_dias(self):
+        data_inicio_c = self.data_inicio_real if self.data_inicio_real else self.data_inicio_planejada
+        data_fim_c = self.data_fim_real if self.data_fim_real else self.data_fim_planejada
+        if data_inicio_c == '' or data_fim_c == '':
+            return 0
+        diff = data_fim_c - data_inicio_c
+
+        return diff.days
+
 
 class Orcamento(models.Model):
     empresa = models.CharField(max_length=100)

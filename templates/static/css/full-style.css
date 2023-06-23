@@ -23,3 +23,6 @@
 .body-projeto span {
     font-weight: bold;
 }
+h5.card-title.border-bottom:hover{
+    cursor: pointer!important;
+  }

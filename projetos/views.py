@@ -33,14 +33,22 @@ def project(request, id_project):
 
 
 @login_required
-def pacoteedit(request):
-    return render(request, 'pacoteedit.html')
+def pacoteedit(request, id_pacote):
+    pacote = PacoteAquisicao.objects.get(id=id_pacote)
+    return render(request, 'pacoteedit.html', {'pacote': pacote})
 
 
 @login_required
 def pacoteview(request, id_pacote):
     pacote = PacoteAquisicao.objects.get(id=id_pacote)
-    return render(request, 'pacoteview.html', {'pacote': pacote})
+    # Colocar na variavel 'equiamentos' todos os equipamentos relacionados ao pacote
+    equipamentos = pacote.despesa_equipamento.all()
+    # Coloca na variavel 'cronograma' todos os cronogramas relacionados ao pacote
+    cronogramas = pacote.cronogramas.all()
+    # Colocar na variavel 'obspen' todas as observações e pendencias relacionadas ao pacote
+    obspens = pacote.observacoes_pendencias.all()
+
+    return render(request, 'pacoteview.html', {'pacote': pacote, 'equipamentos': equipamentos, 'cronogramas': cronogramas, 'obspens': obspens})
 
 
 @login_required
