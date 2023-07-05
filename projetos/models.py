@@ -69,12 +69,8 @@ class EquipamentoServico(models.Model):
         ('consumo', 'Consumo'),
         ('permanente', 'Permanente')
     )
-    choices_tipo = (
-        ('equipamento', 'Equipamento'),
-        ('servico', 'Serviço')
-    )
 
-    tipo = models.CharField(max_length=20, choices=choices_tipo)
+    natureza = models.CharField(max_length=20, choices=choices_nat)
     titulo = models.CharField(max_length=100)
     especificacao = models.TextField(blank=True, null=True)
     registro_preco = models.CharField(max_length=10, blank=True, null=True)

@@ -1,7 +1,7 @@
 from django import template
 from django.db.models import Case, FloatField, Sum, When
 
-from projetos.models import (Cronograma, PacoteAquisicao,
+from projetos.models import (Cronograma, EquipamentoServico, PacoteAquisicao,
                              PacoteAquisicaoEquipamentoServico, Projeto)
 
 register = template.Library()
@@ -30,7 +30,7 @@ def value_pacote(value):
     # Iterar sobre PacoteAquisicaoEquipamentoServico
     for despesa_equipamento in pacote.despesa_equipamento.all():
         if despesa_equipamento.usa_preco_portal:
-            valor_total += (despesa_equipamento.equipamento.preco_portal *
+            valor_total += (despesa_equipamento.equipamento.valor_portal *
                             despesa_equipamento.quantidade)
         else:
             valor_total += (despesa_equipamento.valor_medio *
@@ -61,3 +61,52 @@ def alltasks(id_cron):
     tasks = cronograma.tasks.all()
 
     return tasks
+
+
+@register.filter(name="formatdate")
+def formatdate(value):
+    return value.strftime("%Y-%m-%d")
+
+
+@register.filter(name="sei_interable")
+def sei_interable(value):
+    # Em value recebe uma string que deve ser separada por ";" e posteriormente retornada uma lista com o conteudo
+    if ";" in value:
+        return value.split(";")
+    else:
+        return [value]
+
+
+@register.filter(name="render_table_equip")
+def render_table_equip(value):
+    pacote = PacoteAquisicao.objects.get(id=value)
+    despesas_equipamentos = pacote.despesa_equipamento.all()
+
+    return despesas_equipamentos
+
+
+@register.filter(name="kindvalue")
+def kindvalue(value):
+    # recebe o id de um equipamento e verifica a variavel usa_preco_portal. Se for verdadeiro deverá retornar o preço da chave preco_portal, caso contrario retorna o valor medio
+    equipamento = PacoteAquisicaoEquipamentoServico.objects.get(id=value)
+    if equipamento.usa_preco_portal:
+        return equipamento.equipamento.valor_portal
+    else:
+        return equipamento.valor_medio
+
+
+@register.filter(name="valortotalequip")
+def valortotalequip(value):
+    # recebe o id de um equipamento e verifica a variavel usa_preco_portal. Se for verdadeiro deverá retornar o preço da chave preco_portal multiplicado pelo valor na chave quantidade, caso contrario retorna o valor medio multiplicado pelo valor na chave quantidade
+    equipamento = PacoteAquisicaoEquipamentoServico.objects.get(id=value)
+    if equipamento.usa_preco_portal:
+        return equipamento.equipamento.valor_portal * equipamento.quantidade
+    else:
+        return equipamento.valor_medio * equipamento.quantidade
+
+
+@register.filter(name="config_id")
+def config_id(value):
+    # recebe um id da classe EquipamentoServico e retorna o valor das chaves tipo e valor_portal
+    equipamento = EquipamentoServico.objects.get(id=value)
+    return f"{equipamento.tipo}-{equipamento.valor_portal}"

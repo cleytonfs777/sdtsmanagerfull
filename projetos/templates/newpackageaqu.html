@@ -244,7 +244,7 @@
                             id="selectNaturezaNew"
                             name="selectNaturezaNew"
                           >
-                            <option selected disabled>Escolha o Tipo</option>
+                            <option selected disabled>Escolha a Natureza</option>
                             <option value="material">Material</option>
                             <option value="servico">Serviço</option>
                             <option value="materialservico">Material/Serviço</option>
@@ -836,7 +836,7 @@
                               Di
                             </th>
                             <th scope="col" class="rot-info rot-sm">Classe</th>
-                            <th scope="col" class="rot-info rot-sm">Tipo</th>
+                            <th scope="col" class="rot-info rot-sm">Natureza</th>
                             <th scope="col" class="rot-info rot-sm">Status</th>
                             <th scope="col" class="rot-info rot-sm ocultar">
                               Val1
@@ -1272,8 +1272,9 @@
                     required
                   >
                     <option selected disabled>Escolha a Categoria</option>
-                    <option value="equipamento">Equipamento</option>
-                    <option value="servico">ServiÇo</option>
+                    <option value="material">Material</option>
+                    <option value="servico">Serviço</option>
+                    <option value="materialservico">Material/Serviço</option>
                   </select>
                 </div>
               </div>
@@ -1650,9 +1651,9 @@
       defaultOption.innerText = 'Escolha o equipamento/serviço';
       selectEquip.appendChild(defaultOption);
 
-      // Adiciona as opções correspondentes ao tipo selecionado
+      // Adiciona as opções correspondentes ao natureza selecionado
       {% for equipamento in equipamentos %}
-        if ('{{equipamento.tipo}}' == selectCategoria.value) {
+        if ('{{equipamento.natureza}}' == selectCategoria.value) {
           var option = document.createElement('option');
           option.value = "{{equipamento.id}}-{{equipamento.classe}}";
           option.innerText = "{{equipamento.titulo}}";

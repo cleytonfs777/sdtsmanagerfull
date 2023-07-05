@@ -34,8 +34,115 @@ def project(request, id_project):
 
 @login_required
 def pacoteedit(request, id_pacote):
-    pacote = PacoteAquisicao.objects.get(id=id_pacote)
-    return render(request, 'pacoteedit.html', {'pacote': pacote})
+    if request.method == 'POST':
+        ...
+    else:
+        all_equipamentos = EquipamentoServico.objects.all()
+        pacote = PacoteAquisicao.objects.get(id=id_pacote)
+        return render(request, 'pacoteedit.html', {'pacote': pacote, 'id_pacote': id_pacote, 'all_equipamentos': all_equipamentos})
+
+
+@login_required
+def deleteequip(request, id_element):
+    if request.method == 'POST':
+        equipamento_exclude = PacoteAquisicaoEquipamentoServico.objects.get(
+            id=id_element)
+        try:
+            equipamento_exclude.delete()
+            messages.add_message(request, messages.SUCCESS,
+                                 'Equipamento deletado com sucesso')
+            return redirect(reverse('pacoteedit', kwargs={'id_pacote': equipamento_exclude.pacotedespesa.id}))
+        except Exception as e:
+            messages.add_message(request, messages.ERROR,
+                                 f'Erro ao deletar equipamento: {e}')
+            return redirect(reverse('pacoteedit', kwargs={'id_pacote': equipamento_exclude.pacotedespesa.id}))
+    else:
+        return HttpResponse(f"Você não tem autorização para acessar essa pagina: {e}", status=401)
+
+
+@login_required
+def allservpack(request, id_element):
+    if request.method == 'POST':
+        # Serão recebidos diversos elementos do equipamento. Deve se pegar o id e buscar pelo equipamento. Após isso deve se comparar cada elemento do recebido com o do equipamento no banco de dados. Caso haja alguma diferença, deve se atualizar o equipamento no banco de dados.
+
+        # Receber os valores do formulário
+        id_equip, classe, natureza, valor_portal = request.POST.get(
+            'modalEquipList', '').split('-')
+
+        entrega_instalacao = request.POST.get('modalequipEntrInst', '')
+        destino = request.POST.get('modalequipDest', '')  # Local de destino
+        valor_1 = request.POST.get('modalequipValor1', '')  # Valor 1
+        valor_2 = request.POST.get('modalequipValor2', '')  # Valor 2
+        valor_3 = request.POST.get('modalequipValor3', '')  # Valor 3
+        valor_medio = request.POST.get(
+            'modalequipValorMedio', '')  # Valor médio
+
+        usar_valueportal = request.POST.get(
+            'modalequipValorUnit', '')  # Usar valor do portal
+        quantidade = request.POST.get('modalequipQtd', '')  # Quantidade
+        data_entrega = request.POST.get(
+            'modalequipDataEnt', '')  # Data de entrega
+        data_instalacao = request.POST.get(
+            'modalequipDataInst', '')  # Data de instalação
+        observacoes = request.POST.get('modalequipObs', '')  # Observações
+
+        # Pegar a instancia do equipamento com id igual a id_element
+        try:
+            equipamento_select = PacoteAquisicaoEquipamentoServico.objects.get(
+                id=id_element)
+        except:
+            return HttpResponse("Erro ao encontrar o equipamento")
+
+        # Comparar os valores recebidos com os valores do equipamento no banco de dados
+        if equipamento_select.equipamento.id != id_equip:
+            equip_new = EquipamentoServico.objects.get(id=id_equip)
+            equipamento_select.equipamento = equip_new
+
+        if equipamento_select.entrega_instalacao != entrega_instalacao:
+            equipamento_select.entrega_instalacao = entrega_instalacao
+
+        if equipamento_select.destino != destino:
+            equipamento_select.destino = destino
+
+        if equipamento_select.valor_1 != removereais(valor_1):
+            equipamento_select.valor_1 = removereais(valor_1)
+
+        if equipamento_select.valor_2 != removereais(valor_2):
+            equipamento_select.valor_2 = removereais(valor_2)
+
+        if equipamento_select.valor_3 != removereais(valor_3):
+            equipamento_select.valor_3 = removereais(valor_3)
+
+        if equipamento_select.valor_medio != removereais(valor_medio):
+            equipamento_select.valor_medio = removereais(valor_medio)
+
+        if equipamento_select.usa_preco_portal != usar_valueportal:
+            equipamento_select.usa_preco_portal = True if usar_valueportal == 'on' else False
+
+        if equipamento_select.quantidade != quantidade:
+            equipamento_select.quantidade = quantidade
+
+        if equipamento_select.data_entrega != data_entrega:
+            equipamento_select.data_entrega = data_entrega
+
+        if equipamento_select.data_instalacao != data_instalacao:
+            equipamento_select.data_instalacao = data_instalacao
+
+        if equipamento_select.observacoes != observacoes:
+            equipamento_select.observacoes = observacoes
+
+        # Salvar o equipamento_select no banco de dados se der algum erro retorna para a pagina com mensagem de erro
+        try:
+            equipamento_select.save()
+            messages.add_message(request, messages.SUCCESS,
+                                 'Equipamento atualizado com sucesso')
+            return redirect(reverse('pacoteedit', kwargs={'id_pacote': equipamento_select.pacotedespesa.id}))
+
+        except Exception as e:
+            print(e)
+            messages.add_message(request, messages.ERROR,
+                                 'Erro ao atualizar equipamento')
+            return redirect(reverse('pacoteedit', kwargs={'id_pacote': equipamento_select.pacotedespesa.id}))
 
 
 @login_required
@@ -103,7 +210,7 @@ def createequipserv(request, id_project):
         EquipamentoServico.objects.create(
             titulo=titleItem,
             especificacao=especItem,
-            tipo=categoryItem,
+            natureza=categoryItem,
             registro_preco=rpCode,
             codigo_item=itemCode,
             elemento_item=elItem,
@@ -115,6 +222,102 @@ def createequipserv(request, id_project):
         messages.add_message(request, messages.SUCCESS,
                              'Equipamento cadastrado com sucesso')
         return redirect(reverse('newpackageaqu', kwargs={'id_project': id_project}))
+
+
+@login_required
+def createfullequip(request, id_pacote):
+    if request.method == 'POST':
+
+        # Receber os valores do formulário
+        id_equip = request.POST.get('modalEquipFullListHidden', '')
+        print(f"id_equip: {id_equip} \n")
+        # consumo ou permanente
+        classe = request.POST.get('modalequipFullClasseHidden', '')
+        local = request.POST.get('modalequipFullLocal', '')
+        # material, serviço ou material/serviçomodalequipFullValorMedio
+        natureza = request.POST.get('modalequipFullNaturezaHidden', '')
+        # Demanda, Licitacao e etc...
+        entrega_instalacao = request.POST.get('modalequipFullEntrInst', '')
+        destino = request.POST.get(
+            'modalequipFullDest', '')  # Local de destino
+        valor_1 = request.POST.get('modalequipFullValor1', '')  # Valor 1
+        valor_2 = request.POST.get('modalequipFullValor2', '')  # Valor 2
+        valor_3 = request.POST.get('modalequipFullValor3', '')  # Valor 3
+        valor_medio = request.POST.get(
+            'modalequipFullValorMedio', '')  # Valor médio
+        valor_portal = request.POST.get(
+            'modalequipFullPrecoPortal', '')  # Valor do portal
+        usar_valueportal = request.POST.get(
+            'modalequipFullValorUnit', '')  # Usar valor do portal
+        usar_valueportal = True if usar_valueportal == 'on' else False
+        quantidade = request.POST.get('modalequipFullQtd', '')  # Quantidade
+        data_entrega = request.POST.get(
+            'modalequipFullDataEnt', '')  # Data de entrega
+        data_instalacao = request.POST.get(
+            'modalequipFullDataInst', '')  # Data de instalação
+        observacoes = request.POST.get('modalequipFullObs', '')  # Observações
+
+        # Cria um novo objeto do tipo PacoteAquisicaoEquipamentoServico
+        try:
+            new_equipamento = PacoteAquisicaoEquipamentoServico.objects.create(
+                pacotedespesa=PacoteAquisicao.objects.get(id=id_pacote),
+                equipamento=EquipamentoServico.objects.get(id=id_equip),
+                entrega_instalacao=entrega_instalacao,
+                destino=destino,
+                valor_1=removereais(valor_1),
+                valor_2=removereais(valor_2),
+                valor_3=removereais(valor_3),
+                valor_medio=removereais(valor_medio),
+                usa_preco_portal=usar_valueportal,
+                quantidade=quantidade,
+                data_entrega=data_entrega,
+                data_instalacao=data_instalacao,
+                observacoes=observacoes,
+                local=local,
+            )
+            messages.add_message(request, messages.SUCCESS,
+                                 'Equipamento cadastrado com sucesso')
+            return redirect(reverse('pacoteedit', kwargs={'id_pacote': id_pacote}))
+        except Exception as e:
+            messages.add_message(request, messages.ERROR,
+                                 f'Erro ao cadastrar equipamento: {e}')
+            return redirect(reverse('pacoteedit', kwargs={'id_pacote': id_pacote}))
+
+
+@login_required
+def createequipserv_edit(request, id_pacote):
+    if request.method == 'POST':
+        titleItem = request.POST.get('titleItem', '')
+        especItem = request.POST.get('especItem', '')
+        rpCode = request.POST.get('rpCode', '')
+        itemCode = request.POST.get('itemCode', '')
+        elItem = trataelementoitem(
+            request.POST.get('elItem', ''))  # Tratamento
+        classItem = request.POST.get('classItem', '')
+        valPortItem = removereais(request.POST.get('valPortItem', 0))
+        categoryItem = request.POST.get('categoryItem', '')
+        sitItem = request.POST.get('sitItem', '')
+
+        if titleItem == '' or especItem == '' or elItem == '' or classItem == '' or sitItem == '':
+            messages.add_message(request, messages.ERROR,
+                                 'Todos os campos são obrigatórios')
+            return redirect(reverse('pacoteedit', kwargs={'id_pacote': id_pacote}))
+
+        EquipamentoServico.objects.create(
+            titulo=titleItem,
+            especificacao=especItem,
+            natureza=categoryItem,
+            registro_preco=rpCode,
+            codigo_item=itemCode,
+            elemento_item=elItem,
+            classe=classItem,
+            valor_portal=valPortItem,
+            situacao=sitItem
+
+        )
+        messages.add_message(request, messages.SUCCESS,
+                             'Equipamento cadastrado com sucesso')
+        return redirect(reverse('pacoteedit', kwargs={'id_pacote': id_pacote}))
 
 
 @login_required
