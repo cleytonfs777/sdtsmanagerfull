@@ -93,9 +93,9 @@ def kindvalue(value):
     # recebe o id de um equipamento e verifica a variavel usa_preco_portal. Se for verdadeiro deverá retornar o preço da chave preco_portal, caso contrario retorna o valor medio
     equipamento = PacoteAquisicaoEquipamentoServico.objects.get(id=value)
     if equipamento.usa_preco_portal:
-        return equipamento.equipamento.valor_portal
+        return f'R$ {equipamento.equipamento.valor_portal:,.2f}'.replace(',', 'v').replace('.', ',').replace('v', '.') if equipamento.equipamento.valor_portal else 'R$ 0,00'
     else:
-        return equipamento.valor_medio
+        return f'R$ {equipamento.valor_medio:,.2f}'.replace(',', 'v').replace('.', ',').replace('v', '.') if equipamento.valor_medio else 'R$ 0,00'
 
 
 @register.filter(name="valortotalequip")
@@ -103,9 +103,9 @@ def valortotalequip(value):
     # recebe o id de um equipamento e verifica a variavel usa_preco_portal. Se for verdadeiro deverá retornar o preço da chave preco_portal multiplicado pelo valor na chave quantidade, caso contrario retorna o valor medio multiplicado pelo valor na chave quantidade
     equipamento = PacoteAquisicaoEquipamentoServico.objects.get(id=value)
     if equipamento.usa_preco_portal:
-        return equipamento.equipamento.valor_portal * equipamento.quantidade
+        return f'R$ {(equipamento.equipamento.valor_portal  * equipamento.quantidade):,.2f}'.replace(',', 'v').replace('.', ',').replace('v', '.') if equipamento.equipamento.valor_portal else 'R$ 0,00'
     else:
-        return equipamento.valor_medio * equipamento.quantidade
+        return f'R$ {(equipamento.valor_medio  * equipamento.quantidade):,.2f}'.replace(',', 'v').replace('.', ',').replace('v', '.') if equipamento.valor_medio else 'R$ 0,00'
 
 
 @register.filter(name="config_id")
@@ -113,3 +113,8 @@ def config_id(value):
     # recebe um id da classe EquipamentoServico e retorna o valor das chaves tipo e valor_portal
     equipamento = EquipamentoServico.objects.get(id=value)
     return f"{equipamento.tipo}-{equipamento.valor_portal}"
+
+
+@register.filter(name="toLocaleStringCurrencyBRL")
+def toLocaleStringCurrencyBRL(value):
+    return f'R$ {value:,.2f}'.replace(',', 'v').replace('.', ',').replace('v', '.') if value else 'R$ 0,00'

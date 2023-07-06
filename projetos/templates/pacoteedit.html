@@ -1750,7 +1750,7 @@ function geramediavalor(val1, val2, val3){
       const equipValor2 = button.getAttribute('data-bs-equip.valor_2')
       const equipValor3 = button.getAttribute('data-bs-equip.valor_3')
       const equipPrecoPortal = button.getAttribute('data-bs-valor_preco_portal')
-      const usaPrecoPortal = button.getAttribute('data-bs-usa_preco_portal')
+      const usaPrecoPortal = JSON.parse(button.getAttribute('data-bs-usa_preco_portal').toLowerCase())
       const equipValorUnit = button.getAttribute('data-bs-equip.valor_unit')
       const equipQtd = button.getAttribute('data-bs-equip.quantidade')
       const equipValTot = button.getAttribute('data-bs-equip.valor_total')
@@ -1761,9 +1761,9 @@ function geramediavalor(val1, val2, val3){
       const equipDest = button.getAttribute('data-bs-equip.destino')
       const packageequipid = button.getAttribute('data-bs-packageequip')
 
-      console.log(`equipId: ${equipId}`)
-      console.log(`equipTitulo: ${equipTitulo}`)
-      console.log(`equipEntrInst: ${equipEntrInst}`)
+      console.log(`usaPrecoPortal: ${usaPrecoPortal}`)
+      console.log(`usaPrecoPortal: ${typeof usaPrecoPortal}`)
+
 
 
       // Atualizando campos do meu model deputado
