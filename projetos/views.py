@@ -7,7 +7,7 @@ from django.urls import reverse
 
 from utils.tratamentos import removereais, trataelementoitem
 
-from .models import (Cronograma, DotacaoOrcamentaria, EquipamentoServico,
+from .models import (DotacaoOrcamentaria, EquipamentoServico,
                      ObservacaoPendencia, PacoteAquisicao,
                      PacoteAquisicaoEquipamentoServico, PacoteEmpenho, Projeto,
                      Tasks_Cronograma)
@@ -85,7 +85,18 @@ def allservpack(request, id_element):
         data_instalacao = request.POST.get(
             'modalequipDataInst', '')  # Data de instalação
         observacoes = request.POST.get('modalequipObs', '')  # Observações
+        # Tratamento de Dados
+        usar_valueportal = True if usar_valueportal == 'on' else False
+        quantidade = quantidade if quantidade else 1
+        valor_1 = valor_1 if valor_1 else 0
+        valor_2 = valor_2 if valor_2 else 0
+        valor_3 = valor_3 if valor_3 else 0
+        valor_medio = valor_medio if valor_medio else 0
 
+        data_entrega = data_entrega if data_entrega else None
+        data_instalacao = data_instalacao if data_instalacao else None
+
+        print()
         # Pegar a instancia do equipamento com id igual a id_element
         try:
             equipamento_select = PacoteAquisicaoEquipamentoServico.objects.get(
@@ -117,7 +128,7 @@ def allservpack(request, id_element):
             equipamento_select.valor_medio = removereais(valor_medio)
 
         if equipamento_select.usa_preco_portal != usar_valueportal:
-            equipamento_select.usa_preco_portal = True if usar_valueportal == 'on' else False
+            equipamento_select.usa_preco_portal = usar_valueportal
 
         if equipamento_select.quantidade != quantidade:
             equipamento_select.quantidade = quantidade
@@ -150,12 +161,12 @@ def pacoteview(request, id_pacote):
     pacote = PacoteAquisicao.objects.get(id=id_pacote)
     # Colocar na variavel 'equiamentos' todos os equipamentos relacionados ao pacote
     equipamentos = pacote.despesa_equipamento.all()
-    # Coloca na variavel 'cronograma' todos os cronogramas relacionados ao pacote
-    cronogramas = pacote.cronogramas.all()
+    # Coloca na variavel 'tasks' todos os cronogramas relacionados ao pacote
+    tasks = pacote.tasks.all()
     # Colocar na variavel 'obspen' todas as observações e pendencias relacionadas ao pacote
     obspens = pacote.observacoes_pendencias.all()
 
-    return render(request, 'pacoteview.html', {'pacote': pacote, 'equipamentos': equipamentos, 'cronogramas': cronogramas, 'obspens': obspens})
+    return render(request, 'pacoteview.html', {'pacote': pacote, 'equipamentos': equipamentos, 'tasks': tasks, 'obspens': obspens})
 
 
 @login_required
@@ -240,24 +251,32 @@ def createfullequip(request, id_pacote):
         entrega_instalacao = request.POST.get('modalequipFullEntrInst', '')
         destino = request.POST.get(
             'modalequipFullDest', '')  # Local de destino
-        valor_1 = request.POST.get('modalequipFullValor1', '')  # Valor 1
-        valor_2 = request.POST.get('modalequipFullValor2', '')  # Valor 2
-        valor_3 = request.POST.get('modalequipFullValor3', '')  # Valor 3
+        valor_1 = request.POST.get('modalequipFullValor1', 0)  # Valor 1
+        valor_2 = request.POST.get('modalequipFullValor2', 0)  # Valor 2
+        valor_3 = request.POST.get('modalequipFullValor3', 0)  # Valor 3
         valor_medio = request.POST.get(
-            'modalequipFullValorMedio', '')  # Valor médio
+            'modalequipFullValorMedio', 0)  # Valor médio
         valor_portal = request.POST.get(
             'modalequipFullPrecoPortal', '')  # Valor do portal
         usar_valueportal = request.POST.get(
             'modalequipFullValorUnit', '')  # Usar valor do portal
-        usar_valueportal = True if usar_valueportal == 'on' else False
-        quantidade = request.POST.get('modalequipFullQtd', '')  # Quantidade
+        quantidade = request.POST.get('modalequipFullQtd', '')
+        quantidade = quantidade if quantidade else 1
         data_entrega = request.POST.get(
             'modalequipFullDataEnt', '')  # Data de entrega
         data_instalacao = request.POST.get(
             'modalequipFullDataInst', '')  # Data de instalação
         observacoes = request.POST.get('modalequipFullObs', '')  # Observações
+        # Verifica se os valores em valor_1, valor_2 e valor_3 são decimais. Caso não sejam atribui 0
+        # Tratamento de dados
+        usar_valueportal = True if usar_valueportal == 'on' else False
+        valor_1 = valor_1 if valor_1 else 0
+        valor_2 = valor_2 if valor_2 else 0
+        valor_3 = valor_3 if valor_3 else 0
+        valor_medio = valor_medio if valor_medio else 0
+        data_entrega = data_entrega if data_entrega else None
+        data_instalacao = data_instalacao if data_instalacao else None
 
-        # Cria um novo objeto do tipo PacoteAquisicaoEquipamentoServico
         try:
             new_equipamento = PacoteAquisicaoEquipamentoServico.objects.create(
                 pacotedespesa=PacoteAquisicao.objects.get(id=id_pacote),
@@ -370,12 +389,11 @@ def createpackage(request, id_project):
                     each_item = item.split('|')
                     id_equip = each_item[1]
                     status_equip = each_item[4]
-                    price1_equip = each_item[5]
-                    price2_equip = each_item[6]
-                    price3_equip = each_item[7]
-                    pricemedia_equip = each_item[8]
+                    price1_equip = each_item[5] if each_item[5] else 0
+                    price2_equip = each_item[6] if each_item[6] else 0
+                    price3_equip = each_item[7] if each_item[7] else 0
                     usar_valueportal = each_item[9].title()
-                    qtd_equip = each_item[11]
+                    qtd_equip = each_item[11] if each_item[11] else 1
                     local_equip = each_item[13]
                     dataentrega_equip = each_item[14]
                     datainst_equip = each_item[15]
@@ -386,7 +404,6 @@ def createpackage(request, id_project):
                     print(f"price1_equip: {price1_equip} \n")
                     print(f"price2_equip: {price2_equip} \n")
                     print(f"price3_equip: {price3_equip} \n")
-                    print(f"pricemedia_equip: {pricemedia_equip} \n")
                     print(f"usar_valueportal: {usar_valueportal} \n")
                     print(f"qtd_equip: {qtd_equip} \n")
                     print(f"local_equip: {local_equip} \n")
@@ -408,7 +425,8 @@ def createpackage(request, id_project):
                         valor_1=removereais(price1_equip),
                         valor_2=removereais(price2_equip),
                         valor_3=removereais(price3_equip),
-                        valor_medio=removereais(pricemedia_equip),
+                        valor_medio=float(removereais(price1_equip)) + float(
+                            removereais(price2_equip)) + float(removereais(price3_equip)) / 3,
                         usa_preco_portal=usar_valueportal,
                         quantidade=qtd_equip,
                         local=local_equip,
@@ -419,17 +437,6 @@ def createpackage(request, id_project):
                     )
                     pacote_desp_equip_serv.save()
 
-                # 3 - Criar cronograma vinculado a esse pacote de despesas
-                titlecron = request.POST.get('inputTitleCron', '')
-                descron = request.POST.get('desCron', '')
-                obscron = request.POST.get('obsCron', '')
-                cronograma = Cronograma(
-                    pacote_despesa=pacote_despesa,
-                    titulo=titlecron,
-                    descricao=descron,
-                    observacoes=obscron
-                )
-                cronograma.save()
                 # tratar para criar tasks
                 cronograma_receiv = request.POST.get('hiddentasks', '')
                 cronograma_tasks = cronograma_receiv.split(';')
@@ -458,7 +465,7 @@ def createpackage(request, id_project):
                     print(f"obs_task: {obs_task} \n")
                     # Realizar o cadastro de cada task
                     task_cronograma = Tasks_Cronograma(
-                        cronograma=cronograma,
+                        pacote=pacote_despesa,
                         titulo=title_task,
                         descricao=desc_task,
                         status=status_task,

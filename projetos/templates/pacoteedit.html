@@ -490,7 +490,7 @@
                     >
                       <option selected disabled>Escolha a categoria</option>
                       <option value="material">Material</option>
-                      <option value="servico">Serviço</option>
+                      <option value="servico">Servico</option>
                     </select>
                   </div>
                 </div>
@@ -944,7 +944,6 @@
                           data-bs-equip.valor_1="{{equip.valor_1}}"
                           data-bs-equip.valor_2="{{equip.valor_2}}"
                           data-bs-equip.valor_3="{{equip.valor_3}}"
-                          data-bs-equip.valor_medio="{{equip.valor_medio}}"
                           data-bs-valor_preco_portal="{{equip.equipamento.valor_portal}}"
                           data-bs-usa_preco_portal="{{equip.usa_preco_portal}}"
                           data-bs-equip.valor_unit="{{equip.id|kindvalue}}"
@@ -1304,92 +1303,7 @@
         role="tabpanel"
         aria-labelledby="cronograma-tab"
       >
-        <div class="row align-items-top">
-          <div class="col-xxl-12 col-md-12">
-            <div class="card info-card revenue-card">
-              <div class="card-body">
-                <h5 class="card-title">
-                  TITULO
-                  <span>| Identificação de seu cronograma</span>
-                </h5>
-                <div class="d-flex flex-column align-items-center">
-                  <div class="input-group mb-3">
-                    <button
-                      class="btn btn-primary fw-bold"
-                      type="button"
-                      id="button-titlef_edit"
-                    ></button>
-                    <input
-                      type="text"
-                      class="form-control changeble-item"
-                      id="inputTitleCron_edit"
-                      name="inputTitleCron_edit"
-                      placeholder=""
-                      aria-label="Example text with button addon"
-                      aria-describedby="button-titlef_edit"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row align-items-top">
-          <!--Inicio Conteudo-->
-          <div class="col-xxl-12 col-md-12">
-            <div class="card info-card revenue-card">
-              <div class="card-body">
-                <h5 class="card-title">
-                  DESCRIÇÃO
-                  <span>| Faça uma breve descrição do cronograma</span>
-                </h5>
-                <div class="d-flex align-items-center">
-                  <!--MAIN CONTENT-->
-                  <div class="row w-100">
-                    <div class="col-md-12">
-                      <textarea
-                        class="form-control changeble-item"
-                        style="height: 130px; font-size: 0.8em"
-                        id="desCron_edit"
-                        name="desCron_edit"
-                      ></textarea>
-                    </div>
-                  </div>
-                  <!--MAIN CONTENT-->
-                </div>
-              </div>
-            </div>
-          </div>
-          <!--Fim Conteudo-->
-        </div>
-        <div class="row align-items-top">
-          <!--Inicio Conteudo-->
-          <div class="col-xxl-12 col-md-12">
-            <div class="card info-card revenue-card">
-              <div class="card-body">
-                <h5 class="card-title">
-                  Observações
-                  <span>| Observações relevantes ao projeto</span>
-                </h5>
-                <div class="d-flex align-items-center">
-                  <!--MAIN CONTENT-->
-                  <div class="row w-100">
-                    <div class="col-md-12">
-                      <textarea
-                        class="form-control changeble-item"
-                        style="height: 130px; font-size: 0.8em"
-                        id="obsCron_edit"
-                        name="obsCron_edit"
-                      ></textarea>
-                    </div>
-                  </div>
-                  <!--MAIN CONTENT-->
-                </div>
-              </div>
-            </div>
-          </div>
-          <!--Fim Conteudo-->
-        </div>
+
         <div class="row align-items-center">
           <div
             class="col-xxl-12 col-md-12 w-80 d-flex justify-content-center align-items-center"
@@ -1799,6 +1713,25 @@
   })
 }
 
+function geramediavalor(val1, val2, val3){
+  // Recebe os tres parametros de valor no formato R$ xXX.XXX,XX e retorna a media
+  // Retira o R$ e o ponto
+  val1 = val1.replace('R$', '')
+  val1 = val1.replace('.', '')
+  val2 = val2.replace('R$', '')
+  val2 = val2.replace('.', '')
+  val3 = val3.replace('R$', '')
+  val3 = val3.replace('.', '')
+  // Retira a virgula e transforma em float
+  val1 = parseFloat(val1.replace(',', '.'))
+  val2 = parseFloat(val2.replace(',', '.'))
+  val3 = parseFloat(val3.replace(',', '.'))
+  // Calcula a media
+  let media = (val1 + val2 + val3) / 3
+  // Formata a media para o formato R$ xXX.XXX,XX
+  media = media.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})
+  return media
+}
   // Alimentação do Modal para ediçao de equipamentos
   const modalEditEquip = document.getElementById('modalEditEquip')
   if(modalEditEquip){
@@ -1843,6 +1776,7 @@
       const modalequipValor1 = document.querySelector('#modalequipValor1')
       const modalequipValor2 = document.querySelector('#modalequipValor2')
       const modalequipValor3 = document.querySelector('#modalequipValor3')
+      const modalequipValorMedio = document.querySelector('#modalequipValorMedio')
       const modalequipPrecoPortal = document.querySelector('#modalequipPrecoPortal')
       const modalequipUsaValorP = document.querySelector('#modalequipValorUnit')
       const modalequipQtd = document.querySelector('#modalequipQtd')
@@ -1864,6 +1798,7 @@
       modalequipValor1.value = equipValor1
       modalequipValor2.value = equipValor2
       modalequipValor3.value = equipValor3
+      modalequipValorMedio.value = geramediavalor(equipValor1, equipValor2, equipValor3)
       modalequipPrecoPortal.value = equipPrecoPortal
       modalequipUsaValorP.checked = usaPrecoPortal
       modalequipQtd.value = equipQtd

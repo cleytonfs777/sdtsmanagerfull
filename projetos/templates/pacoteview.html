@@ -208,10 +208,8 @@
     <div class="card info-card revenue-card">
       <div class="card-body">
         <div class="card-body">
-          {% for cronograma in cronogramas %}
           <h5 class="card-title border-bottom">
-            Cronograma
-            <span>| {{cronograma.titulo}}</span>
+            Cronograma de Execução
           </h5>
           <!-- Small tables -->
           <div class="table-wrapper">
@@ -228,7 +226,7 @@
                 </tr>
               </thead>
               <tbody class="table-body">
-                {% for task in cronograma.id|alltasks %}
+                {% for task in tasks %}
                 <tr>
                   <td class="rot-info rot-sm">{{task.descricao}}</td>
                   <td class="rot-info rot-sm">{{task.titulo}}</td>
@@ -259,7 +257,6 @@
             </table>
           </div>
           <!-- End small tables -->
-          {% endfor %}
         </div>
       </div>
     </div>

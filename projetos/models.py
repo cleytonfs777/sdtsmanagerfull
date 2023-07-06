@@ -86,17 +86,6 @@ class EquipamentoServico(models.Model):
         return self.titulo
 
 
-class Cronograma(models.Model):
-    titulo = models.CharField(max_length=100)
-    descricao = models.TextField(blank=True, null=True)
-    observacoes = models.TextField(blank=True, null=True)
-    pacote_despesa = models.ForeignKey(
-        'PacoteAquisicao', on_delete=models.CASCADE, related_name='cronogramas', null=True)
-
-    def __str__(self):
-        return self.titulo
-
-
 class Tasks_Cronograma(models.Model):
     choices_status = (
         ('pendente', 'Pendente'),
@@ -117,8 +106,8 @@ class Tasks_Cronograma(models.Model):
     data_inicio_real = models.DateField(blank=True, null=True)
     data_fim_real = models.DateField(blank=True, null=True)
     observacoes = models.TextField(blank=True, null=True)
-    cronograma = models.ForeignKey(
-        Cronograma, on_delete=models.CASCADE, related_name='tasks', null=True)
+    pacote = models.ForeignKey(
+        'PacoteAquisicao', on_delete=models.CASCADE, related_name='tasks', null=True)
 
     def __str__(self):
         return self.titulo

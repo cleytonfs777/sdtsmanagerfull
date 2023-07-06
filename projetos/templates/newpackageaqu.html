@@ -427,19 +427,19 @@
                   <div class="card info-card revenue-card">
                     <div class="card-body">
                       <h5 class="card-title">
-                        Categoria
-                        <span>| Selecione a categoria desejada</span>
+                        Natureza
+                        <span>| Selecione a natureza desejada</span>
                       </h5>
                       <div class="d-flex align-items-center">
                         <select
                           class="form-select changeble-item"
                           aria-label="Default select example"
-                          id="selectCategoria"
-                          name="selectCategoria"
+                          id="selectNatureza"
+                          name="selectNatureza"
                         >
-                          <option selected disabled>Escolha a categoria</option>
-                          <option value="equipamento">Equipamento</option>
-                          <option value="servico">Serviço</option>
+                          <option selected disabled>Escolha a natureza</option>
+                          <option value="material">Material</option>
+                          <option value="servico">Servico</option>
                         </select>
                       </div>
                     </div>
@@ -653,6 +653,7 @@
                               class="form-control changeble-item"
                               name="valMedItem"
                               oninput="formatToCurrency(this)"
+                              readonly
                             />
                           </div>
                           <div class="col-md-6">
@@ -909,92 +910,6 @@
                 <span>| Crie um cronograma para compor seu pacote</span>
                 <button type="reset" onclick="clearSession()" class="btn btn-secondary btn-sm ms-sm-5"><i class="bi bi-eraser"></i></button>
               </h5>
-              <div class="row align-items-top">
-                <div class="col-xxl-12 col-md-12">
-                  <div class="card info-card revenue-card">
-                    <div class="card-body">
-                      <h5 class="card-title">
-                        TITULO
-                        <span>| Identificação de seu cronograma</span>
-                      </h5>
-                      <div class="d-flex flex-column align-items-center">
-                        <div class="input-group mb-3">
-                          <button
-                            class="btn btn-primary fw-bold"
-                            type="button"
-                            id="button-addon1-new"
-                          ></button>
-                          <input
-                            type="text"
-                            class="form-control changeble-item"
-                            id="inputTitleCron"
-                            name="inputTitleCron"
-                            placeholder=""
-                            aria-label="Example text with button addon"
-                            aria-describedby="button-addon1-new"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row align-items-top">
-                <!--Inicio Conteudo-->
-                <div class="col-xxl-12 col-md-12">
-                  <div class="card info-card revenue-card">
-                    <div class="card-body">
-                      <h5 class="card-title">
-                        DESCRIÇÃO
-                        <span>| Faça uma breve descrição do cronograma</span>
-                      </h5>
-                      <div class="d-flex align-items-center">
-                        <!--MAIN CONTENT-->
-                        <div class="row w-100">
-                          <div class="col-md-12">
-                            <textarea
-                              class="form-control changeble-item"
-                              style="height: 130px; font-size: 0.8em"
-                              id="desCron"
-                              name="desCron"
-                            ></textarea>
-                          </div>
-                        </div>
-                        <!--MAIN CONTENT-->
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!--Fim Conteudo-->
-              </div>
-              <div class="row align-items-top">
-                <!--Inicio Conteudo-->
-                <div class="col-xxl-12 col-md-12">
-                  <div class="card info-card revenue-card">
-                    <div class="card-body">
-                      <h5 class="card-title">
-                        Observações
-                        <span>| Observações relevantes ao projeto</span>
-                      </h5>
-                      <div class="d-flex align-items-center">
-                        <!--MAIN CONTENT-->
-                        <div class="row w-100">
-                          <div class="col-md-12">
-                            <textarea
-                              class="form-control changeble-item"
-                              style="height: 130px; font-size: 0.8em"
-                              id="obsCron"
-                              name="obsCron"
-                            ></textarea>
-                          </div>
-                        </div>
-                        <!--MAIN CONTENT-->
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!--Fim Conteudo-->
-              </div>
               <div class="row align-items-center">
                 <div
                   class="col-xxl-12 col-md-12 w-80 d-flex justify-content-center align-items-center"
@@ -1117,7 +1032,7 @@
                         <select
                           class="form-select changeble-item"
                           aria-label="Default select example"
-                          id="selectCategoriaObsPen"
+                          id="selectNaturezaObsPen"
                         >
                           <option selected disabled>Escolha a categoria</option>
                           <option value="pendencia">Pendência</option>
@@ -1580,7 +1495,12 @@
           sessionStorage.setItem(e.target.id, e.target.value);
           sessionStorage.setItem("selectnewrp", "terceiros");
         }
-      }else{
+        
+      }if(e.target.id == "val1Item" | e.target.id == "val2Item" | e.target.id == "val3Item"){
+        sessionStorage.setItem(e.target.id, e.target.value);
+        sessionStorage.setItem('valMedItem', setAllValuesMedia());
+      }
+      else{
         sessionStorage.setItem(e.target.id, e.target.value);
       }
     });
@@ -1632,15 +1552,16 @@
   window.addEventListener('load', function() {
     document.getElementById('form-etapas').reset();
     getAllValues()
+    setAllValuesPortal()
   });
 
 
   document.addEventListener('DOMContentLoaded', function() {
-    var selectCategoria = document.getElementById('selectCategoria');
+    var selectNatureza = document.getElementById('selectNatureza');
     var selectEquip = document.getElementById('selectEquip');
 
 
-    selectCategoria.addEventListener('change', function(){
+    selectNatureza.addEventListener('change', function(){
       // Limpa as opções existentes
       selectEquip.innerHTML = '';
 
@@ -1650,10 +1571,10 @@
       defaultOption.setAttribute('disabled', '');
       defaultOption.innerText = 'Escolha o equipamento/serviço';
       selectEquip.appendChild(defaultOption);
-
       // Adiciona as opções correspondentes ao natureza selecionado
       {% for equipamento in equipamentos %}
-        if ('{{equipamento.natureza}}' == selectCategoria.value) {
+        console.log('{{equipamento.natureza}}')
+        if ('{{equipamento.natureza}}' == selectNatureza.value) {
           var option = document.createElement('option');
           option.value = "{{equipamento.id}}-{{equipamento.classe}}";
           option.innerText = "{{equipamento.titulo}}";
@@ -1746,9 +1667,41 @@
       }
     });
     setEspecificaForFase()
+    setAllValuesPortal()
 
   });
   
+// Carrega o valor da média e o valor do portal
+function setAllValuesPortal(){
+    const selectEquip = document.getElementById('selectEquip');
+    const equipamentoIdClasse = selectEquip.value.split('-');
+    const equipamentoId = equipamentoIdClasse[0];
+
+    {% for equipamento in equipamentos %}
+      if ("{{equipamento.id}}" == equipamentoId) {
+        document.getElementById('equipamentoValorPortal').innerText = 'Valor: R$ ' + '{{equipamento.valor_portal}}';
+        return;
+      }
+    {% endfor %}
+
+}
+function setAllValuesMedia(){
+      // Faz o calculo dos valores 1, 2 e 3, calcula a média e insere no campo média
+      const valor1 = document.querySelector("#val1Item").value;
+      const valor2 = document.querySelector("#val2Item").value;
+      const valor3 = document.querySelector("#val3Item").value;
+      valornew1 = valor1.replace("R$ ", "").replace(".", "").replace(",", ".") ? valor1.replace("R$ ", "").replace(".", "").replace(",", ".") : 0
+      valornew2 = valor2.replace("R$ ", "").replace(".", "").replace(",", ".") ? valor2.replace("R$ ", "").replace(".", "").replace(",", ".") : 0
+      valornew3 = valor3.replace("R$ ", "").replace(".", "").replace(",", ".") ? valor3.replace("R$ ", "").replace(".", "").replace(",", ".") : 0
+      console.log(`valor1: ${valornew1}`)
+      console.log(`valor2: ${valornew2}`)
+      console.log(`valor3: ${valornew3}`)
+      const media = (parseFloat(valornew1) + parseFloat(valornew2) + parseFloat(valornew3)) / 3;
+      const media_f = media.toFixed(2);
+      return `R$ ${media_f}`;
+
+
+}
 
 
   document
@@ -1841,7 +1794,7 @@
     const text = selectEquip.options[selectEquip.selectedIndex].text;
     // Pega o texto do option selecionado
     // Pega a categoria
-    const selectCategoria = document.querySelector("#selectCategoria").value;
+    const selectNatureza = document.querySelector("#selectNatureza").value;
     // Pega LOCAL, DESTINO e QUANTIDADE
     const inputLoc = document.getElementById("inputLocnew").value;
     const inputDest = document.getElementById("inputDestnew").value;
@@ -1851,11 +1804,13 @@
     const val2Item = document.getElementById("val2Item").value
     const val3Item = document.getElementById("val3Item").value
     const valMedItem = document.getElementById("valMedItem").value
-    const bolPortItem = document.querySelector("#flexSwitchCheckDefault").value == 'on' ? true : false
+    const bolPortItem = document.querySelector("#flexSwitchCheckDefault").checked
     const ValPortITem = document.querySelector("#equipamentoValorPortal").textContent
     valPortItem = ValPortITem.replace('Valor:', '')
-    console.log(`Valor Portal: ${valPortItem}`)
-    const puroValItem = valPortItem.replace('R$ ', '').replace('.', '').replace(',', '.')
+    const puroValItem = bolPortItem ? valPortItem.replace('R$ ', '').replace('.', '').replace(',', '.') : valMedItem.replace('R$ ', '').replace('.', '').replace(',', '.')
+    valPortItem = `R$ ${puroValItem}`
+    console.log(`Valor Portal: ${puroValItem.replace(',', '.')}`)
+    //const puroValItem = valPortItem.replace('R$ ', '').replace('.', '').replace(',', '.')
     const valtotal = `R$ ${puroValItem * inputQtd}`
     // Pega STATUS e CONTRATO
     const statusItem = document.getElementById("statusItem").value
@@ -1871,7 +1826,7 @@
     <td  class="rot-info rot-sm">${text}</td>
     <td  class="rot-info rot-sm ocultar">${id}</td>
     <td  class="rot-info rot-sm">${classe}</td>
-    <td  class="rot-info rot-sm">${selectCategoria}</td>
+    <td  class="rot-info rot-sm">${selectNatureza}</td>
     <td  class="rot-info rot-sm">${statusItem}</td>
     <td  class="rot-info rot-sm ocultar">${val1Item}</td>
     <td  class="rot-info rot-sm ocultar">${val2Item}</td>
@@ -1925,11 +1880,11 @@
   function insereObsPen(){
     // Primeiramente pega os valores dos campos DESCRIÇÃO, CATEGORIA e DATA
     const descObsPen = document.getElementById("descObsPen").value
-    const selectCategoriaObsPen = document.getElementById("selectCategoriaObsPen").value
+    const selectNaturezaObsPen = document.getElementById("selectNaturezaObsPen").value
     const dateObsPen = document.querySelector("#dateObsPen").value
     
     console.log(`Descrição: ${descObsPen}`)
-    console.log(`Categoria: ${selectCategoriaObsPen}`)
+    console.log(`Categoria: ${selectNaturezaObsPen}`)
     console.log(`Data: ${dateObsPen}`)
 
     //Seleciona a tabela de id=listObsPenTable e o tbody dela, e então insere a row com os dados
@@ -1937,14 +1892,14 @@
     const rowObsPen = tbodyObsPen.insertRow();
     rowObsPen.innerHTML = `
     <td  class="rot-info rot-sm">${descObsPen}</td>
-    <td  class="rot-info rot-sm">${selectCategoriaObsPen}</td>
+    <td  class="rot-info rot-sm">${selectNaturezaObsPen}</td>
     <td  class="rot-info rot-sm">${dateObsPen}</td>
     <td><button type="button" class="btn btn-danger btn-sm obspen" onclick="removeRow(this)"><i class="ri-delete-bin-6-line"></i></button></td>`;
 
   // Limpa os campos
 
   document.getElementById("descObsPen").value = ""
-  document.getElementById("selectCategoriaObsPen").value = ""
+  document.getElementById("selectNaturezaObsPen").value = ""
   document.getElementById("dateObsPen").value = ""
 
   setObsPenSession()
@@ -1985,9 +1940,6 @@ formain.addEventListener('submit', function(e) {
     const equipservice = generateTableString('main-table')
     document.getElementById('hiddenequipser').value = equipservice
     // Cronograma
-    const titulocronograma = document.getElementById("inputTitleCron").value
-    const descCronograma = document.getElementById("desCron").value
-    const obsCronograma = document.getElementById("obsCron").value
     const taksCronograma = generateTableString('listTaskTable')
     document.getElementById('hiddentasks').value = taksCronograma
     // Observações/Pendencias
@@ -2006,9 +1958,6 @@ formain.addEventListener('submit', function(e) {
     console.log(`Data Final Contrato: ${dataFinalCont}`)
     console.log(`SEI: ${listSei}`)
     console.log(`Equipamentos/Serviços: ${equipservice}`)
-    console.log(`Título Cronograma: ${titulocronograma}`)
-    console.log(`Descrição Cronograma: ${descCronograma}`)
-    console.log(`Observações Cronograma: ${obsCronograma}`)
     console.log(`Tarefas Cronograma: ${taksCronograma}`)
     console.log(`Observações/Pendências: ${obsPendencias}`)
     // Faz o submit do formulário

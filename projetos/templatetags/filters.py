@@ -1,7 +1,7 @@
 from django import template
 from django.db.models import Case, FloatField, Sum, When
 
-from projetos.models import (Cronograma, EquipamentoServico, PacoteAquisicao,
+from projetos.models import (EquipamentoServico, PacoteAquisicao,
                              PacoteAquisicaoEquipamentoServico, Projeto)
 
 register = template.Library()
@@ -55,17 +55,12 @@ def totequip(qtd, value):
     return qtd * value
 
 
-@register.filter(name="alltasks")
-def alltasks(id_cron):
-    cronograma = Cronograma.objects.get(id=id_cron)
-    tasks = cronograma.tasks.all()
-
-    return tasks
-
-
 @register.filter(name="formatdate")
 def formatdate(value):
-    return value.strftime("%Y-%m-%d")
+    if value:
+        return value.strftime("%d/%m/%Y")
+    else:
+        return None
 
 
 @register.filter(name="sei_interable")
@@ -83,6 +78,14 @@ def render_table_equip(value):
     despesas_equipamentos = pacote.despesa_equipamento.all()
 
     return despesas_equipamentos
+
+
+@register.filter(name="render_table_tasks")
+def render_table_tasks(value):
+    pacote = PacoteAquisicao.objects.get(id=value)
+    tasks = pacote.tasks.all()
+
+    return tasks
 
 
 @register.filter(name="kindvalue")
