@@ -72,12 +72,16 @@ def sei_interable(value):
         return [value]
 
 
-@register.filter(name="render_table_equip")
-def render_table_equip(value):
-    pacote = PacoteAquisicao.objects.get(id=value)
-    despesas_equipamentos = pacote.despesa_equipamento.all()
+@register.filter(name="render_table")
+def render_table(value, target):
+    if target == 'equipamento':
+        pacote = PacoteAquisicao.objects.get(id=value)
+        despesas_target = pacote.despesa_equipamento.all()
+    elif target == 'cronograma':
+        pacote = PacoteAquisicao.objects.get(id=value)
+        despesas_target = pacote.tasks.all()
 
-    return despesas_equipamentos
+    return despesas_target
 
 
 @register.filter(name="render_table_tasks")

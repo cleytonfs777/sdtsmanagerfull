@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     # app criados
     'usuarios',
     'projetos',
+    'radiocom',
     # app de terceiros
     'rolepermissions',
     'django_filters',

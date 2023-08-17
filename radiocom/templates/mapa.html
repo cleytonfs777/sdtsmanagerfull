@@ -1,0 +1,49 @@
+{% extends 'base.html' %} {% load static %} {% block 'title'%}Mapa{%endblock%} {% block 'head' %}
+<link rel="stylesheet" href="{% static 'css/full-style.css' %}" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+{% endblock %} {% block 'subtitle' %}Painel de Mapa de Radiocomunicação{% endblock %} {% block 'content' %}
+{% if messages %} {% for message in messages %}
+<div class="alert {{message.tags}} stilo-message">{{message}}</div>
+{% endfor %} {% endif %}
+<div class="card">
+  <div class="card-body mt-4">
+    <div id="meuMapa" style="height: 600px; width: 100%;"></div>
+  </div>
+</div>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+{% endblock %}
+{% block 'myscripts' %}
+<script>
+  var meuMapa = L.map('meuMapa').setView([-18.5122, -44.5550], 7);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+}).addTo(meuMapa);
+
+  var controle = L.control({position: 'topleft'});
+
+  controle.onAdd = function (meuMapa) {
+      var div = L.DomUtil.create('div', 'controle-botao');
+      div.innerHTML = '<button id="btnAdicionar">+</button>';
+      return div;
+  };
+
+  controle.addTo(meuMapa);
+
+  var iconeTorre = L.icon({
+      iconUrl: 'https://w7.pngwing.com/pngs/529/245/png-transparent-eiffel-tower-silhouette-eiffel-tower-skyline-silhouette-tower.png',
+      iconSize: [38, 95],
+  });
+
+  function noMapaClick(e) {
+      var marcador = L.marker(e.latlng, {icon: iconeTorre}).addTo(meuMapa);
+      marcador.bindPopup("<b>Torre</b>").openPopup();
+      meuMapa.off('click', noMapaClick);
+  }
+
+  document.getElementById("btnAdicionar").addEventListener('click', function() {
+      meuMapa.on('click', noMapaClick);
+  });
+</script>
+
+{% endblock %}

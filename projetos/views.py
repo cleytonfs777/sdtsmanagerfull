@@ -33,6 +33,23 @@ def project(request, id_project):
 
 
 @login_required
+def deteleproject(request, id_project):
+    if request.method == 'POST':
+        projeto = Projeto.objects.get(id=id_project)
+        try:
+            projeto.delete()
+            messages.add_message(request, messages.SUCCESS,
+                                 'Projeto deletado com sucesso')
+            return redirect(reverse('painel'))
+        except Exception as e:
+            messages.add_message(request, messages.ERROR,
+                                 f'Erro ao deletar projeto: {e}')
+            return redirect(reverse('painel'))
+    else:
+        return HttpResponse(f"Você não tem autorização para acessar essa pagina: {e}", status=401)
+
+
+@login_required
 def pacoteedit(request, id_pacote):
     if request.method == 'POST':
         ...
@@ -200,6 +217,7 @@ def newpackageaqu(request, id_project):
 
 
 @login_required
+# Cria um novo equipamento base para ser complementados com informações presentes na view createfullequip
 def createequipserv(request, id_project):
     if request.method == 'POST':
         titleItem = request.POST.get('titleItem', '')
@@ -236,6 +254,7 @@ def createequipserv(request, id_project):
 
 
 @login_required
+# Cria um equipamento completo a partir de um equipamento base criado pela view createequipserv
 def createfullequip(request, id_pacote):
     if request.method == 'POST':
 
@@ -304,6 +323,7 @@ def createfullequip(request, id_pacote):
 
 
 @login_required
+# Função responsável por editar o equipamento que já foi criado e está disponsto na tabela de equipamentos
 def createequipserv_edit(request, id_pacote):
     if request.method == 'POST':
         titleItem = request.POST.get('titleItem', '')
@@ -340,6 +360,7 @@ def createequipserv_edit(request, id_pacote):
 
 
 @login_required
+# Função respontável pela criação de um novo pacote de um determinado projeto
 def createpackage(request, id_project):
     if request.method == 'POST':
         try:
@@ -512,5 +533,73 @@ def createpackage(request, id_project):
                                  'Erro ao criar pacote de despesa')
             return redirect(reverse('painel'))
 
+    else:
+        return HttpResponse(f"Você não tem autorização para acessar essa pagina: {e}", status=401)
+
+
+@login_required
+# Função que adiciona uma nova task ao cronograma durante a edição de um pacote
+def createtaskfull(request, id_pacote):
+    # Ao receber o post do formulário deverá cadastrar uma task considerando o id_pacote recebido
+    if request.method == 'POST':
+        titleItemTask = request.POST.get('titleItemTask', '')
+        descItemTask = request.POST.get('descItemTask', '')
+        statusItemTask = request.POST.get('statusItemTask', '')
+        prioriItemTask = request.POST.get('prioriItemTask', '')
+        initItemTask = request.POST.get('initItemTask', '')
+        fimItemTask = request.POST.get('fimItemTask', '')
+        initRealTask = request.POST.get('initRealTask', '')
+        fimRealTask = request.POST.get('fimRealTask', '')
+        obsItemTask = request.POST.get('obsItemTask', '')
+
+        # Ajustar as datas setando None se necessário
+        initItemTask = initItemTask if initItemTask else None
+        fimItemTask = fimItemTask if fimItemTask else None
+        initRealTask = initRealTask if initRealTask else None
+        fimRealTask = fimRealTask if fimRealTask else None
+
+        if titleItemTask == '' or descItemTask == '' or statusItemTask == '' or prioriItemTask == '' or initItemTask == '' or fimItemTask == '':
+            messages.add_message(request, messages.ERROR,
+                                 'Todos os campos são obrigatórios')
+            return redirect(reverse('pacoteedit', kwargs={'id_pacote': id_pacote}))
+
+        try:
+            new_task = Tasks_Cronograma.objects.create(
+                pacote=PacoteAquisicao.objects.get(id=id_pacote),
+                titulo=titleItemTask,
+                descricao=descItemTask,
+                status=statusItemTask,
+                prioridade=prioriItemTask,
+                data_inicio_planejada=initItemTask,
+                data_fim_planejada=fimItemTask,
+                data_inicio_real=initRealTask,
+                data_fim_real=fimRealTask,
+                observacoes=obsItemTask
+            )
+            messages.add_message(request, messages.SUCCESS,
+                                 'Task cadastrada com sucesso')
+            return redirect(reverse('pacoteedit', kwargs={'id_pacote': id_pacote}))
+        except Exception as e:
+            messages.add_message(request, messages.ERROR,
+                                 f'Erro ao cadastrar task: {e}')
+            return redirect(reverse('pacoteedit', kwargs={'id_pacote': id_pacote}))
+    else:
+        return HttpResponse(f"Você não tem autorização para acessar essa pagina: {e}", status=401)
+
+
+@login_required
+# Função que recebe o id de uma task e apaga ela no banco de dados
+def deletetask(request, id_task):
+    if request.method == 'POST':
+        try:
+            task = Tasks_Cronograma.objects.get(id=id_task)
+            task.delete()
+            messages.add_message(request, messages.SUCCESS,
+                                 'Task deletada com sucesso')
+            return redirect(reverse('pacoteedit', kwargs={'id_pacote': task.pacote.id}))
+        except Exception as e:
+            messages.add_message(request, messages.ERROR,
+                                 f'Erro ao deletar task: {e}')
+            return redirect(reverse('pacoteedit', kwargs={'id_pacote': task.pacote.id}))
     else:
         return HttpResponse(f"Você não tem autorização para acessar essa pagina: {e}", status=401)

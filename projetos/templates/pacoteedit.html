@@ -114,13 +114,13 @@
       </li>
     </ul>
     <div class="tab-content pt-2" id="myTabjustifiedContent">
-      <div
-        class="tab-pane fade show active"
-        id="andamento-justified"
-        role="tabpanel"
-        aria-labelledby="andamento-tab"
-      >
-        <!--Inicio Conteudo-->
+      <!--Inicio Conteudo Andamento-->
+        <div
+          class="tab-pane fade show active"
+          id="andamento-justified"
+          role="tabpanel"
+          aria-labelledby="andamento-tab"
+        >       
         <div class="row align-items-top">
           <div class="col">
             <div class="card info-card revenue-card">
@@ -145,6 +145,7 @@
             </div>
           </div>
         </div>
+
         <div class="row align-items-top">
           <!-- Status Card -->
           <div class="col-xxl-6 col-md-6">
@@ -320,15 +321,15 @@
             </div>
           </div>
         </div>
-        <!--Fim Conteudo-->
       </div>
+      <!--Fim Conteudo Andamento-->
+      <!--Inicio Conteudo Contrato-->
       <div
         class="tab-pane fade"
         id="documentos-justified"
         role="tabpanel"
         aria-labelledby="documentos-tab"
       >
-        <!--Inicio Conteudo-->
         <div class="row align-items-top">
           <!-- CONTRATO Card -->
           <div class="col-xxl-4 col-md-4">
@@ -462,106 +463,240 @@
           />
           <!-- End LOCALIZADO Card -->
         </div>
-        <!--Fim Conteudo-->
       </div>
-
+      <!--Fim Conteudo Contrato-->
+      <!--Inicio Conteudo Equipamentos-->
       <div
         class="tab-pane fade"
         id="equipamentos-justified"
         role="tabpanel"
         aria-labelledby="equipamentos-tab"
       >
+      <div class="row align-items-top">
         <div class="row align-items-top">
-          <div class="row align-items-top">
-            <!--Inicio Conteudo-->
-            <div class="col-xxl-4 col-md-4">
-              <div class="card info-card revenue-card">
-                <div class="card-body">
-                  <h5 class="card-title">
-                    Categoria
-                    <span>| Selecione a categoria desejada</span>
-                  </h5>
-                  <div class="d-flex align-items-center">
-                    <select
-                      class="form-select changeble-item"
-                      aria-label="Default select example"
-                      id="selectCategoria_edit"
-                      name="selectCategoria_edit"
-                    >
-                      <option selected disabled>Escolha a categoria</option>
-                      <option value="material">Material</option>
-                      <option value="servico">Servico</option>
-                    </select>
-                  </div>
+          <!--Inicio Conteudo-->
+          <div class="col-xxl-4 col-md-4">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  Categoria
+                  <span>| Selecione a categoria desejada</span>
+                </h5>
+                <div class="d-flex align-items-center">
+                  <select
+                    class="form-select changeble-item"
+                    aria-label="Default select example"
+                    id="selectCategoria_edit"
+                    name="selectCategoria_edit"
+                  >
+                    <option selected disabled>Escolha a categoria</option>
+                    <option value="material">Material</option>
+                    <option value="servico">Servico</option>
+                  </select>
                 </div>
               </div>
             </div>
-            <div class="col-xxl-4 col-md-4">
-              <div class="card info-card revenue-card">
-                <div class="card-body">
-                  <h5 class="card-title">
-                    SELECIONAR
-                    <span>| Selecione o equipamento/serviço na lista</span>
-                  </h5>
-                  <div class="d-flex align-items-center">
-                    <select
-                      class="form-select changeble-item"
-                      aria-label="Default select example"
-                      id="selectEquip_edit"
-                      name="selectEquip_edit"
-                    >
-                      <option selected disabled>
-                        Escolha o equipamento/serviço
-                      </option>
-                      {% for equipamento in all_equipamentos %}
-                      <option value="{{equipamento.id}}-{{equipamento.classe}}-{{equipamento.natureza}}-{{equipamento.valor_portal}}">
-                        {{equipamento.titulo}}
-                      </option>
-                      {% endfor %}
-                    </select>
-                  </div>
+          </div>
+          <div class="col-xxl-4 col-md-4">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  SELECIONAR
+                  <span>| Selecione o equipamento/serviço na lista</span>
+                </h5>
+                <div class="d-flex align-items-center">
+                  <select
+                    class="form-select changeble-item"
+                    aria-label="Default select example"
+                    id="selectEquip_edit"
+                    name="selectEquip_edit"
+                  >
+                    <option selected disabled>
+                      Escolha o equipamento/serviço
+                    </option>
+                    {% for equipamento in all_equipamentos %}
+                    <option value="{{equipamento.id}}-{{equipamento.classe}}-{{equipamento.natureza}}-{{equipamento.valor_portal}}">
+                      {{equipamento.titulo}}
+                    </option>
+                    {% endfor %}
+                  </select>
                 </div>
               </div>
             </div>
-            <div class="col-xxl-4 col-md-4">
-              <div class="card info-card revenue-card">
-                <div class="card-body">
-                  <div class="d-flex justify-content-center align-items-center">
-                    <button
-                      type="button"
-                      class="btn btn-primary fw-bold p-2 m-4"
-                      data-bs-toggle="modal"
-                      data-bs-target="#modalCreateEquip_Add"
-                    >
-                      Novo Equipamento/Serviço
-                    </button>
-                  </div>
+          </div>
+          <div class="col-xxl-4 col-md-4">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <div class="d-flex justify-content-center align-items-center">
+                  <button
+                    type="button"
+                    class="btn btn-primary fw-bold p-2 m-4"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalCreateEquip_Add"
+                  >
+                    Novo Equipamento/Serviço
+                  </button>
                 </div>
               </div>
             </div>
+          </div>
 
-            <!--Fim Conteudo-->
+          <!--Fim Conteudo-->
+        </div>
+      </div>
+      <div class="row align-items-center">
+        <div
+          class="col-xxl-12 col-md-12 w-80 d-flex justify-content-center align-items-center"
+        >
+          <button
+            type="button"
+            class="btn btn-success fw-bold mb-4 display-3"
+            style="font-size: 1.5em;"
+            onclick="putModelData()"
+            data-bs-toggle="modal" 
+            data-bs-target="#modalCreateFullEquip"
+            id="buttonAddEquip"
+            >
+            Adicionar Equipamento
+          </button>
+        </div>
+      </div>
+      <!--Fim Conteudo Equipamentos-->
+      <!-- Inicio Tabela e Input Hidden Equipamentos-->
+        <div class="row align-items-top">
+          <div class="col-xxl-12 col-md-12">
+            <div class="line-container">
+              <div class="line"></div>
+              <span class="span-line">Equipamentos</span>
+              <div class="line"></div>
+            </div>
+          </div>
+          <div class="col-xxl-12 col-md-12">
+            <div class="card">
+              <div class="card-body">
+                <!-- Tabela de Equipamentos -->
+                <table
+                  id="main-table_edit"
+                  class="table table-striped table-sm table-dot"
+                >
+                  <thead>
+                    <tr>
+                      <th scope="col" class="rot-info rot-sm">Titulo</th>
+                      <th scope="col" class="rot-info rot-sm ocultar">Di</th>
+                      <th scope="col" class="rot-info rot-sm">Classe</th>
+                      <th scope="col" class="rot-info rot-sm">Natureza</th>
+                      <th scope="col" class="rot-info rot-sm">Status</th>
+                      <th scope="col" class="rot-info rot-sm ocultar">
+                        Val1
+                      </th>
+                      <th scope="col" class="rot-info rot-sm ocultar">
+                        Val2
+                      </th>
+                      <th scope="col" class="rot-info rot-sm ocultar">
+                        Val3
+                      </th>
+                      <th scope="col" class="rot-info rot-sm ocultar">
+                        Val Media
+                      </th>
+                      <th scope="col" class="rot-info rot-sm ocultar">
+                        BolValor
+                      </th>
+                      <th scope="col" class="rot-info rot-sm">Valor</th>
+                      <th scope="col" class="rot-info rot-sm">Qtd Un</th>
+                      <th scope="col" class="rot-info rot-sm">Qtd Total</th>
+                      <th scope="col" class="rot-info rot-sm ocultar">
+                        Local
+                      </th>
+                      <th scope="col" class="rot-info rot-sm ocultar">
+                        Dt Ent
+                      </th>
+                      <th scope="col" class="rot-info rot-sm ocultar">
+                        Dt Inst
+                      </th>
+                      <th scope="col" class="rot-info rot-sm ocultar">Obs</th>
+                      <th scope="col" class="rot-info rot-sm">Destino</th>
+                      <th scope="col" class="rot-info rot-sm">Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for equip in pacote.id|render_table:'equipamento' %}
+                    <tr>
+                      <td  class="rot-info rot-sm">{{equip.equipamento.titulo}}</td>
+                      <td  class="rot-info rot-sm ocultar">{{equip.equipamento.id}}</td>
+                      <td  class="rot-info rot-sm">{{equip.equipamento.classe}}</td>
+                      <td  class="rot-info rot-sm">{{equip.equipamento.natureza}}</td>
+                      <td  class="rot-info rot-sm">{{equip.get_entrega_instalacao_display}}</td>
+                      <td  class="rot-info rot-sm ocultar">{{equip.valor_1}}</td>
+                      <td  class="rot-info rot-sm ocultar">{{equip.valor_2}}</td>
+                      <td  class="rot-info rot-sm ocultar">{{equip.valor_3}}</td>
+                      <td  class="rot-info rot-sm ocultar">{{equip.valor_medio}}</td>
+                      <td  class="rot-info rot-sm ocultar">{{equip.usa_preco_portal}}</td>
+                      <td  class="rot-info rot-sm">{{equip.id|kindvalue}}</td>
+                      <td  class="rot-info rot-sm">{{equip.quantidade}}</td>
+                      <td  class="rot-info rot-sm">{{equip.id|valortotalequip}}</td>
+                      <td  class="rot-info rot-sm ocultar">{{equip.local}}</td>
+                      <td  class="rot-info rot-sm ocultar">{{equip.data_entrega}}</td>
+                      <td  class="rot-info rot-sm ocultar">{{equip.data_instalacao}}</td>
+                      <td  class="rot-info rot-sm ocultar">{{equip.observacoes}}</td>
+                      <td  class="rot-info rot-sm">{{equip.destino}}</td>
+                      <td>
+                        <!-- Botão para apagar um registro-->
+                        <button 
+                        type="button" 
+                        class="btn btn-danger btn-sm equipser" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#modalDeleteEquip" 
+                        data-bs-packagedelequip="{{equip.id}}" 
+                        >
+                        <i class="ri-delete-bin-6-line"></i></button>                   
+                        <!-- Botão para editar um registro-->
+                        <button 
+                        type="button" 
+                        class="btn btn-primary btn-sm equipser" 
+                        onchange="calcMediaModel('modalequipValor1' ,'modalequipValor2', 'modalequipValor3', 'modalequipValorMedio')"
+                        data-bs-toggle="modal" 
+                        data-bs-target="#modalEditEquip" 
+                        data-bs-equipamento.titulo="{{equip.equipamento.titulo}}"
+                        data-bs-equipamento.id="{{equip.equipamento.id}}-{{equip.equipamento.classe}}-{{equip.equipamento.natureza}}-{{equip.equipamento.valor_portal}}"
+                        data-bs-equipamento.classe="{{equip.equipamento.classe}}"
+                        data-bs-equipamento.natureza="{{equip.equipamento.natureza}}"
+                        data-bs-entrega_instalacao="{{equip.entrega_instalacao}}"
+                        data-bs-equip.valor_1="{{equip.valor_1}}"
+                        data-bs-equip.valor_2="{{equip.valor_2}}"
+                        data-bs-equip.valor_3="{{equip.valor_3}}"
+                        data-bs-valor_preco_portal="{{equip.equipamento.valor_portal}}"
+                        data-bs-usa_preco_portal="{{equip.usa_preco_portal}}"
+                        data-bs-equip.valor_unit="{{equip.id|kindvalue}}"
+                        data-bs-equip.quantidade="{{equip.quantidade}}"
+                        data-bs-equip.valor_total="{{equip.id|valortotalequip}}"
+                        data-bs-equip.local="{{equip.local}}"
+                        data-bs-equip.data_entrega="{{equip.data_entrega|formatdate}}"
+                        data-bs-equip.data_instalacao="{{equip.data_instalacao|formatdate}}"
+                        data-bs-equip.observacoes="{{equip.observacoes}}"
+                        data-bs-equip.destino="{{equip.destino}}"
+                        data-bs-packageequip="{{equip.id}}">
+                        <i class="ri-edit-box-line"></i></button>    
+                      </td>               
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+                <!-- End Table with stripped rows -->
+              </div>
+            </div>
           </div>
         </div>
-        <!-- Inicio Colunas -->
-          <div class="row align-items-center">
-            <div
-              class="col-xxl-12 col-md-12 w-80 d-flex justify-content-center align-items-center"
-            >
-              <button
-                type="button"
-                class="btn btn-success fw-bold mb-4 display-3"
-                style="font-size: 1.5em;"
-                onclick="putModelData()"
-                data-bs-toggle="modal" 
-                data-bs-target="#modalCreateFullEquip"
-                id="buttonAddEquip"
-                >
-                Adicionar Equipamento
-              </button>
-            </div>
-          </div>
-                <!-- Modal Create Full Equpamento Scrollable -->
+        <input
+          type="text"
+          class="form-control"
+          name="hiddenequipser_edit"
+          id="hiddenequipser_edit"
+          value=""
+        />
+      </div>
+      </div>
+      <!-- Fim Tabela e Input Hidden Equipamentos-->
+      <!-- Modal Create Full Equpamento Scrollable -->
       <div class="modal fade" id="modalCreateFullEquip" tabindex="-1">
         <div class="modal-dialog modal-dialog-scrollable modal-custom">
           <div class="modal-content">
@@ -842,139 +977,6 @@
         </div>
       </div>
       <!-- End Modal Create Full Equpamento Scrollable-->
-          <!-- Inicio Colunas -->
-          <div class="row align-items-top">
-            <div class="col-xxl-12 col-md-12">
-              <div class="line-container">
-                <div class="line"></div>
-                <span class="span-line">Equipamentos</span>
-                <div class="line"></div>
-              </div>
-            </div>
-            <div class="col-xxl-12 col-md-12">
-              <div class="card">
-                <div class="card-body">
-                  <!-- Tabela de Equipamentos -->
-                  <table
-                    id="main-table_edit"
-                    class="table table-striped table-sm table-dot"
-                  >
-                    <thead>
-                      <tr>
-                        <th scope="col" class="rot-info rot-sm">Titulo</th>
-                        <th scope="col" class="rot-info rot-sm ocultar">Di</th>
-                        <th scope="col" class="rot-info rot-sm">Classe</th>
-                        <th scope="col" class="rot-info rot-sm">Natureza</th>
-                        <th scope="col" class="rot-info rot-sm">Status</th>
-                        <th scope="col" class="rot-info rot-sm ocultar">
-                          Val1
-                        </th>
-                        <th scope="col" class="rot-info rot-sm ocultar">
-                          Val2
-                        </th>
-                        <th scope="col" class="rot-info rot-sm ocultar">
-                          Val3
-                        </th>
-                        <th scope="col" class="rot-info rot-sm ocultar">
-                          Val Media
-                        </th>
-                        <th scope="col" class="rot-info rot-sm ocultar">
-                          BolValor
-                        </th>
-                        <th scope="col" class="rot-info rot-sm">Valor</th>
-                        <th scope="col" class="rot-info rot-sm">Qtd Un</th>
-                        <th scope="col" class="rot-info rot-sm">Qtd Total</th>
-                        <th scope="col" class="rot-info rot-sm ocultar">
-                          Local
-                        </th>
-                        <th scope="col" class="rot-info rot-sm ocultar">
-                          Dt Ent
-                        </th>
-                        <th scope="col" class="rot-info rot-sm ocultar">
-                          Dt Inst
-                        </th>
-                        <th scope="col" class="rot-info rot-sm ocultar">Obs</th>
-                        <th scope="col" class="rot-info rot-sm">Destino</th>
-                        <th scope="col" class="rot-info rot-sm">Ações</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {% for equip in pacote.id|render_table_equip %}
-                      <tr>
-                        <td  class="rot-info rot-sm">{{equip.equipamento.titulo}}</td>
-                        <td  class="rot-info rot-sm ocultar">{{equip.equipamento.id}}</td>
-                        <td  class="rot-info rot-sm">{{equip.equipamento.classe}}</td>
-                        <td  class="rot-info rot-sm">{{equip.equipamento.natureza}}</td>
-                        <td  class="rot-info rot-sm">{{equip.get_entrega_instalacao_display}}</td>
-                        <td  class="rot-info rot-sm ocultar">{{equip.valor_1}}</td>
-                        <td  class="rot-info rot-sm ocultar">{{equip.valor_2}}</td>
-                        <td  class="rot-info rot-sm ocultar">{{equip.valor_3}}</td>
-                        <td  class="rot-info rot-sm ocultar">{{equip.valor_medio}}</td>
-                        <td  class="rot-info rot-sm ocultar">{{equip.usa_preco_portal}}</td>
-                        <td  class="rot-info rot-sm">{{equip.id|kindvalue}}</td>
-                        <td  class="rot-info rot-sm">{{equip.quantidade}}</td>
-                        <td  class="rot-info rot-sm">{{equip.id|valortotalequip}}</td>
-                        <td  class="rot-info rot-sm ocultar">{{equip.local}}</td>
-                        <td  class="rot-info rot-sm ocultar">{{equip.data_entrega}}</td>
-                        <td  class="rot-info rot-sm ocultar">{{equip.data_instalacao}}</td>
-                        <td  class="rot-info rot-sm ocultar">{{equip.observacoes}}</td>
-                        <td  class="rot-info rot-sm">{{equip.destino}}</td>
-                        <td>
-                          <!-- Botão para apagar um registro-->
-                          <button 
-                          type="button" 
-                          class="btn btn-danger btn-sm equipser" 
-                          data-bs-toggle="modal" 
-                          data-bs-target="#modalDeleteEquip" 
-                          data-bs-packagedelequip="{{equip.id}}" 
-                          >
-                          <i class="ri-delete-bin-6-line"></i></button>                   
-                          <!-- Botão para editar um registro-->
-                          <button 
-                          type="button" 
-                          class="btn btn-primary btn-sm equipser" 
-                          onchange="calcMediaModel('modalequipValor1' ,'modalequipValor2', 'modalequipValor3', 'modalequipValorMedio')"
-                          data-bs-toggle="modal" 
-                          data-bs-target="#modalEditEquip" 
-                          data-bs-equipamento.titulo="{{equip.equipamento.titulo}}"
-                          data-bs-equipamento.id="{{equip.equipamento.id}}-{{equip.equipamento.classe}}-{{equip.equipamento.natureza}}-{{equip.equipamento.valor_portal}}"
-                          data-bs-equipamento.classe="{{equip.equipamento.classe}}"
-                          data-bs-equipamento.natureza="{{equip.equipamento.natureza}}"
-                          data-bs-entrega_instalacao="{{equip.entrega_instalacao}}"
-                          data-bs-equip.valor_1="{{equip.valor_1}}"
-                          data-bs-equip.valor_2="{{equip.valor_2}}"
-                          data-bs-equip.valor_3="{{equip.valor_3}}"
-                          data-bs-valor_preco_portal="{{equip.equipamento.valor_portal}}"
-                          data-bs-usa_preco_portal="{{equip.usa_preco_portal}}"
-                          data-bs-equip.valor_unit="{{equip.id|kindvalue}}"
-                          data-bs-equip.quantidade="{{equip.quantidade}}"
-                          data-bs-equip.valor_total="{{equip.id|valortotalequip}}"
-                          data-bs-equip.local="{{equip.local}}"
-                          data-bs-equip.data_entrega="{{equip.data_entrega|formatdate}}"
-                          data-bs-equip.data_instalacao="{{equip.data_instalacao|formatdate}}"
-                          data-bs-equip.observacoes="{{equip.observacoes}}"
-                          data-bs-equip.destino="{{equip.destino}}"
-                          data-bs-packageequip="{{equip.id}}">
-                          <i class="ri-edit-box-line"></i></button>    
-                        </td>               
-                      </tr>
-                      {% endfor %}
-                    </tbody>
-                  </table>
-                  <!-- End Table with stripped rows -->
-                </div>
-              </div>
-            </div>
-          </div>
-          <input
-            type="text"
-            class="form-control"
-            name="hiddenequipser_edit"
-            id="hiddenequipser_edit"
-            value=""
-          />
-        </div>
-      </div>
       <!-- Modal Delete Equipamentos Inicio -->
       <div class="modal fade" id="modalDeleteEquip" tabindex="-1">
         <div class="modal-dialog modal-dialog-scrollable">
@@ -1297,76 +1299,274 @@
         </div>
       </div>
       <!-- End Modal Edit Equpamento Scrollable-->
+      <!-- Modal Scrollable para Criar Equipamento Simples -->
+      <div class="modal fade" id="modalCreateEquip_Add" tabindex="-1">
+        <div class="modal-dialog modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title fw-bold">Criar Novo Equipamento</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form action="{% url 'createequipserv_edit' id_pacote %}" method="post">
+                {% csrf_token %}
+                <div class="container">
+                  <div class="row py-2">
+                    <div class="col-md-12">
+                      <label for="titleItem" class="form-label text-primary"
+                        >Titulo</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="titleItem"
+                        name="titleItem"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="row py-2">
+                    <div class="col-md-12">
+                      <label for="especItem" class="form-label text-primary"
+                        >Especificação</label
+                      >
+                      <textarea
+                        class="form-control"
+                        style="height: 130px; font-size: 0.8em"
+                        id="especItem"
+                        name="especItem"
+                        required
+                      ></textarea>
+                    </div>
+                  </div>
+                  <div class="row py-2">
+                    <div class="col-md-12">
+                      <label for="categoryItem" class="form-label text-primary"
+                        >Natureza</label
+                      >
+                      <select
+                        class="form-select"
+                        aria-label="Default"
+                        id="categoryItem"
+                        name="categoryItem"
+                        required
+                      >
+                        <option selected disabled>Escolha a Natureza</option>
+                        <option value="material">Material</option>
+                        <option value="servico">Serviço</option>
+                        <option value="materialservico">Material/Serviço</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row py-2">
+                    <div class="col-md-6">
+                      <label for="rpCode" class="form-label text-primary"
+                        >Registro de Preço</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="rpCode"
+                        name="rpCode"
+                      />
+                    </div>
+                    <div class="col-md-6">
+                      <label for="itemCode" class="form-label text-primary"
+                        >Código Item</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="itemCode"
+                        name="itemCode"
+                      />
+                    </div>
+                  </div>
+                  <div class="row py-2">
+                    <div class="col-md-6">
+                      <label for="elItem" class="form-label text-primary"
+                        >Elemento Item</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="elItem"
+                        name="elItem"
+                        maxlength="4"
+                        required
+                      />
+                    </div>
+                    <div class="col-md-6">
+                      <label for="classItem" class="form-label text-primary"
+                        >Classe</label
+                      >
+                      <select
+                        class="form-select"
+                        aria-label="Default"
+                        id="classItem"
+                        name="classItem"
+                        required
+                      >
+                        <option selected disabled>Escolha a Classe</option>
+                        <option value="consumo">Consumo</option>
+                        <option value="permanente">Permanente</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row py-2">
+                    <div class="col-md-6">
+                      <label for="valPortItem" class="form-label text-primary"
+                        >Valor Portal</label
+                      >
+                      <input
+                        type="text"
+                        id="valPortItem"
+                        class="form-control"
+                        name="valPortItem"
+                        oninput="formatToCurrency(this)"
+                      />
+                    </div>
+                    <div class="col-md-6">
+                      <label for="sitItem" class="form-label text-primary"
+                        >Situação</label
+                      >
+                      <select
+                        class="form-select"
+                        aria-label="Default"
+                        id="sitItem"
+                        name="sitItem"
+                        required
+                      >
+                        <option selected disabled>Situação do item</option>
+                        <option value="ativo">Ativo</option>
+                        <option value="inativo">Inativo</option>
+                        <option value="suspenso">Suspenso</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    data-bs-dismiss="modal"
+                  >
+                    Cancelar
+                  </button>
+                  <!-- Cria botão limpar-->
+                  <button type="reset" class="btn btn-warning">Limpar</button>
+                  <button type="submit" class="btn btn-success w-50">Criar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Modal Scrollable para Criar Equipamento Simples-->
       <div
         class="tab-pane fade"
         id="cronograma-justified_edit"
         role="tabpanel"
         aria-labelledby="cronograma-tab"
       >
-
-        <div class="row align-items-center">
-          <div
-            class="col-xxl-12 col-md-12 w-80 d-flex justify-content-center align-items-center"
+      <!--Inicio Conteudo Cronograma-->
+      <div class="row align-items-center">
+        <div
+          class="col-xxl-12 col-md-12 w-80 d-flex justify-content-center align-items-center"
+        >
+          <button
+            type="button"
+            class="btn btn-success fw-bold mb-4"
+            data-bs-toggle="modal"
+            data-bs-target="#modalCreateTask_Add"
           >
-            <button
-              type="button"
-              class="btn btn-success fw-bold mb-4"
-              data-bs-toggle="modal"
-              data-bs-target="#modalAddTask_edit"
-            >
-              Adicionar Tarefas
-            </button>
+            Adicionar Tarefas
+          </button>
+        </div>
+      </div>
+      <div class="row align-items-top">
+        <div class="col-xxl-12 col-md-12">
+          <div class="line-container">
+            <div class="line"></div>
+            <span class="span-line">Tarefas</span>
+            <div class="line"></div>
           </div>
         </div>
-        <!-- Inicio Colunas -->
-        <div class="row align-items-top">
-          <div class="col-xxl-12 col-md-12">
-            <div class="line-container">
-              <div class="line"></div>
-              <span class="span-line">Tarefas</span>
-              <div class="line"></div>
-            </div>
-          </div>
-          <div class="col-xxl-12 col-md-12">
-            <div class="card">
-              <div class="card-body">
-                <!-- Table with stripped rows -->
-                <table
-                  id="listTaskTable_edit"
-                  class="table table-striped table-sm table-dot"
-                >
-                  <thead>
-                    <tr>
-                      <th scope="col" class="rot-info rot-sm">Tarefa</th>
-                      <th scope="col" class="rot-info rot-sm ocultar">
-                        Descrição
-                      </th>
-                      <th scope="col" class="rot-info rot-sm">Status</th>
-                      <th scope="col" class="rot-info rot-sm">Prioridade</th>
-                      <th scope="col" class="rot-info rot-sm ocultar">
-                        Início P
-                      </th>
-                      <th scope="col" class="rot-info rot-sm ocultar">Fim P</th>
-                      <th scope="col" class="rot-info rot-sm ocultar">
-                        Inicio R
-                      </th>
-                      <th scope="col" class="rot-info rot-sm ocultar">Fim R</th>
-                      <th scope="col" class="rot-info rot-sm">Inicio</th>
-                      <th scope="col" class="rot-info rot-sm">Fim</th>
-                      <th scope="col" class="rot-info rot-sm">Duração(dias)</th>
-                      <th scope="col" class="rot-info rot-sm ocultar">
-                        Observações
-                      </th>
-                      <th scope="col" class="rot-info rot-sm">Ações</th>
-                    </tr>
-                  </thead>
-                  <tbody class="changeble-item"></tbody>
-                </table>
-                <!-- End Table with stripped rows -->
-              </div>
+        <div class="col-xxl-12 col-md-12">
+          <div class="card">
+            <div class="card-body">
+              <!-- Table with stripped rows -->
+              <table
+                id="listTaskTable_edit"
+                class="table table-striped table-sm table-dot"
+              >
+                <thead>
+                  <tr>
+                    <th scope="col" class="rot-info rot-sm">Tarefa</th>
+                    <th scope="col" class="rot-info rot-sm ocultar">Descrição</th>
+                    <th scope="col" class="rot-info rot-sm">Status</th>
+                    <th scope="col" class="rot-info rot-sm">Prioridade</th>
+                    <th scope="col" class="rot-info rot-sm ocultar">Início P</th>
+                    <th scope="col" class="rot-info rot-sm ocultar">Fim P</th>
+                    <th scope="col" class="rot-info rot-sm ocultar">Inicio R</th>
+                    <th scope="col" class="rot-info rot-sm ocultar">Fim R</th>
+                    <th scope="col" class="rot-info rot-sm">Inicio</th>
+                    <th scope="col" class="rot-info rot-sm">Fim</th>
+                    <th scope="col" class="rot-info rot-sm">Duração(dias)</th>
+                    <th scope="col" class="rot-info rot-sm ocultar">Observações</th>
+                    <th scope="col" class="rot-info rot-sm">Ações</th>
+                  </tr>
+                </thead>
+                <tbody class="changeble-item">
+                  {% for task in pacote.id|render_table:'cronograma' %}
+                  <tr>
+
+                    <td  class="rot-info rot-sm">{{task.titulo}}</td>
+                    <td  class="rot-info rot-sm ocultar">{{task.descricao}}</td>
+                    <td  class="rot-info rot-sm">{{task.status}}</td>
+                    <td  class="rot-info rot-sm">{{task.prioridade}}</td>
+                    <td  class="rot-info rot-sm ocultar">{{task.data_inicio_planejada}}</td>
+                    <td  class="rot-info rot-sm ocultar">{{task.data_fim_planejada}}</td>
+                    <td  class="rot-info rot-sm ocultar">{{task.data_inicio_real}}</td>
+                    <td  class="rot-info rot-sm ocultar">{{task.data_fim_real}}</td>
+                    <td  class="rot-info rot-sm "></td>
+                    <td  class="rot-info rot-sm "></td>
+                    <td  class="rot-info rot-sm "></td>
+                    <td  class="rot-info rot-sm ocultar">{{task.observacoes}}</td>
+                    <td>
+                      <!-- Botão para apagar um registro-->
+                      <button 
+                      type="button" 
+                      class="btn btn-danger btn-sm equipser" 
+                      data-bs-toggle="modal" 
+                      data-bs-target="#modalDeleteTask" 
+                      data-bs-packagedeltask="{{task.id}}" 
+                      >
+                      <i class="ri-delete-bin-6-line"></i></button>                   
+                      <!-- Botão para editar um registro-->
+                      <button 
+                      type="button" 
+                      class="btn btn-primary btn-sm equipser" 
+                      onchange="calcMediaModel('modalequipValor1' ,'modalequipValor2', 'modalequipValor3', 'modalequipValorMedio')"
+                      data-bs-toggle="modal" 
+                      data-bs-target="#modalEditTask">
+                      <i class="ri-edit-box-line"></i></button>    
+                    </td>               
+                  </tr>
+                  {% endfor %}
+
+                </tbody>
+              </table>
+              <!-- End Table with stripped rows -->
             </div>
           </div>
         </div>
+      </div>
         <input
           type="text"
           class="form-control changeble-item"
@@ -1376,15 +1576,214 @@
         />
       </div>
     </div>
+    <!--Fim Conteudo Cronograma-->
+    <!-- Modal Scrollable para Criar Task -->
+    <div class="modal fade" id="modalCreateTask_Add" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title fw-bold">Criar Nova Tarefa Cronograma</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form action="{% url 'createtaskfull' id_pacote %}" method="post">
+              {% csrf_token %}
+              <div class="container">
+                <div class="row py-2">
+                  <div class="col-md-12">
+                    <label for="titleItemTask" class="form-label text-primary"
+                      >Titulo</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="titleItemTask"
+                      name="titleItemTask"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="row py-2">
+                  <div class="col-md-12">
+                    <label for="descItemTask" class="form-label text-primary"
+                      >Descrição</label
+                    >
+                    <textarea
+                      class="form-control"
+                      style="height: 130px; font-size: 0.8em"
+                      id="descItemTask"
+                      name="descItemTask"                     
+                    ></textarea>
+                  </div>
+                </div>
+                <div class="row py-2">
+                  <div class="col-md-12">
+                    <label for="statusItemTask" class="form-label text-primary"
+                      >Status</label
+                    >
+                    <select
+                      class="form-select"
+                      aria-label="Default"
+                      id="statusItemTask"
+                      name="statusItemTask"
+                      required
+                    >
+                      <option selected disabled>Escolha o Status</option>
+                      <option value="pendente">Pendente</option>
+                      <option value="emexecucao">Em execução</option>
+                      <option value="concluido">Concluído</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row py-2">
+                  <div class="col-md-12">
+                    <label for="prioriItemTask" class="form-label text-primary"
+                      >Prioridade</label
+                    >
+                    <select
+                      class="form-select"
+                      aria-label="Default"
+                      id="prioriItemTask"
+                      name="prioriItemTask"
+                    >
+                      <option selected disabled>Escolha o Status</option>
+                      <option value="baixa">Baixa</option>
+                      <option value="media">Média</option>
+                      <option value="alta">Alta</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row py-2">
+                  <div class="col-md-6">
+                    <label for="initItemTask" class="form-label text-primary"
+                      >Data Inicio Planejada</label
+                    >
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="initItemTask"
+                      name="initItemTask"
+                      
+                    />
+                  </div>
+                  <div class="col-md-6">
+                    <label for="fimItemTask" class="form-label text-primary"
+                      >Data Fim Planejada</label
+                    >
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="fimItemTask"
+                      name="fimItemTask"
+                      
+                    />
+                  </div>
+                </div>
+                <div class="row py-2">
+                  <div class="col-md-6">
+                    <label for="initRealTask" class="form-label text-primary"
+                      >Data Inicio Real</label
+                    >
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="initRealTask"
+                      name="initRealTask"
+                      
+                    />
+                  </div>
+                  <div class="col-md-6">
+                    <label for="fimRealTask" class="form-label text-primary"
+                      >Data Fim Real</label
+                    >
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="fimRealTask"
+                      name="fimRealTask"
+                      
+                    />
+                  </div>
+                </div>
+                <div class="row py-2">
+                  <div class="col-md-12">
+                    <label for="obsItemTask" class="form-label text-primary"
+                      >Observações</label
+                    >
+                    <textarea
+                    class="form-control"
+                    style="height: 130px; font-size: 0.8em"
+                    id="obsItemTask"
+                    name="obsItemTask"
+                  ></textarea>
+                  </div>
+
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  data-bs-dismiss="modal"
+                >
+                  Cancelar
+                </button>
+                <!-- Cria botão limpar-->
+                <button type="reset" class="btn btn-warning">Limpar</button>
+                <button type="submit" class="btn btn-success w-50">Criar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Modal Scrollable para Criar Task-->
+      <!-- Modal Delete Task Inicio -->
+      <div class="modal fade" id="modalDeleteTask" tabindex="-1">
+        <div class="modal-dialog modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 id="modaltitletask" class="modal-title fw-bold text-danger h3">Excluir Task </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form id="formDelTask" data-action="{% url 'deletetask' 0 %}" method="POST">
+                {% csrf_token %}
+                <h5 class="card-title"> Realmente deseja apagar permanentemente a Task?</h5>
+                <button type="submit" class="btn btn-danger btn-lg m-3">Excluir</button>
+                <button
+                type="button"
+                class="btn btn-secondary btn-lg m-3"
+                data-bs-dismiss="modal"
+                >
+                Cancelar
+              </button>
+            </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- Modal Delete Task Fim -->
+
+    <!--Inicio Conteudo Obs/Pen-->
     <div
       class="tab-pane fade"
       id="observacoes-justified_edit"
       role="tabpanel"
       aria-labelledby="observacoes-tab"
     >
-      <!--Inicio do formulário Observaçoes-->
       <div class="row align-items-top">
-        <!--Inicio Conteudo-->
         <div class="col-xxl-12 col-md-12">
           <div class="card info-card revenue-card">
             <div class="card-body">
@@ -1470,7 +1869,7 @@
           </button>
         </div>
       </div>
-      <!-- Inicio Colunas -->
+      <!-- Divisão para Obs/Pen -->
       <div class="row align-items-top">
         <div class="col-xxl-12 col-md-12">
           <div class="line-container">
@@ -1512,175 +1911,6 @@
     </div>
   </div>
 </div>
-    <!-- Modal Scrollable para Criar Equipamento -->
-    <div class="modal fade" id="modalCreateEquip_Add" tabindex="-1">
-      <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title fw-bold">Criar Novo Equipamento</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <form action="{% url 'createequipserv_edit' id_pacote %}" method="post">
-              {% csrf_token %}
-              <div class="container">
-                <div class="row py-2">
-                  <div class="col-md-12">
-                    <label for="titleItem" class="form-label text-primary"
-                      >Titulo</label
-                    >
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="titleItem"
-                      name="titleItem"
-                      required
-                    />
-                  </div>
-                </div>
-                <div class="row py-2">
-                  <div class="col-md-12">
-                    <label for="especItem" class="form-label text-primary"
-                      >Especificação</label
-                    >
-                    <textarea
-                      class="form-control"
-                      style="height: 130px; font-size: 0.8em"
-                      id="especItem"
-                      name="especItem"
-                      required
-                    ></textarea>
-                  </div>
-                </div>
-                <div class="row py-2">
-                  <div class="col-md-12">
-                    <label for="categoryItem" class="form-label text-primary"
-                      >Natureza</label
-                    >
-                    <select
-                      class="form-select"
-                      aria-label="Default"
-                      id="categoryItem"
-                      name="categoryItem"
-                      required
-                    >
-                      <option selected disabled>Escolha a Natureza</option>
-                      <option value="material">Material</option>
-                      <option value="servico">Serviço</option>
-                      <option value="materialservico">Material/Serviço</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="row py-2">
-                  <div class="col-md-6">
-                    <label for="rpCode" class="form-label text-primary"
-                      >Registro de Preço</label
-                    >
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="rpCode"
-                      name="rpCode"
-                    />
-                  </div>
-                  <div class="col-md-6">
-                    <label for="itemCode" class="form-label text-primary"
-                      >Código Item</label
-                    >
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="itemCode"
-                      name="itemCode"
-                    />
-                  </div>
-                </div>
-                <div class="row py-2">
-                  <div class="col-md-6">
-                    <label for="elItem" class="form-label text-primary"
-                      >Elemento Item</label
-                    >
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="elItem"
-                      name="elItem"
-                      maxlength="4"
-                      required
-                    />
-                  </div>
-                  <div class="col-md-6">
-                    <label for="classItem" class="form-label text-primary"
-                      >Classe</label
-                    >
-                    <select
-                      class="form-select"
-                      aria-label="Default"
-                      id="classItem"
-                      name="classItem"
-                      required
-                    >
-                      <option selected disabled>Escolha a Classe</option>
-                      <option value="consumo">Consumo</option>
-                      <option value="permanente">Permanente</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="row py-2">
-                  <div class="col-md-6">
-                    <label for="valPortItem" class="form-label text-primary"
-                      >Valor Portal</label
-                    >
-                    <input
-                      type="text"
-                      id="valPortItem"
-                      class="form-control"
-                      name="valPortItem"
-                      oninput="formatToCurrency(this)"
-                    />
-                  </div>
-                  <div class="col-md-6">
-                    <label for="sitItem" class="form-label text-primary"
-                      >Situação</label
-                    >
-                    <select
-                      class="form-select"
-                      aria-label="Default"
-                      id="sitItem"
-                      name="sitItem"
-                      required
-                    >
-                      <option selected disabled>Situação do item</option>
-                      <option value="ativo">Ativo</option>
-                      <option value="inativo">Inativo</option>
-                      <option value="suspenso">Suspenso</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-danger"
-                  data-bs-dismiss="modal"
-                >
-                  Cancelar
-                </button>
-                <!-- Cria botão limpar-->
-                <button type="reset" class="btn btn-warning">Limpar</button>
-                <button type="submit" class="btn btn-success w-50">Criar</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  <!-- End Modal Scrollable para Criar Equipamento-->
 <script>
   // Criação de novo equipamento Full
   const modalCreateFullEquip = document.getElementById('modalCreateFullEquip')
@@ -1711,6 +1941,21 @@
 
 
   })
+}
+
+// Troca o data-action do modal que apaga task
+const modalDeleteTask = document.getElementById('modalDeleteTask')
+if(modalDeleteTask){
+  modalDeleteTask.addEventListener('show.bs.modal', function (event) {
+    // Button that triggered the modal
+    const button = event.relatedTarget
+    // Extraindo de data-bs-* o conteudo
+    const packagedeltask = button.getAttribute('data-bs-packagedeltask')
+    const formDelTask = document.querySelector('#formDelTask')
+    let url = formDelTask.getAttribute("data-action");
+    url = url.replace('0',packagedeltask)  
+    formDelTask.setAttribute("action", url);
+})
 }
 
 function geramediavalor(val1, val2, val3){
