@@ -603,3 +603,53 @@ def deletetask(request, id_task):
             return redirect(reverse('pacoteedit', kwargs={'id_pacote': task.pacote.id}))
     else:
         return HttpResponse(f"Você não tem autorização para acessar essa pagina: {e}", status=401)
+
+
+@login_required
+# Edita o valor de cada task
+def editeachtask(request, id_task):
+    # Função que recebe o id da task e edita de acordo com os valores recebidos
+    if request.method == 'POST':
+        titleEditTask = request.POST.get('titleEditTask', '')
+        descEditTask = request.POST.get('descEditTask', '')
+        statusEditTask = request.POST.get('statusEditTask', '')
+        prioriEditTask = request.POST.get('prioriEditTask', '')
+        initEditTask = request.POST.get('initEditTask', '')
+        fimEditTask = request.POST.get('fimEditTask', '')
+        initRealEditTask = request.POST.get('initRealEditTask', '')
+        fimRealEditTask = request.POST.get('fimRealEditTask', '')
+        obsEditTask = request.POST.get('obsEditTask', '')
+        id_pacote = request.POST.get('modalidpackagetask', '')
+        print(f"id_task: {id_task} \n")
+        # Ajustar as datas setando None se necessário
+        initEditTask = initEditTask if initEditTask else None
+        fimEditTask = fimEditTask if fimEditTask else None
+        initRealEditTask = initRealEditTask if initRealEditTask else None
+        fimRealEditTask = fimRealEditTask if fimRealEditTask else None
+
+        if titleEditTask == '' or descEditTask == '' or statusEditTask == '' or prioriEditTask == '' or initEditTask == '' or fimEditTask == '':
+            messages.add_message(request, messages.ERROR,
+                                 'Todos os campos são obrigatórios')
+            return redirect(reverse('pacoteedit', kwargs={'id_pacote': id_pacote}))
+
+        try:
+            task = Tasks_Cronograma.objects.get(id=id_task)
+            task.titulo = titleEditTask
+            task.descricao = descEditTask
+            task.status = statusEditTask
+            task.prioridade = prioriEditTask
+            task.data_inicio_planejada = initEditTask
+            task.data_fim_planejada = fimEditTask
+            task.data_inicio_real = initRealEditTask
+            task.data_fim_real = fimRealEditTask
+            task.observacoes = obsEditTask
+            task.save()
+            messages.add_message(request, messages.SUCCESS,
+                                 'Task editada com sucesso')
+            return redirect(reverse('pacoteedit', kwargs={'id_pacote': id_pacote}))
+        except Exception as e:
+            messages.add_message(request, messages.ERROR,
+                                 f'Erro ao editar task: {e}')
+            return redirect(reverse('pacoteedit', kwargs={'id_pacote': id_pacote}))
+    else:
+        return HttpResponse(f"Você não tem autorização para acessar essa pagina: {e}", status=401)

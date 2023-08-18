@@ -670,8 +670,8 @@
                         data-bs-equip.quantidade="{{equip.quantidade}}"
                         data-bs-equip.valor_total="{{equip.id|valortotalequip}}"
                         data-bs-equip.local="{{equip.local}}"
-                        data-bs-equip.data_entrega="{{equip.data_entrega|formatdate}}"
-                        data-bs-equip.data_instalacao="{{equip.data_instalacao|formatdate}}"
+                        data-bs-equip.data_entrega="{{equip.data_entrega|inputformatdate}}"
+                        data-bs-equip.data_instalacao="{{equip.data_instalacao|inputformatdate}}"
                         data-bs-equip.observacoes="{{equip.observacoes}}"
                         data-bs-equip.destino="{{equip.destino}}"
                         data-bs-packageequip="{{equip.id}}">
@@ -1534,8 +1534,8 @@
                     <td  class="rot-info rot-sm ocultar">{{task.data_fim_planejada}}</td>
                     <td  class="rot-info rot-sm ocultar">{{task.data_inicio_real}}</td>
                     <td  class="rot-info rot-sm ocultar">{{task.data_fim_real}}</td>
-                    <td  class="rot-info rot-sm "></td>
-                    <td  class="rot-info rot-sm "></td>
+                    <td  class="rot-info rot-sm ">{{task.data_inicio_planejada|initialDate:task.data_inicio_real|formatdate}}</td>
+                    <td  class="rot-info rot-sm ">{{task.data_fim_planejada|finalDate:task.data_fim_real|formatdate}}</td>
                     <td  class="rot-info rot-sm "></td>
                     <td  class="rot-info rot-sm ocultar">{{task.observacoes}}</td>
                     <td>
@@ -1545,7 +1545,8 @@
                       class="btn btn-danger btn-sm equipser" 
                       data-bs-toggle="modal" 
                       data-bs-target="#modalDeleteTask" 
-                      data-bs-packagedeltask="{{task.id}}" 
+                      data-bs-idtask="{{task.id}}"
+                      data-bs-idpacote="{{pacote.id}}"
                       >
                       <i class="ri-delete-bin-6-line"></i></button>                   
                       <!-- Botão para editar um registro-->
@@ -1554,8 +1555,21 @@
                       class="btn btn-primary btn-sm equipser" 
                       onchange="calcMediaModel('modalequipValor1' ,'modalequipValor2', 'modalequipValor3', 'modalequipValorMedio')"
                       data-bs-toggle="modal" 
-                      data-bs-target="#modalEditTask">
-                      <i class="ri-edit-box-line"></i></button>    
+                      data-bs-target="#modalEditTask"
+                      data-bs-packagedeltask="{{task.id}}"
+                      data-bs-titletask="{{task.titulo}}"
+                      data-bs-desctask="{{task.descricao}}"
+                      data-bs-statustask="{{task.status}}"
+                      data-bs-prioritask="{{task.prioridade}}"
+                      data-bs-initask="{{task.data_inicio_planejada|inputformatdate}}"
+                      data-bs-fimtask="{{task.data_fim_planejada|inputformatdate}}"
+                      data-bs-inirealtask="{{task.data_inicio_real|inputformatdate}}"
+                      data-bs-fimrealtask="{{task.data_fim_real|inputformatdate}}"
+                      data-bs-obs="{{task.observacoes}}"
+                      data-bs-idtask="{{task.id}}"
+                      data-bs-idpacote="{{pacote.id}}">
+                      <i class="ri-edit-box-line"></i>
+                    </button>    
                     </td>               
                   </tr>
                   {% endfor %}
@@ -1775,7 +1789,173 @@
         </div>
       </div>
       <!-- Modal Delete Task Fim -->
+    <!-- Modal Edit Task Scrollable -->
+    <div class="modal fade" id="modalEditTask" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable modal-custom">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 id="modaltitletask" class="modal-title fw-bold">Editar Task </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="formEditTask" data-action="{% url 'editeachtask' 0 %}" method="POST">
+              {% csrf_token %}
+              <div class="container">
+                <div class="row py-2">
+                  <div class="col-md-12">
+                    <label for="titleEditTask" class="form-label text-primary"
+                      >Titulo</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="titleEditTask"
+                      name="titleEditTask"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="row py-2">
+                  <div class="col-md-12">
+                    <label for="descEditTask" class="form-label text-primary"
+                      >Descrição</label
+                    >
+                    <textarea
+                      class="form-control"
+                      style="height: 130px; font-size: 0.8em"
+                      id="descEditTask"
+                      name="descEditTask"                     
+                    ></textarea>
+                  </div>
+                </div>
+                <div class="row py-2">
+                  <div class="col-md-12">
+                    <label for="statusEditTask" class="form-label text-primary"
+                      >Status</label
+                    >
+                    <select
+                      class="form-select"
+                      aria-label="Default"
+                      id="statusEditTask"
+                      name="statusEditTask"
+                      required
+                    >
+                      <option selected disabled>Escolha o Status</option>
+                      <option value="pendente">Pendente</option>
+                      <option value="emexecucao">Em execução</option>
+                      <option value="concluido">Concluído</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row py-2">
+                  <div class="col-md-12">
+                    <label for="prioriEditTask" class="form-label text-primary"
+                      >Prioridade</label
+                    >
+                    <select
+                      class="form-select"
+                      aria-label="Default"
+                      id="prioriEditTask"
+                      name="prioriEditTask"
+                    >
+                      <option selected disabled>Escolha o Status</option>
+                      <option value="baixa">Baixa</option>
+                      <option value="media">Média</option>
+                      <option value="alta">Alta</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row py-2">
+                  <div class="col-md-6">
+                    <label for="initEditTask" class="form-label text-primary"
+                      >Data Inicio Planejada</label
+                    >
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="initEditTask"
+                      name="initEditTask"
+                      
+                    />
+                  </div>
+                  <div class="col-md-6">
+                    <label for="fimEditTask" class="form-label text-primary"
+                      >Data Fim Planejada</label
+                    >
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="fimEditTask"
+                      name="fimEditTask"
+                      
+                    />
+                  </div>
+                </div>
+                <div class="row py-2">
+                  <div class="col-md-6">
+                    <label for="initRealEditTask" class="form-label text-primary"
+                      >Data Inicio Real</label
+                    >
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="initRealEditTask"
+                      name="initRealEditTask"
+                      
+                    />
+                  </div>
+                  <div class="col-md-6">
+                    <label for="fimRealEditTask" class="form-label text-primary"
+                      >Data Fim Real</label
+                    >
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="fimRealEditTask"
+                      name="fimRealEditTask"
+                      
+                    />
+                  </div>
+                </div>
+                <div class="row py-2">
+                  <div class="col-md-12">
+                    <label for="obsEditTask" class="form-label text-primary"
+                      >Observações</label
+                    >
+                    <textarea
+                    class="form-control"
+                    style="height: 130px; font-size: 0.8em"
+                    id="obsEditTask"
+                    name="obsEditTask"
+                  ></textarea>
+                  </div>
 
+                </div>
+              </div>
+              <input type="hidden" name="modalidpackagetask" id="modalidpackagetask" value="">
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  data-bs-dismiss="modal"
+                >
+                  Cancelar
+                </button>
+                <!-- Cria botão limpar-->
+                <button type="reset" class="btn btn-warning">Limpar</button>
+                <button type="submit" class="btn btn-success w-50">Salvar alterações</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Modal Edit Equpamento Scrollable-->
     <!--Inicio Conteudo Obs/Pen-->
     <div
       class="tab-pane fade"
@@ -2011,7 +2191,7 @@ function geramediavalor(val1, val2, val3){
 
 
 
-      // Atualizando campos do meu model deputado
+      // Atualizando campos do meu model Equipamentos
       const modaltitleequip =  document.querySelector("#modalEditEquip > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > h5:nth-child(1)")
       const modalEquipList = document.querySelector('#modalEquipList')
       const modalequipClasse = document.querySelector('#modalequipClasse')
@@ -2073,6 +2253,77 @@ function geramediavalor(val1, val2, val3){
     calcMediaModel('modalequipValor1' ,'modalequipValor2', 'modalequipValor3', 'modalequipValorMedio')
 
     
+  }
+
+
+  // Alimentação do Modal para ediçao de equipamentos
+  const modalEditTask = document.getElementById('modalEditTask')
+  if(modalEditTask){
+
+    modalEditTask.addEventListener('show.bs.modal', function (event) {
+      // Button that triggered the modal
+      const button = event.relatedTarget
+      // Extraindo de data-bs-* o conteudo
+
+      const taskTitulo = button.getAttribute('data-bs-titletask')
+      const taskId = button.getAttribute('data-bs-idtask')
+      const taskDesc = button.getAttribute('data-bs-desctask')
+      const taskStatus = button.getAttribute('data-bs-statustask')
+      const taskPriori = button.getAttribute('data-bs-prioritask')
+      const taskInit = button.getAttribute('data-bs-initask')
+      const taskFim = button.getAttribute('data-bs-fimtask')
+      const taskInitReal = button.getAttribute('data-bs-inirealtask')
+      const taskFimReal = button.getAttribute('data-bs-fimrealtask')
+      const taskObs = button.getAttribute('data-bs-obs')
+      const packageTaskId = button.getAttribute('data-bs-idpacote')
+      
+      console.log("Abriu o edit task....")
+      console.log(`taskTitulo: ${taskTitulo}`)
+      console.log(`taskId: ${taskId}`)
+      console.log(`taskDesc: ${taskDesc}`)
+      console.log(`taskStatus: ${taskStatus}`)
+      console.log(`taskPriori: ${taskPriori}`)
+      console.log(`taskInit: ${taskInit}`)
+      console.log(`taskFim: ${taskFim}`)
+      console.log(`taskInitReal: ${taskInitReal}`)
+      console.log(`taskFimReal: ${taskFimReal}`)
+      console.log(`taskObs: ${taskObs}`)
+    
+    // Atualizando campos do meu model task
+    const modalEditTask = document.getElementById('modalEditTask')
+    const modaltitletask =  document.querySelector("#modalEditTask > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > h5:nth-child(1)")
+    const modalidpackagetask = document.querySelector('#modalidpackagetask')
+    const modaltitletaskedit = document.querySelector('#titleEditTask')
+    const modaldesctaskedit = document.querySelector('#descEditTask')
+    const modalstatustaskedit = document.querySelector('#statusEditTask')
+    const modalprioritaskedit = document.querySelector('#prioriEditTask')
+    const modalinittaskedit = document.querySelector('#initEditTask')
+    const modalfimtaskedit = document.querySelector('#fimEditTask')
+    const modalinitrealtaskedit = document.querySelector('#initRealEditTask')
+    const modalfimrealtaskedit = document.querySelector('#fimRealEditTask')
+    const modalobstaskedit = document.querySelector('#obsEditTask')
+
+    // Rotulos dinamicos de acordo com a resposta
+    modaltitletask.textContent =  "Editar - " + taskTitulo
+    modalidpackagetask.value = packageTaskId
+    modaltitletaskedit.value = taskTitulo
+    modaldesctaskedit.value = taskDesc
+    modalstatustaskedit.value = taskStatus
+    modalprioritaskedit.value = taskPriori
+    modalinittaskedit.value = taskInit
+    modalfimtaskedit.value = taskFim
+    modalinitrealtaskedit.value = taskInitReal
+    modalfimrealtaskedit.value = taskFimReal
+    modalobstaskedit.value = taskObs
+
+    // Ajusta a url do form do modal
+    const formEditTask = document.querySelector('#formEditTask')
+    console.log(`formEditTask: ${formEditTask.hasAttribute("data-action")}`)
+    let url = formEditTask.getAttribute("data-action");
+    url = url.replace('0',taskId)
+    formEditTask.setAttribute("action", url);
+
+      })
   }
 
    // Ajusta display para RP, PG e terceiros
@@ -2222,9 +2473,53 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     {% endfor %}
   });
-
+  
+  fillDifferenceInTable()
 
 });
+
+function fillDifferenceInTable() {
+  const tableRows = document.querySelector('#listTaskTable_edit');
+  // Começa do 1 para pular o cabeçalho da tabela
+  console.log("Até aqui chegamos...")
+  console.log(tableRows.rows.length)
+  for (let i = 1; i < tableRows.rows.length; i++) {
+    const cells = tableRows.rows[i].cells;
+    console.log(`cells: ${cells}`)
+    const date1 = cells[8].textContent; // índice 8 para a 9ª coluna
+    const date2 = cells[9].textContent; // índice 9 para a 10ª coluna
+
+    console.log(`date1: ${date1}`)
+    console.log(`date2: ${date2}`)
+
+    const difference = dateDifference(date1, date2);
+
+    console.log(`difference: ${difference}`)
+
+    cells[10].textContent = difference; // índice 5 para a 6ª coluna
+  }
+}
+
+// Chame a função fillDifferenceInTable() após a tabela ter sido completamente carregada
+document.addEventListener('DOMContentLoaded', fillDifferenceInTable);
+
+
+function parseDate(dateStr) {
+  const [day, month, year] = dateStr.split('/').map(Number);
+  return new Date(year, month - 1, day);
+}
+
+function dateDifference(dateStr1, dateStr2) {
+  const date1 = parseDate(dateStr1);
+  const date2 = parseDate(dateStr2);
+
+  const diffInMilliseconds = date2 - date1;
+  const diffInDays = Math.round(diffInMilliseconds / (1000 * 60 * 60 * 24));
+
+  return diffInDays;
+}
+
+
 function putModelData(){
   // buscar o valor que está em selectEquip_edit
   const selectEquip = document.getElementById('selectEquip_edit');

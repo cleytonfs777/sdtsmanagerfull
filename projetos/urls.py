@@ -35,4 +35,6 @@ urlpatterns = [
          views.createtaskfull, name='createtaskfull'),
     path('painel/project/pacoteedit/deletetask/<int:id_task>/',
          views.deletetask, name='deletetask'),
+    path('painel/project/pacoteedit/editeachtask/<int:id_task>/',
+         views.editeachtask, name='editeachtask'),
 ]

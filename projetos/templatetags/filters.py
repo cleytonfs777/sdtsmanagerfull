@@ -63,6 +63,14 @@ def formatdate(value):
         return None
 
 
+@register.filter(name="inputformatdate")
+def inputformatdate(value):
+    if value:
+        return value.strftime("%Y-%m-%d")
+    else:
+        return None
+
+
 @register.filter(name="sei_interable")
 def sei_interable(value):
     # Em value recebe uma string que deve ser separada por ";" e posteriormente retornada uma lista com o conteudo
@@ -122,3 +130,21 @@ def config_id(value):
 @register.filter(name="toLocaleStringCurrencyBRL")
 def toLocaleStringCurrencyBRL(value):
     return f'R$ {value:,.2f}'.replace(',', 'v').replace('.', ',').replace('v', '.') if value else 'R$ 0,00'
+
+
+@register.filter(name="initialDate")
+def initialDate(data_inicial, data_real_inicial):
+    # Se houver a data_real_inicial, retorna ela, caso contrario retorna a data_inicial
+    if data_real_inicial:
+        return data_real_inicial
+    else:
+        return data_inicial
+
+
+@register.filter(name="finalDate")
+def finalDate(data_final, data_real_final):
+    # Se houver a data_real_final, retorna ela, caso contrario retorna a data_final
+    if data_real_final:
+        return data_real_final
+    else:
+        return data_final
