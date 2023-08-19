@@ -37,4 +37,11 @@ urlpatterns = [
          views.deletetask, name='deletetask'),
     path('painel/project/pacoteedit/editeachtask/<int:id_task>/',
          views.editeachtask, name='editeachtask'),
+    # Funções e URLs relacionadas a Observações e Pendencias
+    path('painel/project/pacoteedit/createobspenfull/<int:id_pacote>/',
+         views.createobspenfull, name='createobspenfull'),
+    path('painel/project/pacoteedit/deleteobspen/<int:id_obspen>/',
+         views.deleteobspen, name='deleteobspen'),
+    path('painel/project/pacoteedit/editobspen/<int:id_obspen>/',
+         views.editobspen, name='editobspen'),
 ]

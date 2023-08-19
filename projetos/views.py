@@ -653,3 +653,81 @@ def editeachtask(request, id_task):
             return redirect(reverse('pacoteedit', kwargs={'id_pacote': id_pacote}))
     else:
         return HttpResponse(f"Você não tem autorização para acessar essa pagina: {e}", status=401)
+
+
+@login_required
+def createobspenfull(request, id_pacote):
+    if request.method == 'POST':
+        descobspen = request.POST.get('descObsPen_create', '')
+        cat_obspen = request.POST.get('cat_obspen', '')
+        datapencreate = request.POST.get('dateObsPen_create', '')
+
+        if descobspen == '' or cat_obspen == '' or datapencreate == '':
+            messages.add_message(request, messages.ERROR,
+                                 'Todos os campos são obrigatórios')
+            return redirect(reverse('pacoteedit', kwargs={'id_pacote': id_pacote}))
+
+        try:
+            obs_pendencia = ObservacaoPendencia.objects.create(
+                pacote_despesa=PacoteAquisicao.objects.get(id=id_pacote),
+                decricao=descobspen,
+                categoria=cat_obspen,
+                data_obs_pend=datapencreate,
+                class_obs_pend='aconcluir'
+            )
+            messages.add_message(request, messages.SUCCESS,
+                                 'Observação/Pendência cadastrada com sucesso')
+            return redirect(reverse('pacoteedit', kwargs={'id_pacote': id_pacote}))
+        except Exception as e:
+            messages.add_message(request, messages.ERROR,
+                                 f'Erro ao cadastrar observação/pendência: {e}')
+            return redirect(reverse('pacoteedit', kwargs={'id_pacote': id_pacote}))
+    else:
+        return HttpResponse(f"Você não tem autorização para acessar essa pagina: {e}", status=401)
+
+
+@login_required
+def deleteobspen(request, id_obspen):
+    if request.method == 'POST':
+        try:
+            obspen = ObservacaoPendencia.objects.get(id=id_obspen)
+            obspen.delete()
+            messages.add_message(request, messages.SUCCESS,
+                                 'Observação/Pendência deletada com sucesso')
+            return redirect(reverse('pacoteedit', kwargs={'id_pacote': obspen.pacote_despesa.id}))
+        except Exception as e:
+            messages.add_message(request, messages.ERROR,
+                                 f'Erro ao deletar observação/pendência: {e}')
+            return redirect(reverse('pacoteedit', kwargs={'id_pacote': obspen.pacote_despesa.id}))
+    else:
+        return HttpResponse(f"Você não tem autorização para acessar essa pagina: {e}", status=401)
+
+
+@login_required
+def editobspen(request, id_obspen):
+    if request.method == 'POST':
+        descobspen = request.POST.get('descObsPen_edit', '')
+        cat_obspen = request.POST.get('cat_obspen_edit', '')
+        datapenedit = request.POST.get('dateObsPen_edit', '')
+        id_pacote = request.POST.get('modalidpackageobspen', '')
+
+        if descobspen == '' or cat_obspen == '' or datapenedit == '':
+            messages.add_message(request, messages.ERROR,
+                                 'Todos os campos são obrigatórios')
+            return redirect(reverse('pacoteedit', kwargs={'id_pacote': id_pacote}))
+
+        try:
+            obspen = ObservacaoPendencia.objects.get(id=id_obspen)
+            obspen.decricao = descobspen
+            obspen.categoria = cat_obspen
+            obspen.data_obs_pend = datapenedit
+            obspen.save()
+            messages.add_message(request, messages.SUCCESS,
+                                 'Observação/Pendência editada com sucesso')
+            return redirect(reverse('pacoteedit', kwargs={'id_pacote': id_pacote}))
+        except Exception as e:
+            messages.add_message(request, messages.ERROR,
+                                 f'Erro ao editar observação/pendência: {e}')
+            return redirect(reverse('pacoteedit', kwargs={'id_pacote': id_pacote}))
+    else:
+        return HttpResponse(f"Você não tem autorização para acessar essa pagina: {e}", status=401)

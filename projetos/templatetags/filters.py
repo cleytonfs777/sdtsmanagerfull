@@ -88,6 +88,9 @@ def render_table(value, target):
     elif target == 'cronograma':
         pacote = PacoteAquisicao.objects.get(id=value)
         despesas_target = pacote.tasks.all()
+    elif target == 'obspen':
+        pacote = PacoteAquisicao.objects.get(id=value)
+        despesas_target = pacote.observacoes_pendencias.all()
 
     return despesas_target
 
