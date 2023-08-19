@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% load static %} {% load filters %} {% block 'title'%}Projetos{%endblock%} {% block 'head' %}
+{% extends 'base.html' %} {% load static %}{% load filters %} {% load filters %} {% block 'title'%}Projetos{%endblock%} {% block 'head' %}
 <link rel="stylesheet" href="{% static 'css/full-style.css' %}" />
 {% endblock %} {% block 'subtitle' %}Projeto {{projeto.titulo}}{% endblock %} {% block 'content' %}
 
@@ -27,7 +27,8 @@
               <p class="fw-bold text-center h6 p-2 w-100 mb-3" style="background:#cccecf;">{{pacote.titulo}}</p>
 
               <div class="card-body body-projeto">
-                <p><span>Data: </span> {{pacote.created_at}}</p>
+                <p class="fw-bold bg-warning"><span>Tipo: </span> Aquisição</p>
+                <p><span>Data: </span> {{pacote.created_at|formatdate}}</p>
                 <p><span>Natureza: </span>{{pacote.natureza}}</p>
                 <p><span>Valor: </span> <span class="main-value" style="font-size:1.2em;color:green;">{{pacote.id|value_pacote}}</span></p>
 
@@ -85,7 +86,7 @@
             </div>
             <div class="row py-2">
               <div class="col-md-12">
-                <a href="{% url 'newpackageaqu' projeto.id %}" class="btn btn-secondary w-100 py-3 fw-bold">Pacote de Aquisição</a>
+                <a href="{% url 'newpackageaqu' projeto.id %}" class="btn btn-warning w-100 py-3 fw-bold">Pacote de Aquisição</a>
               </div>
             </div>
           </div>

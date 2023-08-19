@@ -52,7 +52,66 @@ def deteleproject(request, id_project):
 @login_required
 def pacoteedit(request, id_pacote):
     if request.method == 'POST':
-        ...
+        titulo = request.POST.get('inputTitlePacote', '')
+        if titulo:
+            status = request.POST.get('selectStatusNew_edit', '')
+            especifica_rp = request.POST.get('selectnewrp_edit', '')
+            especifica_pg = request.POST.get('selectnewpg_edit', '')
+            especifica_tr = request.POST.get('terceiros_edit', '')
+            etiqueta = request.POST.get('selectEtiquetaNew_edit', '')
+            natureza = request.POST.get('selectNaturezaNew_edit', '')
+
+            # Confere se os valores recebidos de titulo a natureza são iguais ao do banco de dados caso não sejam atualiza o banco de dados
+            pacote = PacoteAquisicao.objects.get(id=id_pacote)
+            if pacote.titulo != titulo:
+                pacote.titulo = titulo
+            if pacote.status != status:
+                pacote.status = status
+            if pacote.fase != especifica_rp and status == 'RP':
+                pacote.fase = especifica_rp
+            elif pacote.fase != especifica_pg and status == 'PG':
+                pacote.fase = especifica_pg
+            elif pacote.fase != especifica_tr and not (status == 'PG' or status == 'RP'):
+                pacote.fase = "Terceiros"
+            if pacote.etiqueta != etiqueta:
+                pacote.etiqueta = etiqueta
+            if pacote.natureza != natureza:
+                pacote.natureza = natureza
+            pacote.save()
+            messages.add_message(request, messages.SUCCESS,
+                                 'Pacote atualizado com sucesso')
+            return redirect(reverse('pacoteedit', kwargs={'id_pacote': id_pacote}))
+
+        else:
+            contrato = request.POST.get('inputContratoNew_edit', '')
+            datainit = request.POST.get('dateInitialInput_edit', '')
+            dataend = request.POST.get('dateFinalInput_edit', '')
+            sei = request.POST.get('hiddensei_edit', '')
+
+            # Faz a formação correta de data
+            datainit = datainit if datainit else None
+            dataend = dataend if dataend else None
+
+            # Confere se os valores recebidos de contrato a sei são iguais ao do banco de dados caso não sejam atualiza o banco de dados
+            pacote = PacoteAquisicao.objects.get(id=id_pacote)
+            if pacote.contrato != contrato:
+                pacote.contrato = contrato
+            if pacote.contratoinit != datainit:
+                pacote.contratoinit = datainit
+            if pacote.contratoend != dataend:
+                pacote.contratoend = dataend
+
+            print(f"Valor de sei: {pacote.doc_ref != sei or '' != sei}")
+            if '' != sei:
+                if sei == 'SET_FAILURE_SEI':
+                    pacote.doc_ref = ""
+                elif pacote.doc_ref != sei:
+                    pacote.doc_ref = sei
+            pacote.save()
+            messages.add_message(request, messages.SUCCESS,
+                                 'Pacote atualizado com sucesso')
+            return redirect(reverse('pacoteedit', kwargs={'id_pacote': id_pacote}))
+
     else:
         all_equipamentos = EquipamentoServico.objects.all()
         pacote = PacoteAquisicao.objects.get(id=id_pacote)

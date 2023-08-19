@@ -42,6 +42,28 @@ def value_pacote(value):
     return valor_total
 
 
+@register.filter(name='value_projeto')
+def value_projeto(value):
+    # A partir do id de um projeto ele analisa todos os pacotes de aquisição e soma os valores de cada pacote aos moldes do que ocorre no filter value_pacote
+    projeto = Projeto.objects.get(id=value)
+    valor_total = 0
+
+    # Iterar sobre PacoteAquisicaoEquipamentoServico
+    for pacote in projeto.pacote_aquisicao.all():
+        for despesa_equipamento in pacote.despesa_equipamento.all():
+            if despesa_equipamento.usa_preco_portal:
+                valor_total += (despesa_equipamento.equipamento.valor_portal *
+                                despesa_equipamento.quantidade)
+            else:
+                valor_total += (despesa_equipamento.valor_medio *
+                                despesa_equipamento.quantidade)
+    # Formata o valor total para o formato de moeda em reais
+    valor_total = f'R$ {valor_total:,.2f}'.replace(
+        ',', 'v').replace('.', ',').replace('v', '.') if valor_total else 'R$ 0,00'
+
+    return valor_total
+
+
 @register.filter(name='split')
 def split(value):
     if ";" in value:
@@ -74,7 +96,9 @@ def inputformatdate(value):
 @register.filter(name="sei_interable")
 def sei_interable(value):
     # Em value recebe uma string que deve ser separada por ";" e posteriormente retornada uma lista com o conteudo
-    if ";" in value:
+    if value == None:
+        return [""]
+    elif ";" in value:
         return value.split(";")
     else:
         return [value]
@@ -151,3 +175,49 @@ def finalDate(data_final, data_real_final):
         return data_real_final
     else:
         return data_final
+
+
+@register.filter(name="ajusta_fase")
+def ajusta_fase(value):
+    if value == 'rp-etp':
+        return 'Elaboração do ETP'
+    if value == 'rp-orcamentos':
+        return 'Obtenção de Orçamentos'
+    if value == 'rp-precos':
+        return 'Mapa de Preços'
+    if value == 'rp-autorizacao-dlf':
+        return 'Pedido de autorização DLF'
+    if value == 'rp-gestao':
+        return 'Solicitação de Gestão de RP'
+    if value == 'rp-minuta':
+        return 'Elaboração Minuta do Termo de Referência'
+    if value == 'rp-correcao-minuta':
+        return 'Correção Minuta do Termo de Referência (ASSJUR)'
+    if value == 'rp-correcao-etp':
+        return 'Correção ETP (ASSJUR)'
+    if value == 'rp-formulario-adesao':
+        return 'Formulário de Adesão'
+    if value == 'rp-encaminhado-gol':
+        return 'Encaminhado a Gol'
+    if value == 'rp-impugnacao':
+        return 'Respondendo impugnação'
+    if value == 'rp-resposta-documentacao':
+        return 'Resposta a documentação'
+    if value == 'pg-autorizacao-dlf':
+        return 'Pedido de autorização DLF'
+    if value == 'pg-etp':
+        return 'Elaboração do ETP'
+    if value == 'pg-orcamentos':
+        return 'Obtenção de Orçamentos'
+    if value == 'pg-precos':
+        return 'Mapa de Preços'
+    if value == 'pg-minuta':
+        return 'Elaboração Minuta do Termo de Referência'
+    if value == 'pg-extrato':
+        return 'Extrato de Crédito'
+    if value == 'pg-correcao-minuta':
+        return 'Correção Minuta do Termo de Referência (ASSJUR)'
+    if value == 'pg-correcao-etp':
+        return 'Correção ETP (ASSJUR)'
+    if value == 'Terceiros':
+        return 'Terceiros'

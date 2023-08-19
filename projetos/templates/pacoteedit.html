@@ -37,9 +37,7 @@
       <div class="col-md-6">
         <h5 class="card-title w-20">Configurações</h5>
       </div>
-      <div class="col-md-6 d-flex justify-content-end align-items-center">
-        <button class="btn btn-success w-20 fw-bold">Salvar alterações</button>
-      </div>
+
     </div>
     <div class="row d-flex flex-row justify-content-between align-items-center">
       <!-- Default Tabs -->
@@ -120,6 +118,8 @@
       <!-- CONTEUDO DAS ABAS-->
       <div class="tab-content pt-2" id="myTabContent">
         <div class="tab-pane fade show active" id="andamento-justified" role="tabpanel" aria-labelledby="home-tab">
+          <form action="{% url 'pacoteedit' id_pacote %}" method="post">
+            {% csrf_token %}
           <div class="row align-items-top">
             <div class="col">
               <div class="card info-card revenue-card">
@@ -318,10 +318,14 @@
                 </div>
               </div>
             </div>
-          </div>  
+          </div>
+          <button class="btn btn-success w-20 fw-bold">Salvar alterações</button>  
+          </form>
         </div>
         <div class="tab-pane fade" id="documentos-justified" role="tabpanel" aria-labelledby="profile-tab">
-          <div class="row align-items-top">
+        <form action="{% url 'pacoteedit' id_pacote %}" method="post">
+          {% csrf_token %}
+            <div class="row align-items-top">
             <!-- CONTRATO Card -->
             <div class="col-xxl-4 col-md-4">
               <div class="card info-card revenue-card">
@@ -362,7 +366,7 @@
                         class="form-control changeble-item"
                         id="dateInitialInput_edit"
                         name="dateInitialInput_edit"
-                        value="{{pacote.contratoinit|formatdate}}"
+                        value="{{pacote.contratoinit|inputformatdate}}"
                       />
                     </div>
                   </div>
@@ -384,7 +388,7 @@
                         class="form-control changeble-item"
                         id="dateFinalInput_edit"
                         name="dateFinalInput_edit"
-                        value="{{pacote.contratoend|formatdate}}"
+                        value="{{pacote.contratoend|inputformatdate}}"
                       />
                     </div>
                   </div>
@@ -433,10 +437,13 @@
                       style="height: 8.8em; overflow-y: auto"
                     >
                   {% for sei in pacote.doc_ref|sei_interable %}
+                  {% if sei == "" %}
+                  {% else %}
                   <div class="d-flex flex-row justify-content-between w-100 align-items-center mb-1">
-                  <p class="labelsei">{{sei}}</p>
-                  <button class="btn btn-danger btn-sm me-2" onclick="removeItem(event)">X</button>
+                    <p class="labelsei">{{sei}}</p>
+                    <button class="btn btn-danger btn-sm me-2" onclick="removeItem(event)">X</button>
                   </div>
+                  {% endif %}
                   {% endfor %}
                   
                   </div>
@@ -453,6 +460,8 @@
             id="hiddensei_edit"
             value="{{pacote.doc_ref}}"
           />
+            <button class="btn btn-success w-20 fw-bold mt-4">Salvar alterações</button>
+          </form>
         </div>
         <div class="tab-pane fade" id="equipamentos-justified" role="tabpanel" aria-labelledby="profile-tab">
           <div class="row align-items-top">
@@ -2548,6 +2557,7 @@
        rpSelect.style.display = "none";
        pgSelect.style.display = "none";
        terceirosElement.style.display = "block"; // mostra "terceiros"
+       terceirosElement.textContent = "Terceiros";
 
        if (this.value === "RP") {
          rpSelect.style.display = "block";
@@ -2566,7 +2576,8 @@
 
        // Verifica se o texto já existe na lista
        if (!listContainer.innerHTML.includes(inputText.value)) {
-         // Cria um novo item da lista
+        if (inputText.value){
+        // Cria um novo item da lista
          const newItem = document.createElement("div");
          newItem.classList.add(
            "d-flex",
@@ -2576,12 +2587,14 @@
            "align-items-center",
            "mb-1"
          );
-         newItem.innerHTML = `<p class="labelsei">{{equip}}</p> <button class="btn btn-danger btn-sm me-2" onclick="removeItem(event)">X</button>`;
+         newItem.innerHTML = `<p class="labelsei">${inputText.value}</p> <button class="btn btn-danger btn-sm me-2" onclick="removeItem(event)">X</button>`;
 
          // Adiciona o novo item à lista
          listContainer.appendChild(newItem);
        }
 
+
+        }
        // Limpa o campo de entrada
        inputText.value = "";
 
@@ -2607,8 +2620,7 @@
          let childDivs = targetNode.children;
          for (let i = 0; i < childDivs.length; i++) {
            // Acessa o conteúdo do elemento p dentro da div
-           let pContent =
-             childDivs[i].getElementsByTagName("p")[0].textContent;
+           let pContent =childDivs[i].getElementsByTagName("p")[0].textContent;
            textValues += pContent + ";";
          }
 
@@ -2616,6 +2628,10 @@
          textValues = textValues.slice(0, -1);
 
          // Armazena os valores no input hidden
+         if(!textValues){
+          document.getElementById("hiddensei_edit").value = "SET_FAILURE_SEI"
+          return
+         }
          document.getElementById("hiddensei_edit").value = textValues;
        }
      }
@@ -2658,6 +2674,31 @@
     var selectCategoria = document.getElementById('selectCategoria_edit');
     var selectEquip = document.getElementById('selectEquip_edit');
 
+    // Configura RP, PG E Terceiros
+         // Ajusta display para RP, PG e terceiros
+         const statusSelect = document.querySelector("#selectStatusNew_edit");
+         const rpSelect = document.getElementById("selectnewrp_edit");
+         const pgSelect = document.getElementById("selectnewpg_edit");
+         const terceirosElement = document.getElementById("terceiros_edit");
+    
+         // inicia ambos selects ocultos
+         rpSelect.style.display = "none";
+         pgSelect.style.display = "none";
+    
+
+           // esconde ambos selects
+           rpSelect.style.display = "none";
+           pgSelect.style.display = "none";
+           terceirosElement.style.display = "block"; // mostra "terceiros"
+    
+           if (statusSelect.value === "RP") {
+             rpSelect.style.display = "block";
+             terceirosElement.style.display = "none"; // oculta "terceiros"
+           } else if (statusSelect.value === "PG") {
+             pgSelect.style.display = "block";
+             terceirosElement.style.display = "none"; // oculta "terceiros"
+           }
+
 
     selectCategoria.addEventListener('change', function(){
       // Limpa as opções existentes
@@ -2680,13 +2721,18 @@
         }
       {% endfor %}
     });
-
+    // Deixa a input hidden de sei vazio para não salvar
+    document.getElementById("hiddensei_edit").value = ""
     fillDifferenceInTable()
 
   });
 
   function fillDifferenceInTable() {
     const tableRows = document.querySelector('#listTaskTable_edit');
+
+    
+
+
     // Começa do 1 para pular o cabeçalho da tabela
     for (let i = 1; i < tableRows.rows.length; i++) {
       const cells = tableRows.rows[i].cells;

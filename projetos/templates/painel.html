@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% load static %} {% block 'title'%}Projetos{%endblock%} {% block 'head' %}
+{% extends 'base.html' %} {% load static %} {% load filters %}{% block 'title'%}Projetos{%endblock%} {% block 'head' %}
 <link rel="stylesheet" href="{% static 'css/full-style.css' %}" />
 {% endblock %} {% block 'subtitle' %}Painel de Projetos{% endblock %} {% block 'content' %}
 {% if messages %} {% for message in messages %}
@@ -53,8 +53,8 @@
                     <p class="card-text">
                       <span>Descrição:</span> {{projeto.descricao|truncatechars:50 }}
                     </p>
-                    <p><span>Data:</span> {{projeto.created_at}}</p>
-                    <p><span>Valor:</span> R$ 1.000.000,00</p>
+                    <p><span>Data:</span> {{projeto.created_at|formatdate}}</p>
+                    <p><span>Valor:</span> {{projeto.id|value_projeto}}</p>
 
                     {% if projeto.etiqueta == 'radio' %}
                     <div class="card-footer text-primary text-uppercase">
