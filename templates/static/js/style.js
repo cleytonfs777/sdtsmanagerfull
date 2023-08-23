@@ -35,3 +35,4 @@ function calcMedia() {
 
     document.getElementById("valMedItem").value = `R$ ${media}`;
 }
+

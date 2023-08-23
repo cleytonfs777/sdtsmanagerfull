@@ -15,6 +15,8 @@ urlpatterns = [
          views.createpackage, name='createpackage'),
     path('painel/project/pacoteedit/<int:id_pacote>',
          views.pacoteedit, name='pacoteedit'),
+    path('painel/project/removepackage/<int:id_pacote>',
+         views.removepackage, name='removepackage'),
     path('painel/project/allservpack/<int:id_element>',
          views.allservpack, name='allservpack'),
     path('painel/project/pacoteview/<int:id_pacote>',
@@ -44,4 +46,9 @@ urlpatterns = [
          views.deleteobspen, name='deleteobspen'),
     path('painel/project/pacoteedit/editobspen/<int:id_obspen>/',
          views.editobspen, name='editobspen'),
+    # Funções e URLs relacionadas a Pacotes de Receita
+    path('painel/project/newpackagerec/<int:id_project>/',
+         views.newpackagerec, name='newpackagerec'),
+    path('painel/project/newpackagerec/createedotorc/<int:id_pacote_emp>/',
+         views.createedotorc, name='createedotorc'),
 ]

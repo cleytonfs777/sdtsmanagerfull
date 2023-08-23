@@ -26,8 +26,8 @@ choice_status_receita = (
     ('adescentralizar', 'A descentralizar'),
     ('descentralizado', 'Descentralizado'),
     ('empenhado', 'Empenhado'),
-    ('liquidado', 'Liquidado'),
-    ('pago', 'Pago'),
+    ('recolhido', 'Recolhido'),
+    ('remanejado', 'Remanejado'),
     ('cancelado', 'Cancelado'),
 )
 
@@ -45,14 +45,59 @@ class Projeto(models.Model):
         return self.titulo
 
 
+class HistoricoDocacaoOrcamentaria(models.Model):
+    choice_acao = (
+        ('env', 'envio'),
+        ('aum', 'aumento'),
+        ('red', 'redução'),
+        ('reb', 'rebalanceamento')
+    )
+    acao = models.CharField(max_length=20, choices=choice_acao)
+    detalhamento = models.TextField(blank=True, null=True)
+    data_acao = models.DateField(blank=True, null=True)
+    pacote_empenho = models.ForeignKey(
+        'DotacaoOrcamentaria', on_delete=models.CASCADE, related_name='historico_dotacoes_orcamentarias', null=True)
+
+    def __str__(self):
+        return self.elemento_item
+
+
 class DotacaoOrcamentaria(models.Model):
-    acao = models.CharField(max_length=100)
-    fonte = models.CharField(max_length=100)
-    elemento_item = models.CharField(max_length=100)
-    conta = models.CharField(max_length=100)
+    choices_origem = (
+        ('CSM', '1400011 - CSM'),
+        ('Aj-Geral', '1400005 - Aj-Geral'),
+        ('ABM', '1400017 - ABM'),
+        ('DLF', 'USDO 1400018 - DLF'),
+        ('1ºBBM', '1400006 - 1ºBBM'),
+        ('3ºBBM', '1400008 - 3ºBBM'),
+        ('USDO GOL', '1400018 - USDO GOL'),
+        ('4ºCOB', '1400034 - 4ºCOB'),
+        ('BOA', '1400019 - BOA'),
+        ('2ºCOB', '1400021 - 2ºCOB'),
+        ('8ºBBM', '1400014 - 8ºBBM'),
+        ('5ºBBM', '1400010 - 5ºBBM'),
+        ('12ºBBM', '1400027 - 12ºBBM'),
+        ('3ºCOB', '1400023 - 3ºCOB'),
+        ('5ºCOB', '1400029 - 5ºCOB'),
+        ('6ºCOB', '1400030 - 6ºCOB'),
+    )
+    acao = models.CharField(max_length=100, blank=True, null=True)
+    fonte = models.CharField(max_length=100, blank=True, null=True)
+    elemento_item = models.CharField(max_length=100, blank=True, null=True)
+    conta = models.CharField(max_length=100, blank=True, null=True)
+    natureza_desp = models.CharField(
+        max_length=20, choices=choice_nat_desp, blank=True, null=True)
+    unid_origem = models.CharField(
+        max_length=50, choices=choices_origem, blank=True, null=True)
     valor = models.DecimalField(
         max_digits=10, decimal_places=2, blank=True, null=True)
-    documento_ref = models.CharField(max_length=100, blank=True, null=True)
+    divisoes = models.TextField(blank=True, null=True)
+    doc_ref = models.CharField(max_length=100, blank=True, null=True)
+    status = models.CharField(
+        max_length=20, choices=choice_status_receita, blank=True, null=True)
+    desc = models.TextField(blank=True, null=True)
+    pacote_empenho = models.ForeignKey(
+        'PacoteEmpenho', on_delete=models.CASCADE, related_name='dotacoes_orcamentarias', null=True)
 
     def __str__(self):
         return self.elemento_item
@@ -247,15 +292,14 @@ class PacoteEmpenho(models.Model):
         ('receita', 'Receita')
     )
     titulo = models.CharField(max_length=100)
-    etiqueta = models.CharField(max_length=20, choices=choices_etiqueta)
-    natureza_desp = models.CharField(max_length=20, choices=choice_nat_desp)
+    descricao = models.TextField(blank=True, null=True)
+    etiqueta = models.CharField(
+        max_length=20, choices=choices_etiqueta, blank=True, null=True)
     tipo_pacote = models.CharField(
         max_length=20, choices=choices_tipo_pacote, blank=True, null=True)
     dot_orc = models.ManyToManyField(
         DotacaoOrcamentaria, related_name='pacote_receita_dot_orc')
-    unid_exec = models.CharField(max_length=100, blank=True, null=True)
-    doc_ref = models.CharField(max_length=100, blank=True, null=True)
-    status = models.CharField(max_length=20, choices=choice_status_receita)
+    documento_ref = models.CharField(max_length=100, blank=True, null=True)
     observacoes = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

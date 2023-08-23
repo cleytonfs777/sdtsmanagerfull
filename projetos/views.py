@@ -119,6 +119,20 @@ def pacoteedit(request, id_pacote):
 
 
 @login_required
+def removepackage(request, id_pacote):
+    pacote = PacoteAquisicao.objects.get(id=id_pacote)
+    try:
+        pacote.delete()
+        messages.add_message(request, messages.SUCCESS,
+                             'Pacote deletado com sucesso')
+        return redirect(reverse('project', kwargs={'id_project': pacote.projeto.id}))
+    except Exception as e:
+        messages.add_message(request, messages.ERROR,
+                             f'Erro ao deletar pacote: {e}')
+        return redirect(reverse('project', kwargs={'id_project': pacote.projeto.id}))
+
+
+@login_required
 def deleteequip(request, id_element):
     if request.method == 'POST':
         equipamento_exclude = PacoteAquisicaoEquipamentoServico.objects.get(
@@ -443,6 +457,10 @@ def createpackage(request, id_project):
                 dataend = request.POST.get('dateFinalInput', '')
                 sei = request.POST.get('hiddensei', '')
 
+                # tratar o valor para as datas
+                datainit = datainit if datainit else None
+                dataend = dataend if dataend else None
+
                 # Tratamento de valores e salvar no banco de dados
                 # 1 - Criar um pacote de despesas
                 pacote_despesa = PacoteAquisicao(
@@ -491,6 +509,11 @@ def createpackage(request, id_project):
                     print(f"datainst_equip: {datainst_equip} \n")
                     print(f"obs_equip: {obs_equip} \n")
                     print(f"destino_equip: {destino_equip} \n")
+
+                    # Trata data dos equipamentos
+                    dataentrega_equip = dataentrega_equip if dataentrega_equip else None
+                    datainst_equip = datainst_equip if datainst_equip else None
+
                     # Pegar as instancias das foreing keys
                     pacote_despesa = PacoteAquisicao.objects.get(
                         id=pacote_despesa.id)
@@ -790,3 +813,16 @@ def editobspen(request, id_obspen):
             return redirect(reverse('pacoteedit', kwargs={'id_pacote': id_pacote}))
     else:
         return HttpResponse(f"Você não tem autorização para acessar essa pagina: {e}", status=401)
+
+
+@login_required
+def newpackagerec(request, id_project):
+    # Injeta na pagina o titulo do projeto
+    name_projet = Projeto.objects.get(id=id_project)
+    return render(request, 'newpackagerec.html', {'id_project': id_project, 'name_project': name_projet})
+
+
+@login_required
+def createedotorc(request, id_pacote_emp):
+    # Ao receber um post faz o registro de uma dotação orçamentária relacionada a um determinado
+    return HttpResponse("Oi")

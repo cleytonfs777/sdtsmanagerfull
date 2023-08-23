@@ -1,7 +1,9 @@
 {% extends 'base.html' %} {% load static %}{% load filters %} {% load filters %} {% block 'title'%}Projetos{%endblock%} {% block 'head' %}
 <link rel="stylesheet" href="{% static 'css/full-style.css' %}" />
 {% endblock %} {% block 'subtitle' %}Projeto {{projeto.titulo}}{% endblock %} {% block 'content' %}
-
+{% if messages %} {% for message in messages %}
+<div class="alert {{message.tags}} stilo-message">{{message}}</div>
+{% endfor %} {% endif %}
 <div class="row align-items-top">
   <div class="col">
     <!-- Default Card -->
@@ -76,12 +78,12 @@
           <div class="container">
             <div class="row py-2">
               <div class="col-md-12">
-                <a href="#" class="btn btn-success w-100 py-3 fw-bold">Pacote de Receita</a>
+                <a href="{% url 'newpackagerec' projeto.id %}" class="btn btn-success w-100 py-3 fw-bold">Pacote de Receita</a>
               </div>
             </div>
             <div class="row py-2">
               <div class="col-md-12">
-                <a href="#" class="btn btn-danger w-100 py-3 fw-bold">Pacote de Despesa</a>
+                <a href="{% url 'newpackagerec' projeto.id %}"  class="btn btn-danger w-100 py-3 fw-bold">Pacote de Despesa</a>
               </div>
             </div>
             <div class="row py-2">
