@@ -194,7 +194,7 @@
                           </tbody>
                         </table>
                       </div>
-                      <input type="text" name="hidden_dotorc" id="hidden_dotorc" value="">
+                      <input type="text" class="d-flex w-100" name="hidden_dotorc" id="hidden_dotorc" value="">
                       </div>
                     </div>
                   </div>
@@ -256,6 +256,7 @@
                   </div>
                 </div>
                 <!--Fim Conteudo-->
+                <input type="text" class="d-flex w-100" name="hidden_seirec" id="hidden_seirec" value="">
               </div>
           </form>
         </div>
@@ -611,7 +612,7 @@
             "align-items-center",
             "mb-1"
           );
-          newItem.innerHTML = `<p class="labelsei">${inputText.value}</p> <button class="btn btn-danger btn-sm me-2" onclick="removeItem(event)">X</button>`;
+          newItem.innerHTML = `<p class="labelsei">${inputText.value}</p> <button type="button" class="btn btn-danger btn-sm me-2" onclick="removeItem(event)">X</button>`;
   
           // Adiciona o novo item à lista
           listContainer.appendChild(newItem);
@@ -622,8 +623,43 @@
   
       });
   
+      // Função que será chamada sempre que um elemento for adicionado ou removido de "maincontent"
+      // Seleciona o nó que será observado
+      const targetNode = document.getElementById("listContainer-2");
 
+      // Cria uma instância de observer
+      const observer = new MutationObserver((mutationsList, observer) => {
+        // Itera sobre todas as mutações que acabaram de ocorrer
+        for (let mutation of mutationsList) {
+          // Se o `mutation.type` for `childList`, adiciona o conteúdo do elemento p ao input hidden
+          if (mutation.type === "childList") {
+            let textValues = "";
+            let childDivs = targetNode.children;
+            for (let i = 0; i < childDivs.length; i++) {
+              // Acessa o conteúdo do elemento p dentro da div
+              let pContent =
+                childDivs[i].getElementsByTagName("p")[0].textContent;
+              textValues += pContent + ";";
+            }
 
+            // Remove o último ';'
+            textValues = textValues.slice(0, -1);
+
+            // Armazena os valores no input hidden
+            document.getElementById("hidden_seirec").value = textValues;
+          }
+        }
+      });
+
+      // Configuração do observer: quais mutações serão observadas
+      const config = { attributes: false, childList: true, subtree: false };
+      // Inicia a observação do nó configurado
+      observer.observe(targetNode, config);
+
+      function removeItem(event) {
+        const item = event.target.parentNode;
+        item.parentNode.removeChild(item);
+      }
   </script>
     
 
