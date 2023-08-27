@@ -20,8 +20,9 @@
     max-height: 10em; /* Define a altura máxima */
     overflow-y: auto; /* Permite a rolagem vertical quando necessário */
   }
-  
-  .table-dot thead, .table-dot tbody tr {
+
+  .table-dot thead,
+  .table-dot tbody tr {
     display: table; /* Faz com que o thead e tr se comportem como uma tabela */
     width: 100%; /* Faz com que o thead e tr ocupem a largura total da tabela */
     table-layout: fixed; /* Garante que as células da tabela sejam de largura igual */
@@ -30,8 +31,7 @@
     max-width: 50%; /* Ou o valor que você quiser */
   }
 </style>
-{% endblock %} {% block 'subtitle' %}Pacote de Receita - {{name_project}}{% endblock %} {% block 'content' %}
-{% if messages %} {% for message in messages %}
+{% endblock %} {% block 'subtitle' %}Pacote de Receita - {{name_project}}{% endblock %} {% block 'content' %} {% if messages %} {% for message in messages %}
 <div class="alert {{message.tags}} stilo-message">{{message}}</div>
 {% endfor %} {% endif %}
 <div class="row align-items-top">
@@ -40,25 +40,37 @@
     <div class="card info-card revenue-card">
       <div class="card-body">
         <div class="row align-items-top">
-          <form id="form-etapas" action="{% url 'createpackage' id_project %}" method="POST">
+          <form
+            id="form-etapas"
+            action="{% url 'createpackage' id_project %}"
+            method="POST"
+          >
             {% csrf_token %}
             <!-- Etapa 1 -->
             <div class="form-etapa ativo">
               <h5 class="card-title border-bottom">
                 Adicionar
-                <span>| Crie seu pacote de receita inserindo todos os aportes financeiros para a execução</span>
-                <button type="reset" onclick="clearSession()" class="btn btn-secondary btn-sm ms-sm-5"><i class="bi bi-eraser"></i></button>
+                <span
+                  >| Crie seu pacote de receita inserindo todos os aportes
+                  financeiros para a execução</span
+                >
+                <button type="reset" class="btn btn-secondary btn-sm ms-sm-5">
+                  <i class="bi bi-eraser"></i>
+                </button>
               </h5>
-                <!--Inicio Conteudo-->  
-                <div class="row align-items-top">
-                  <div class="col">
-                    <div class="card info-card revenue-card">
-                      <div class="card-body">
-                        <h5 class="card-title">
-                          TITULO <span>| Escolha um titulo para identificar seu pacote</span>
-                        </h5>
-                        <div class="d-flex align-items-center">
-                          <input
+              <!--Inicio Conteudo-->
+              <div class="row align-items-top">
+                <div class="col">
+                  <div class="card info-card revenue-card">
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        TITULO
+                        <span
+                          >| Escolha um titulo para identificar seu pacote</span
+                        >
+                      </h5>
+                      <div class="d-flex align-items-center">
+                        <input
                           type="text"
                           class="form-control mb-0 changeble-item"
                           placeholder=""
@@ -67,96 +79,108 @@
                           id="TitlePacoteRec"
                           name="TitlePacoteRec"
                         />
-                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="row align-items-top">
-                  <div class="col">
-                    <div class="card info-card revenue-card">
-                      <div class="card-body">
-                        <h5 class="card-title">
-                          DESCRICAO <span>| Realize uma breve descrição do pacote de receita recebido</span>
-                        </h5>
-                        <div class="d-flex align-items-center">
+              </div>
+              <div class="row align-items-top">
+                <div class="col">
+                  <div class="card info-card revenue-card">
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        DESCRICAO
+                        <span
+                          >| Realize uma breve descrição do pacote de receita
+                          recebido</span
+                        >
+                      </h5>
+                      <div class="d-flex align-items-center">
                         <textarea
-                        class="form-control changeble-item"
-                        style="height: 130px; font-size: 0.8em"
-                        id="DescPacoteRec"
-                        name="DescPacoteRec"
-                      ></textarea>
-                        </div>
+                          class="form-control changeble-item"
+                          style="height: 130px; font-size: 0.8em"
+                          id="DescPacoteRec"
+                          name="DescPacoteRec"
+                        ></textarea>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="row align-items-top">
-                  <!-- Natureza Card -->
-                  <div class="col-xxl-6 col-md-6">
-                    <div class="card info-card revenue-card">
-                      <div class="card-body">
-                        <h5 class="card-title">
-                          Etiqueta
-                          <span>| Classifique a Etiqueta do projeto</span>
-                        </h5>
-                        <div class="d-flex align-items-center">
-                          <select
-                            class="form-select changeble-item"
-                            aria-label="Default select example"
-                            id="selectEtiquetaNew"
-                            name="selectEtiquetaNew"
-                          >
-                            <option selected disabled>
-                              Escolha a Etiqueta projeto
-                            </option>
-                            <option value="radio">Radiocomunicação</option>
-                            <option value="telefonia">Telefonia</option>
-                            <option value="audioevideo">Audio e video</option>
-                            <option value="outros">Outros</option>
-                          </select>
-                        </div>
+              </div>
+              <div class="row align-items-top">
+                <!-- Natureza Card -->
+                <div class="col-xxl-6 col-md-6">
+                  <div class="card info-card revenue-card">
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        Etiqueta
+                        <span>| Classifique a Etiqueta do projeto</span>
+                      </h5>
+                      <div class="d-flex align-items-center">
+                        <select
+                          class="form-select changeble-item"
+                          aria-label="Default select example"
+                          id="selectEtiquetaNew"
+                          name="selectEtiquetaNew"
+                        >
+                          <option selected disabled>
+                            Escolha a Etiqueta projeto
+                          </option>
+                          <option value="radio">Radiocomunicação</option>
+                          <option value="telefonia">Telefonia</option>
+                          <option value="audioevideo">Audio e video</option>
+                          <option value="outros">Outros</option>
+                        </select>
                       </div>
                     </div>
                   </div>
-                  <!-- TIPO Card -->
-                  <div class="col-xxl-6 col-md-6">
-                    <div class="card info-card revenue-card">
-                      <div class="card-body">
-                        <h5 class="card-title">
-                          NATUREZA
-                          <span
-                            >| Natureza a ser fornecido se material ou serviço</span
-                          >
-                        </h5>
-                        <div class="d-flex align-items-center">
-                          <select
-                            class="form-select changeble-item"
-                            aria-label="Default select example"
-                            id="selectNaturezaNew"
-                            name="selectNaturezaNew"
-                          >
-                            <option selected disabled>Escolha a Natureza</option>
-                            <option value="material">Material</option>
-                            <option value="servico">Serviço</option>
-                            <option value="materialservico">Material/Serviço</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
                 </div>
-                <div class="row align-items-top">
-                  <div class="col">
-                    <div class="card info-card revenue-card">
-                      <div class="card-body">
-                        <div class="row">
-                          <div class="col d-flex flex-row justify-content-between">
-                            <h5 class="card-title">
-                              Dotações Orçamentárias <span>| Realize o gerenciemento de todas as dotações orçamentárias disponíveis</span>
-                            </h5>
-                            <button
+                <!-- TIPO Card -->
+                <div class="col-xxl-6 col-md-6">
+                  <div class="card info-card revenue-card">
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        NATUREZA
+                        <span
+                          >| Natureza a ser fornecido se material ou
+                          serviço</span
+                        >
+                      </h5>
+                      <div class="d-flex align-items-center">
+                        <select
+                          class="form-select changeble-item"
+                          aria-label="Default select example"
+                          id="selectNaturezaNew"
+                          name="selectNaturezaNew"
+                        >
+                          <option selected disabled>Escolha a Natureza</option>
+                          <option value="material">Material</option>
+                          <option value="servico">Serviço</option>
+                          <option value="materialservico">
+                            Material/Serviço
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row align-items-top">
+                <div class="col">
+                  <div class="card info-card revenue-card">
+                    <div class="card-body">
+                      <div class="row">
+                        <div
+                          class="col d-flex flex-row justify-content-between"
+                        >
+                          <h5 class="card-title">
+                            Dotações Orçamentárias
+                            <span
+                              >| Realize o gerenciemento de todas as dotações
+                              orçamentárias disponíveis</span
+                            >
+                          </h5>
+                          <button
                             type="button"
                             data-bs-toggle="modal"
                             data-bs-target="#modalAddDot"
@@ -164,157 +188,183 @@
                           >
                             Adicionar Dotação
                           </button>
-                          </div>
-                          
                         </div>
-                        <div class="d-flex align-items-center">
-                          <table
+                      </div>
+                      <div class="d-flex align-items-center">
+                        <table
                           id="table_dotorc"
                           class="table table-striped table-sm table-dot"
-                          >
+                        >
                           <!--setInputDotOrc()-->
                           <thead>
                             <tr>
-                              <th scope="col" class="rot-info rot-sm ocultar">Desc</th>
-                              <th scope="col" class="rot-info rot-sm">Natureza</th>
+                              <th scope="col" class="rot-info rot-sm ocultar">
+                                Desc
+                              </th>
+                              <th scope="col" class="rot-info rot-sm">
+                                Natureza
+                              </th>
                               <th scope="col" class="rot-info rot-sm">Ação</th>
                               <th scope="col" class="rot-info rot-sm">Fonte</th>
-                              <th scope="col" class="rot-info rot-sm ">Elemento Item</th>
-                              <th scope="col" class="rot-info rot-sm ocultar">Conta</th>
-                              <th scope="col" class="rot-info rot-sm ">Data</th>
-                              <th scope="col" class="rot-info rot-sm ocultar">Unid Origem</th>
-                              <th scope="col" class="rot-info rot-sm ocultar">Unid Destino</th>
-                              <th scope="col" class="rot-info rot-sm">Status</th>
+                              <th scope="col" class="rot-info rot-sm">
+                                Elemento Item
+                              </th>
+                              <th scope="col" class="rot-info rot-sm ocultar">
+                                Conta
+                              </th>
+                              <th scope="col" class="rot-info rot-sm">Data</th>
+                              <th scope="col" class="rot-info rot-sm ocultar">
+                                Unid Origem
+                              </th>
+                              <th scope="col" class="rot-info rot-sm ocultar">
+                                Unid Destino
+                              </th>
+                              <th scope="col" class="rot-info rot-sm">
+                                Status
+                              </th>
                               <th scope="col" class="rot-info rot-sm">Valor</th>
                               <th scope="col" class="rot-info rot-sm"></th>
                             </tr>
                           </thead>
-                          <tbody 
-                          
-                          </tbody>
+                          <tbody></tbody>
                         </table>
                       </div>
-                      <input type="text" class="d-flex w-100" name="hidden_dotorc" id="hidden_dotorc" value="">
-                      </div>
+                      <input
+                        type="text"
+                        class="d-flex w-100"
+                        name="hidden_dotorc"
+                        id="hidden_dotorc"
+                        value=""
+                      />
                     </div>
                   </div>
                 </div>
-                <div class="row align-items-top">
-                  <div class="col-xxl-6 col-md-6">
-                    <div class="card info-card revenue-card">
-                      <div class="card-body">
-                        <h5 class="card-title">
-                          SEI <span>| Numero de documento referência</span>
-                        </h5>
-                        <div class="d-flex flex-column align-items-center">
-                          <div class="input-group mb-3">
-                            <button
-                              class="btn btn-primary fw-bold"
-                              type="button"
-                              id="button-addon2-new"
-                            >
-                              +
-                            </button>
-                            <input
-                              type="text"
-                              class="form-control"
-                              id="inputText-new_2"
-                              placeholder=""
-                              aria-label="Example text with button addon"
-                              aria-describedby="button-addon2-new"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- End LOCALIZADO Card -->
-                  <!-- LOCALIZADO Card -->
-                  <div class="col-xxl-6 col-md-6">
-                    <div class="card info-card revenue-card">
-                      <div class="card-body">
-                        <div class="d-flex flex-column align-items-center">
-                          <div
-                            class="list-container d-flex flex-column justify-content-around w-100 changeble-item"
-                            id="listContainer-2"
-                            style="height: 8.8em; overflow-y: auto"
-                          >
-                        {% for sei in pacote.doc_ref|sei_interable %}
-                        {% if sei == "" %}
-                        {% else %}
-                        <div class="d-flex flex-row justify-content-between w-100 align-items-center mb-1">
-                          <p class="labelsei">{{sei}}</p>
-                          <button class="btn btn-danger btn-sm me-2" onclick="removeItem(event)">X</button>
-                        </div>
-                        {% endif %}
-                        {% endfor %}
-                        
-                        </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!--Fim Conteudo-->
-                <input type="text" class="d-flex w-100" name="hidden_seirec" id="hidden_seirec" value="">
               </div>
+              <div class="row align-items-top">
+                <div class="col-xxl-6 col-md-6">
+                  <div class="card info-card revenue-card">
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        SEI <span>| Numero de documento referência</span>
+                      </h5>
+                      <div class="d-flex flex-column align-items-center">
+                        <div class="input-group mb-3">
+                          <button
+                            class="btn btn-primary fw-bold"
+                            type="button"
+                            id="button-addon2-new"
+                          >
+                            +
+                          </button>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="inputText-new_2"
+                            placeholder=""
+                            aria-label="Example text with button addon"
+                            aria-describedby="button-addon2-new"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- End LOCALIZADO Card -->
+                <!-- LOCALIZADO Card -->
+                <div class="col-xxl-6 col-md-6">
+                  <div class="card info-card revenue-card">
+                    <div class="card-body">
+                      <div class="d-flex flex-column align-items-center">
+                        <div
+                          class="list-container d-flex flex-column justify-content-around w-100 changeble-item"
+                          id="listContainer-2"
+                          style="height: 8.8em; overflow-y: auto"
+                        >
+                          {% for sei in pacote.doc_ref|sei_interable %} {% if sei == "" %} {% else %}
+                          <div
+                            class="d-flex flex-row justify-content-between w-100 align-items-center mb-1"
+                          >
+                            <p class="labelsei">{{sei}}</p>
+                            <button
+                              class="btn btn-danger btn-sm me-2"
+                              onclick="removeItem(event)"
+                            >
+                              X
+                            </button>
+                          </div>
+                          {% endif %} {% endfor %}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--Fim Conteudo-->
+              <input
+                type="text"
+                class="d-flex w-100"
+                name="hidden_seirec"
+                id="hidden_seirec"
+                value=""
+              />
+            </div>
           </form>
         </div>
       </div>
     </div>
   </div>
 </div>
-  <!-- Modal Dialog Scrollable -->
-  <div class="modal fade" id="modalAddDot" tabindex="-1">
-    <div class="modal-dialog modal-dialog-scrollable modal-custom">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title fw-bold">Criar Nova Dotação</h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <form action="#" method="post" id="formAddDotOrc">
-            {% csrf_token %}
-            <div class="container">
-              <div class="row py-2">
-                <!-- Ação -->
-                <div class="col-md-6">
-                  <label for="create_acao" class="form-label text-primary"
-                    >Ação</label
-                  >
-                  <input
+<!-- Modal Dialog Scrollable -->
+<div class="modal fade" id="modalAddDot" tabindex="-1">
+  <div class="modal-dialog modal-dialog-scrollable modal-custom">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold">Criar Nova Dotação</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form action="#" method="post" id="formAddDotOrc">
+          {% csrf_token %}
+          <div class="container">
+            <div class="row py-2">
+              <!-- Ação -->
+              <div class="col-md-6">
+                <label for="create_acao" class="form-label text-primary"
+                  >Ação</label
+                >
+                <input
                   type="text"
                   class="form-control"
                   id="create_acao"
                   name="create_acao"
                   maxlength="4"
                 />
-                </div>
-                <!-- Ação -->
-                <!-- fonte -->
-                <div class="col-md-6">
-                  <label for="create_fonte" class="form-label text-primary"
-                    >Fonte</label
-                  >
-                  <input
+              </div>
+              <!-- Ação -->
+              <!-- fonte -->
+              <div class="col-md-6">
+                <label for="create_fonte" class="form-label text-primary"
+                  >Fonte</label
+                >
+                <input
                   type="text"
                   class="form-control"
                   id="create_fonte"
                   name="create_fonte"
                   maxlength="4"
                 />
-                </div>
-                <!-- fonte -->
               </div>
-              <div class="row py-2">
-                <!-- Elem Item -->
-                <div class="col-md-6">
-                  <label for="createelItem" class="form-label text-primary"
+              <!-- fonte -->
+            </div>
+            <div class="row py-2">
+              <!-- Elem Item -->
+              <div class="col-md-6">
+                <label for="createelItem" class="form-label text-primary"
                   >Elemento Item</label
                 >
                 <input
@@ -324,157 +374,159 @@
                   name="createelItem"
                   maxlength="5"
                 />
-                </div>
-                <!-- Elem Item -->
-                <!-- Conta -->
-                <div class="col-md-6">
-                  <label for="create_conta" class="form-label text-primary"
-                    >Conta</label
-                  >
-                  <select
-                    class="form-select"
-                    aria-label="Default"
-                    id="create_conta"
-                    name="create_conta"
-                    required
-                  >
-                    <option selected disabled>Escolha a Conta</option>
-                    <option value="100">100</option>
-                    <option value="200">200</option>
-                  </select>
-                </div>
-                <!-- Conta -->
               </div>
-              <div class="row py-2">
-                <!-- Unidade de Destino -->
-                <div class="col-md-6">
-                  <label for="create_un_dest" class="form-label text-primary"
-                    >Unidade de Destino</label
-                  >
-                  <select
-                    class="form-select"
-                    aria-label="Default"
-                    id="create_un_dest"
-                    name="create_un_dest"
-                    required
-                  >
-                    <option selected disabled>Escolha a Unid Destino</option>
-                    <option value="CSM">1400011 - CSM</option>
-                    <option value="Aj-Geral">1400005 - Aj-Geral</option>
-                    <option value="ABM">1400017 - ABM</option>
-                    <option value="DLF">USDO 1400018 - DLF</option>
-                    <option value="1ºBBM">1400006 - 1ºBBM</option>
-                    <option value="3ºBBM">1400008 - 3ºBBM</option>
-                    <option value="USDO GOL">1400018 - USDO GOL</option>
-                    <option value="4ºCOB">1400034 - 4ºCOB</option>
-                    <option value="BOA">1400019 - BOA</option>
-                    <option value="2ºCOB">1400021 - 2ºCOB</option>
-                    <option value="8ºBBM">1400014 - 8ºBBM</option>
-                    <option value="5ºBBM">1400010 - 5ºBBM</option>
-                    <option value="12ºBBM">1400027 - 12ºBBM</option>
-                    <option value="3ºCOB">1400023 - 3ºCOB</option>
-                    <option value="5ºCOB">1400029 - 5ºCOB</option>
-                    <option value="6ºCOB">1400030 - 6ºCOB</option>
-                  </select>
-                </div>
-                <!-- Unidade de Destino -->
-                <!-- Unidade de Origem -->
-                <div class="col-md-6">
-                  <label for="create_un_or" class="form-label text-primary"
-                    >Unidade de Origem</label
-                  >
-                  <select
-                    class="form-select"
-                    aria-label="Default"
-                    id="create_un_or"
-                    name="create_un_or"
-                    required
-                  >
-                    <option selected disabled>Escolha a Unid Origem</option>
-                    <option value="CSM">1400011 - CSM</option>
-                    <option value="Aj-Geral">1400005 - Aj-Geral</option>
-                    <option value="ABM">1400017 - ABM</option>
-                    <option value="DLF">USDO 1400018 - DLF</option>
-                    <option value="1ºBBM">1400006 - 1ºBBM</option>
-                    <option value="3ºBBM">1400008 - 3ºBBM</option>
-                    <option value="USDO GOL">1400018 - USDO GOL</option>
-                    <option value="4ºCOB">1400034 - 4ºCOB</option>
-                    <option value="BOA">1400019 - BOA</option>
-                    <option value="2ºCOB">1400021 - 2ºCOB</option>
-                    <option value="8ºBBM">1400014 - 8ºBBM</option>
-                    <option value="5ºBBM">1400010 - 5ºBBM</option>
-                    <option value="12ºBBM">1400027 - 12ºBBM</option>
-                    <option value="3ºCOB">1400023 - 3ºCOB</option>
-                    <option value="5ºCOB">1400029 - 5ºCOB</option>
-                    <option value="6ºCOB">1400030 - 6ºCOB</option>
-                  </select>
-                </div>
-                <!-- Unidade de Origem -->
+              <!-- Elem Item -->
+              <!-- Conta -->
+              <div class="col-md-6">
+                <label for="create_conta" class="form-label text-primary"
+                  >Conta</label
+                >
+                <select
+                  class="form-select"
+                  aria-label="Default"
+                  id="create_conta"
+                  name="create_conta"
+                  required
+                >
+                  <option selected disabled>Escolha a Conta</option>
+                  <option value="100">100</option>
+                  <option value="200">200</option>
+                </select>
               </div>
-              <div class="row py-2">
-                <div class="col-md-12">
-                  <label for="descDotOr" class="form-label text-primary"
-                    >Descrição</label
-                  >
-                  <textarea
-                    class="form-control"
-                    style="height: 130px; font-size: 0.8em"
-                    id="descDotOr"
-                    name="descDotOr"
-                    required
-                  ></textarea>
-                </div>
+              <!-- Conta -->
+            </div>
+            <div class="row py-2">
+              <!-- Unidade de Destino -->
+              <div class="col-md-6">
+                <label for="create_un_dest" class="form-label text-primary"
+                  >Unidade de Destino</label
+                >
+                <select
+                  class="form-select"
+                  aria-label="Default"
+                  id="create_un_dest"
+                  name="create_un_dest"
+                  required
+                >
+                  <option selected disabled>Escolha a Unid Destino</option>
+                  <option value="CSM">1400011 - CSM</option>
+                  <option value="Aj-Geral">1400005 - Aj-Geral</option>
+                  <option value="ABM">1400017 - ABM</option>
+                  <option value="DLF">USDO 1400018 - DLF</option>
+                  <option value="1ºBBM">1400006 - 1ºBBM</option>
+                  <option value="3ºBBM">1400008 - 3ºBBM</option>
+                  <option value="USDO GOL">1400018 - USDO GOL</option>
+                  <option value="4ºCOB">1400034 - 4ºCOB</option>
+                  <option value="BOA">1400019 - BOA</option>
+                  <option value="2ºCOB">1400021 - 2ºCOB</option>
+                  <option value="8ºBBM">1400014 - 8ºBBM</option>
+                  <option value="5ºBBM">1400010 - 5ºBBM</option>
+                  <option value="12ºBBM">1400027 - 12ºBBM</option>
+                  <option value="3ºCOB">1400023 - 3ºCOB</option>
+                  <option value="5ºCOB">1400029 - 5ºCOB</option>
+                  <option value="6ºCOB">1400030 - 6ºCOB</option>
+                </select>
               </div>
-              <div class="row py-2">
-                <!-- Natureza de Despesa -->
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label for="date_create_dotorc" class="form-label text-primary"
+              <!-- Unidade de Destino -->
+              <!-- Unidade de Origem -->
+              <div class="col-md-6">
+                <label for="create_un_or" class="form-label text-primary"
+                  >Unidade de Origem</label
+                >
+                <select
+                  class="form-select"
+                  aria-label="Default"
+                  id="create_un_or"
+                  name="create_un_or"
+                  required
+                >
+                  <option selected disabled>Escolha a Unid Origem</option>
+                  <option value="CSM">1400011 - CSM</option>
+                  <option value="Aj-Geral">1400005 - Aj-Geral</option>
+                  <option value="ABM">1400017 - ABM</option>
+                  <option value="DLF">USDO 1400018 - DLF</option>
+                  <option value="1ºBBM">1400006 - 1ºBBM</option>
+                  <option value="3ºBBM">1400008 - 3ºBBM</option>
+                  <option value="USDO GOL">1400018 - USDO GOL</option>
+                  <option value="4ºCOB">1400034 - 4ºCOB</option>
+                  <option value="BOA">1400019 - BOA</option>
+                  <option value="2ºCOB">1400021 - 2ºCOB</option>
+                  <option value="8ºBBM">1400014 - 8ºBBM</option>
+                  <option value="5ºBBM">1400010 - 5ºBBM</option>
+                  <option value="12ºBBM">1400027 - 12ºBBM</option>
+                  <option value="3ºCOB">1400023 - 3ºCOB</option>
+                  <option value="5ºCOB">1400029 - 5ºCOB</option>
+                  <option value="6ºCOB">1400030 - 6ºCOB</option>
+                </select>
+              </div>
+              <!-- Unidade de Origem -->
+            </div>
+            <div class="row py-2">
+              <div class="col-md-12">
+                <label for="descDotOr" class="form-label text-primary"
+                  >Descrição</label
+                >
+                <textarea
+                  class="form-control"
+                  style="height: 130px; font-size: 0.8em"
+                  id="descDotOr"
+                  name="descDotOr"
+                  required
+                ></textarea>
+              </div>
+            </div>
+            <div class="row py-2">
+              <!-- Natureza de Despesa -->
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label
+                    for="date_create_dotorc"
+                    class="form-label text-primary"
                     >Data da ação</label
                   >
-                    <input
-                      type="date"
-                      class="form-control changeble-item"
-                      id="date_create_dotorc"
-                      name="date_create_dotorc"
-                    />
-                  </div>
+                  <input
+                    type="date"
+                    class="form-control changeble-item"
+                    id="date_create_dotorc"
+                    name="date_create_dotorc"
+                  />
                 </div>
-                <div class="col-md-6">
-                  <label for="create_natdot" class="form-label text-primary"
-                    >Natureza de Despesa</label
-                  >
-                  <select
-                    class="form-select"
-                    aria-label="Default"
-                    id="create_natdot"
-                    name="create_natdot"
-                    required
-                  >
-                    <option selected disabled>Escolha a Nat Despesa</option>
-                    <option value="custeio">Custeio</option>
-                    <option value="capital">Capital</option>
-                    <option value="custeio/capital">Custeio/Capital</option>
-                  </select>
-                </div>
-                <!-- Natureza de Despesa -->
               </div>
-              <div class="row py-2">
-                <div class="col-md-6">
-                    <label for="modalvalorDot" class="form-label text-primary"
-                      >Valor</label
-                    >
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="modalvalorDot"
-                      name="modalvalorDot"
-                      oninput="formatToCurrency(this)"
-                      onchange="formatToCurrency(this)"
-                    />
-                </div>
-                <div class="col-md-6">
-                  <label for="create_status_dot" class="form-label text-primary"
+              <div class="col-md-6">
+                <label for="create_natdot" class="form-label text-primary"
+                  >Natureza de Despesa</label
+                >
+                <select
+                  class="form-select"
+                  aria-label="Default"
+                  id="create_natdot"
+                  name="create_natdot"
+                  required
+                >
+                  <option selected disabled>Escolha a Nat Despesa</option>
+                  <option value="custeio">Custeio</option>
+                  <option value="capital">Capital</option>
+                  <option value="custeio/capital">Custeio/Capital</option>
+                </select>
+              </div>
+              <!-- Natureza de Despesa -->
+            </div>
+            <div class="row py-2">
+              <div class="col-md-6">
+                <label for="modalvalorDot" class="form-label text-primary"
+                  >Valor</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="modalvalorDot"
+                  name="modalvalorDot"
+                  oninput="formatToCurrency(this)"
+                  onchange="formatToCurrency(this)"
+                />
+              </div>
+              <div class="col-md-6">
+                <label for="create_status_dot" class="form-label text-primary"
                   >Status</label
                 >
                 <select
@@ -482,7 +534,6 @@
                   aria-label="Default"
                   id="create_status_dot"
                   name="create_status_dot"
-                  
                 >
                   <option selected disabled>Escolha o Status</option>
                   <option value="adescentralizar">A descentralizar</option>
@@ -492,63 +543,157 @@
                   <option value="remanejado">Remanejado</option>
                   <option value="cancelado">Cancelado</option>
                 </select>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <!-- Cria botão limpar-->
+            <button type="reset" class="btn btn-warning">Limpar</button>
+            <button type="submit" class="btn btn-success w-50">Criar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Dialog Scrollable modalViewDotOrc -->
+<div class="modal fade" id="modalViewDotOrc" tabindex="-1">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold">Dotação Orçamentária</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="col-xxl-12 col-md-12">
+          <div class="card info-card revenue-card">
+            <div class="card-body">
+              <div class="row align-items-top">
+                <div class="col-md-12 d-flex flex-column">
+                  <div class="fw-bold rotulo-chart my-3 me-2">Descrição:</div>
+                  <span class="span-info">Essa é uma descrição de exemplo</span>
+                </div>
+              </div>
+              <hr />
+              <div class="row align-items-top">
+                <div class="col-md-6 d-flex flex-row align-items-center">
+                  <div class="fw-bold rotulo-chart my-3 me-2">Ação:</div>
+                  <span class="span-info">4470</span>
+                </div>
+                <div class="col-md-6 d-flex flex-row align-items-center">
+                  <div class="fw-bold rotulo-chart my-3 me-2">Elem. Item:</div>
+                  <span class="span-info">40.06</span>
+                </div>
+              </div>
+              <hr />
+              <div class="row align-items-top">
+                <div class="col-md-6 d-flex flex-row align-items-center">
+                  <div class="fw-bold rotulo-chart my-3 me-2">Fonte:</div>
+                  <span class="span-info">53.1</span>
+                </div>
+                <div class="col-md-6 d-flex flex-row align-items-center">
+                  <div class="fw-bold rotulo-chart my-3 me-2">Data:</div>
+                  <span class="span-info">14/08/2023</span>
+                </div>
+              </div>
+              <hr />
+              <div class="row align-items-top">
+                <div class="col-md-6 d-flex flex-column">
+                  <div class="fw-bold rotulo-chart my-3 me-2">
+                    Unidade Origem:
+                  </div>
+                  <span class="span-info">CSM</span>
+                </div>
+                <div class="col-md-6 d-flex flex-column">
+                  <div class="fw-bold rotulo-chart my-3 me-2">
+                    Unidade Destino:
+                  </div>
+                  <span class="span-info">Ajudancia Geral</span>
+                </div>
+              </div>
+              <hr />
+              <div class="row align-items-top">
+                <div class="col-md-6 d-flex flex-row align-items-center">
+                  <div class="fw-bold rotulo-chart my-3 me-2">Conta:</div>
+                  <span class="span-info">100</span>
+                </div>
+                <div class="col-md-6 d-flex flex-row align-items-center">
+                  <div class="fw-bold rotulo-chart my-3 me-2">Natureza:</div>
+                  <span class="span-info">Custeio</span>
+                </div>
+              </div>
+              <hr />
+              <div class="row align-items-top">
+                <div class="col-md-6 d-flex flex-row align-items-center">
+                  <div class="fw-bold rotulo-chart my-3 me-2">Valor:</div>
+                  <span class="span-info">R$ 24.000,00</span>
+                </div>
+                <div class="col-md-6 d-flex flex-row align-items-center">
+                  <div class="fw-bold rotulo-chart my-3 me-2">Status:</div>
+                  <span class="span-info">Descentralizado</span>
                 </div>
               </div>
             </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-danger"
-                data-bs-dismiss="modal"
-              >
-                Cancelar
-              </button>
-              <!-- Cria botão limpar-->
-              <button type="reset" class="btn btn-warning">Limpar</button>
-              <button type="submit" class="btn btn-success w-50">Criar</button>
-            </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  <script>
+</div>
 
-    // Função que gera a string representando o conteúdo da tabela
-    function generateTableString(idTable) {
-      var table = document.getElementById(idTable);
-      var rows = Array.from(table.rows).slice(1); // Ignora a primeira linha (cabeçalho)
-      var result = rows.map((row) => {
-        return Array.from(row.cells).map(cell => cell.textContent).join('|');
-      });
-      return result.join(';');
-    }
-    function setInputDotOrc(){
-      result = generateTableString("table_dotorc")
-      document.getElementById("hidden_dotorc").value = result
-
-    }
-    document.getElementById('formAddDotOrc').addEventListener('submit', function(e) {
+<script>
+  // Função que gera a string representando o conteúdo da tabela
+  function generateTableString(idTable) {
+    var table = document.getElementById(idTable);
+    var rows = Array.from(table.rows).slice(1); // Ignora a primeira linha (cabeçalho)
+    var result = rows.map((row) => {
+      return Array.from(row.cells)
+        .map((cell) => cell.textContent)
+        .join("|");
+    });
+    return result.join(";");
+  }
+  function setInputDotOrc() {
+    result = generateTableString("table_dotorc");
+    document.getElementById("hidden_dotorc").value = result;
+  }
+  document
+    .getElementById("formAddDotOrc")
+    .addEventListener("submit", function (e) {
       // Impedir o envio do formulário
       e.preventDefault();
 
-        // Recuperar os dados de todos os campos do formulario
-        fonte = document.querySelector("#create_fonte").value;
-        acao = document.querySelector("#create_acao").value;
-        elItem = document.querySelector("#createelItem").value;
-        conta = document.querySelector("#create_conta").value;
-        data_create_do = document.querySelector("#date_create_dotorc").value;
-        un_or = document.querySelector("#create_un_or").value;
-        un_dest = document.querySelector("#create_un_dest").value;
-        desc = document.querySelector("#descDotOr").value;
-        natdot = document.querySelector("#create_natdot").value;
-        valorDot = document.querySelector("#modalvalorDot").value;
-        status_dot = document.querySelector("#create_status_dot").value;
+      // Recuperar os dados de todos os campos do formulario
+      fonte = document.querySelector("#create_fonte").value;
+      acao = document.querySelector("#create_acao").value;
+      elItem = document.querySelector("#createelItem").value;
+      conta = document.querySelector("#create_conta").value;
+      data_create_do = document.querySelector("#date_create_dotorc").value;
+      un_or = document.querySelector("#create_un_or").value;
+      un_dest = document.querySelector("#create_un_dest").value;
+      desc = document.querySelector("#descDotOr").value;
+      natdot = document.querySelector("#create_natdot").value;
+      valorDot = document.querySelector("#modalvalorDot").value;
+      status_dot = document.querySelector("#create_status_dot").value;
 
-        // cria uma tr a ser inserida dentro do tbody da tabela de id = table_dotorc
-        const tbody = document.getElementById("table_dotorc").getElementsByTagName("tbody")[0];
-        const row = tbody.insertRow();
-        row.innerHTML = `
+      // cria uma tr a ser inserida dentro do tbody da tabela de id = table_dotorc
+      const tbody = document
+        .getElementById("table_dotorc")
+        .getElementsByTagName("tbody")[0];
+      const row = tbody.insertRow();
+      row.innerHTML = `
         <td  class="rot-info rot-sm ocultar">${desc}</td>
         <td  class="rot-info rot-sm">${natdot}</td>
         <td  class="rot-info rot-sm">${acao}</td>
@@ -561,107 +706,140 @@
         <td  class="rot-info rot-sm">${status_dot}</td>
         <td  class="rot-info rot-sm">${valorDot}</td>
         <td>
-          <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)"><i class="ri-delete-bin-6-line"></i></button>                 
-          <button type="button" class="btn btn-success btn-sm" onclick="removeRow(this)"><i class="bi bi-eye"></i></button>                 
+          <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)"><i class="ri-delete-bin-6-line"></i></button>                       
+          <button 
+          type="button" 
+          class="btn btn-success btn-sm" 
+          data-bs-toggle="modal" 
+          data-bs-target="#modalViewDotOrc" 
+          data-bs-destino="${desc}">
+          <i class="bi bi-eye"></i></button>  
         </td> 
         `;
-        // Fecha o modal após o processamento do formulário
-        var myModal = bootstrap.Modal.getInstance(document.getElementById('modalAddDot'));
-        myModal.hide();
+      // Fecha o modal após o processamento do formulário
+      var myModal = bootstrap.Modal.getInstance(
+        document.getElementById("modalAddDot")
+      );
+      myModal.hide();
 
-        // Alimenta o input hidden com os dados da tabela
-        setInputDotOrc()
+      // Alimenta o input hidden com os dados da tabela
+      setInputDotOrc();
+    });
+  // Alimentação do Modal para ediçao de equipamentos
+  const modalViewDotOrc = document.getElementById("modalViewDotOrc");
+  if (modalViewDotOrc) {
+    modalViewDotOrc.addEventListener("show.bs.modal", function (event) {
+      // Button that triggered the modal
+      const button = event.relatedTarget;
 
-        });
+      // Extraindo de data-bs-* o conteudo
+      const descricao = button.getAttribute("data-bs-destino");
+      /*
+    // Seleciona os locais em que os textos devem ser inseridos
+    const content_descicao = document.getElementById("descricao_dotorc")
 
-      // Função para tratar a formatação dos inputs.
-      function handleInputFormatting(e) {
-        let value = e.target.value.toUpperCase().replace(/[^0-9X]/g, ''); // Remova caracteres não permitidos e converta para maiúsculas.
+    // Injeta o conteudo
+    content_descicao.innerText = descricao
+*/
+    });
+  }
 
-        if (e.target.id === 'create_fonte' && value.length === 3) {
-            // Se é o campo 'create_fonte' e tem três caracteres, formatar como dd.d.
-            value = value.substring(0, 2) + '.' + value.substring(2, 3);
-        } else if (e.target.id === 'createelItem' && value.length === 4) {
-            // Se é o campo 'createelItem' e tem quatro caracteres, formatar como dd.dd.
-            value = value.substring(0, 2) + '.' + value.substring(2, 4);
-        }
+  // Função para tratar a formatação dos inputs.
+  function handleInputFormatting(e) {
+    let value = e.target.value.toUpperCase().replace(/[^0-9X]/g, ""); // Remova caracteres não permitidos e converta para maiúsculas.
 
-        // Atualiza o valor do input com o valor formatado.
-        e.target.value = value;
+    if (e.target.id === "create_fonte" && value.length === 3) {
+      // Se é o campo 'create_fonte' e tem três caracteres, formatar como dd.d.
+      value = value.substring(0, 2) + "." + value.substring(2, 3);
+    } else if (e.target.id === "createelItem" && value.length === 4) {
+      // Se é o campo 'createelItem' e tem quatro caracteres, formatar como dd.dd.
+      value = value.substring(0, 2) + "." + value.substring(2, 4);
+    }
+
+    // Atualiza o valor do input com o valor formatado.
+    e.target.value = value;
+  }
+
+  // Adiciona ouvintes de evento para os dois campos de entrada.
+  document
+    .getElementById("create_fonte")
+    .addEventListener("input", handleInputFormatting);
+  document
+    .getElementById("createelItem")
+    .addEventListener("input", handleInputFormatting);
+
+  document
+    .getElementById("button-addon2-new")
+    .addEventListener("click", function () {
+      const inputText = document.getElementById("inputText-new_2");
+      const listContainer = document.getElementById("listContainer-2");
+
+      // Verifica se o texto já existe na lista
+      if (!listContainer.innerHTML.includes(inputText.value)) {
+        // Cria um novo item da lista
+        const newItem = document.createElement("div");
+        newItem.classList.add(
+          "d-flex",
+          "flex-row",
+          "justify-content-between",
+          "w-100",
+          "align-items-center",
+          "mb-1"
+        );
+        newItem.innerHTML = `<p class="labelsei">${inputText.value}</p> <button type="button" class="btn btn-danger btn-sm me-2" onclick="removeItem(event)">X</button>`;
+
+        // Adiciona o novo item à lista
+        listContainer.appendChild(newItem);
       }
 
-      // Adiciona ouvintes de evento para os dois campos de entrada.
-      document.getElementById('create_fonte').addEventListener('input', handleInputFormatting);
-      document.getElementById('createelItem').addEventListener('input', handleInputFormatting);
+      // Limpa o campo de entrada
+      inputText.value = "";
+    });
 
-      document
-      .getElementById("button-addon2-new")
-      .addEventListener("click", function () {
-        const inputText = document.getElementById("inputText-new_2");
-        const listContainer = document.getElementById("listContainer-2");
-  
-        // Verifica se o texto já existe na lista
-        if (!listContainer.innerHTML.includes(inputText.value)) {
-          // Cria um novo item da lista
-          const newItem = document.createElement("div");
-          newItem.classList.add(
-            "d-flex",
-            "flex-row",
-            "justify-content-between",
-            "w-100",
-            "align-items-center",
-            "mb-1"
-          );
-          newItem.innerHTML = `<p class="labelsei">${inputText.value}</p> <button type="button" class="btn btn-danger btn-sm me-2" onclick="removeItem(event)">X</button>`;
-  
-          // Adiciona o novo item à lista
-          listContainer.appendChild(newItem);
+  // Função que será chamada sempre que um elemento for adicionado ou removido de "maincontent"
+  // Seleciona o nó que será observado
+  const targetNode = document.getElementById("listContainer-2");
+
+  // Cria uma instância de observer
+  const observer = new MutationObserver((mutationsList, observer) => {
+    // Itera sobre todas as mutações que acabaram de ocorrer
+    for (let mutation of mutationsList) {
+      // Se o `mutation.type` for `childList`, adiciona o conteúdo do elemento p ao input hidden
+      if (mutation.type === "childList") {
+        let textValues = "";
+        let childDivs = targetNode.children;
+        for (let i = 0; i < childDivs.length; i++) {
+          // Acessa o conteúdo do elemento p dentro da div
+          let pContent = childDivs[i].getElementsByTagName("p")[0].textContent;
+          textValues += pContent + ";";
         }
-  
-        // Limpa o campo de entrada
-        inputText.value = "";
-  
-      });
-  
-      // Função que será chamada sempre que um elemento for adicionado ou removido de "maincontent"
-      // Seleciona o nó que será observado
-      const targetNode = document.getElementById("listContainer-2");
 
-      // Cria uma instância de observer
-      const observer = new MutationObserver((mutationsList, observer) => {
-        // Itera sobre todas as mutações que acabaram de ocorrer
-        for (let mutation of mutationsList) {
-          // Se o `mutation.type` for `childList`, adiciona o conteúdo do elemento p ao input hidden
-          if (mutation.type === "childList") {
-            let textValues = "";
-            let childDivs = targetNode.children;
-            for (let i = 0; i < childDivs.length; i++) {
-              // Acessa o conteúdo do elemento p dentro da div
-              let pContent =
-                childDivs[i].getElementsByTagName("p")[0].textContent;
-              textValues += pContent + ";";
-            }
+        // Remove o último ';'
+        textValues = textValues.slice(0, -1);
 
-            // Remove o último ';'
-            textValues = textValues.slice(0, -1);
-
-            // Armazena os valores no input hidden
-            document.getElementById("hidden_seirec").value = textValues;
-          }
-        }
-      });
-
-      // Configuração do observer: quais mutações serão observadas
-      const config = { attributes: false, childList: true, subtree: false };
-      // Inicia a observação do nó configurado
-      observer.observe(targetNode, config);
-
-      function removeItem(event) {
-        const item = event.target.parentNode;
-        item.parentNode.removeChild(item);
+        // Armazena os valores no input hidden
+        document.getElementById("hidden_seirec").value = textValues;
       }
-  </script>
-    
+    }
+  });
+
+  // Configuração do observer: quais mutações serão observadas
+  const config = { attributes: false, childList: true, subtree: false };
+  // Inicia a observação do nó configurado
+  observer.observe(targetNode, config);
+
+  function removeItem(event) {
+    const item = event.target.parentNode;
+    item.parentNode.removeChild(item);
+  }
+
+  function removeRow(btn) {
+    console.log(btn.classList);
+    var row = btn.parentNode.parentNode;
+    row.parentNode.removeChild(row);
+    setInputDotOrc();
+  }
+  setInputDotOrc();
+</script>
 
 {% endblock %}
-
