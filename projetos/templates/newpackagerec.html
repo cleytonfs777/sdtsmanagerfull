@@ -234,8 +234,12 @@
                         class="d-flex w-100"
                         name="hidden_dotorc"
                         id="hidden_dotorc"
+                        onchange="exibealerta()"
                         value=""
                       />
+                      <h5 class="card-title d-flex flex-row">
+                        VALOR TOTAL : <p class="text-success mx-2" id="total_dotorc"></p>
+                      </h5>
                     </div>
                   </div>
                 </div>
@@ -307,6 +311,16 @@
                 id="hidden_seirec"
                 value=""
               />
+              <div class="row align-items-top">
+                <div class="col">
+                  <div class="card info-card revenue-card">
+                    <div class="card-body d-flex justify-content-center align-items-center">
+                      <button type="submit" class="btn btn-success m-2 w-50 fw-bold">CADASTRAR PACOTE</button>
+                      <button type="reset" onclick="limparCampos()" class="btn btn-warning m-2 w-50 fw-bold">LIMPAR CAMPOS</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </form>
         </div>
@@ -478,21 +492,6 @@
             <div class="row py-2">
               <!-- Natureza de Despesa -->
               <div class="col-md-6">
-                <div class="mb-3">
-                  <label
-                    for="date_create_dotorc"
-                    class="form-label text-primary"
-                    >Data da ação</label
-                  >
-                  <input
-                    type="date"
-                    class="form-control changeble-item"
-                    id="date_create_dotorc"
-                    name="date_create_dotorc"
-                  />
-                </div>
-              </div>
-              <div class="col-md-6">
                 <label for="create_natdot" class="form-label text-primary"
                   >Natureza de Despesa</label
                 >
@@ -509,8 +508,129 @@
                   <option value="custeio/capital">Custeio/Capital</option>
                 </select>
               </div>
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label
+                    for="date_create_dotorc"
+                    class="form-label text-primary"
+                    >Ativação</label
+                  >
+                  <select
+                  class="form-select"
+                  aria-label="Default"
+                  id="form_ativation"
+                  name="form_ativation"
+                >
+                  <option selected disabled>Escolha o Status</option>
+                  <option value="adescentralizar">Imediata</option>
+                  <option value="descentralizado">Mensal datada</option>
+                  <option value="descentralizado">Anual datada</option>
+                  <option value="descentralizado">Personalizada</option>
+                </select>
+                </div>
+              </div>
               <!-- Natureza de Despesa -->
             </div>
+            <div class="row">
+              <hr>
+              <div class="col-md-2 d-flex flex-column">
+                <div class="box-sep-dot d-flex justify-content-between">
+                  <button type="button" style="padding-top:0;" id="btn-jan_value" class="btn btn-secondary btn-sm fw-bold w-100 my-1">Janeiro</button>                  
+                </div>
+                <div class="box-sep-dot d-flex justify-content-between">
+                  <button type="button" style="padding-top:0;" id="btn-jan_value" class="btn btn-secondary btn-sm fw-bold w-100 my-1">Fevereiro</button> 
+                </div>    
+                <div class="box-sep-dot d-flex justify-content-between">
+                  <button type="button" style="padding-top:0;" id="btn-jan_value" class="btn btn-secondary btn-sm fw-bold w-100 my-1">Março</button>
+                </div>
+                <div class="box-sep-dot d-flex justify-content-between">
+                  <button type="button" style="padding-top:0;" id="btn-jan_value" class="btn btn-secondary btn-sm fw-bold w-100 my-1">Abril</button>
+                </div>  
+              </div>  
+              <div class="col-md-2 d-flex flex-column">
+                <div class="box-sep-dot d-flex justify-content-between">
+                  <input type="check">
+                  <input class="w-100 my-1" type="text" oninput="formatToCurrency(this)" onchange="formatToCurrency(this)" id="jan_input" name="jan_input">                 
+                </div>
+                <div class="box-sep-dot d-flex justify-content-between">
+                  <input type="check">
+                  <input class="w-100 my-1" type="text" oninput="formatToCurrency(this)" onchange="formatToCurrency(this)" id="jan_input" name="jan_input">
+                </div>    
+                <div class="box-sep-dot d-flex justify-content-between">
+                  <input type="check">
+                  <input class="w-100 my-1" type="text" oninput="formatToCurrency(this)" onchange="formatToCurrency(this)" id="jan_input" name="jan_input">
+                </div>
+                <div class="box-sep-dot d-flex justify-content-between">
+                  <input type="check">
+                  <input class="w-100 my-1" type="text" oninput="formatToCurrency(this)" onchange="formatToCurrency(this)" id="jan_input" name="jan_input">
+                </div>  
+              </div>
+              <div class="col-md-2 d-flex flex-column">
+                <div class="box-sep-dot d-flex justify-content-between">
+                  <button type="button" style="padding-top:0;" id="btn-jan_value" class="btn btn-secondary btn-sm fw-bold w-100 my-1">Janeiro</button>                  
+                </div>
+                <div class="box-sep-dot d-flex justify-content-between">
+                  <button type="button" style="padding-top:0;" id="btn-jan_value" class="btn btn-secondary btn-sm fw-bold w-100 my-1">Fevereiro</button> 
+                </div>    
+                <div class="box-sep-dot d-flex justify-content-between">
+                  <button type="button" style="padding-top:0;" id="btn-jan_value" class="btn btn-secondary btn-sm fw-bold w-100 my-1">Março</button>
+                </div>
+                <div class="box-sep-dot d-flex justify-content-between">
+                  <button type="button" style="padding-top:0;" id="btn-jan_value" class="btn btn-secondary btn-sm fw-bold w-100 my-1">Abril</button>
+                </div>  
+              </div>  
+              <div class="col-md-2 d-flex flex-column">
+                <div class="box-sep-dot d-flex justify-content-between">
+                  <input type="check">
+                  <input class="w-100 my-1" type="text" oninput="formatToCurrency(this)" onchange="formatToCurrency(this)" id="jan_input" name="jan_input">                 
+                </div>
+                <div class="box-sep-dot d-flex justify-content-between">
+                  <input type="check">
+                  <input class="w-100 my-1" type="text" oninput="formatToCurrency(this)" onchange="formatToCurrency(this)" id="jan_input" name="jan_input">
+                </div>    
+                <div class="box-sep-dot d-flex justify-content-between">
+                  <input type="check">
+                  <input class="w-100 my-1" type="text" oninput="formatToCurrency(this)" onchange="formatToCurrency(this)" id="jan_input" name="jan_input">
+                </div>
+                <div class="box-sep-dot d-flex justify-content-between">
+                  <input type="check">
+                  <input class="w-100 my-1" type="text" oninput="formatToCurrency(this)" onchange="formatToCurrency(this)" id="jan_input" name="jan_input">
+                </div>  
+              </div>
+              <div class="col-md-2 d-flex flex-column">
+                <div class="box-sep-dot d-flex justify-content-between">
+                  <button type="button" style="padding-top:0;" id="btn-jan_value" class="btn btn-secondary btn-sm fw-bold w-100 my-1">Janeiro</button>                  
+                </div>
+                <div class="box-sep-dot d-flex justify-content-between">
+                  <button type="button" style="padding-top:0;" id="btn-jan_value" class="btn btn-secondary btn-sm fw-bold w-100 my-1">Fevereiro</button> 
+                </div>    
+                <div class="box-sep-dot d-flex justify-content-between">
+                  <button type="button" style="padding-top:0;" id="btn-jan_value" class="btn btn-secondary btn-sm fw-bold w-100 my-1">Março</button>
+                </div>
+                <div class="box-sep-dot d-flex justify-content-between">
+                  <button type="button" style="padding-top:0;" id="btn-jan_value" class="btn btn-secondary btn-sm fw-bold w-100 my-1">Abril</button>
+                </div>  
+              </div>  
+              <div class="col-md-2 d-flex flex-column">
+                <div class="box-sep-dot d-flex justify-content-between">
+                  <input type="check">
+                  <input class="w-100 my-1" type="text" oninput="formatToCurrency(this)" onchange="formatToCurrency(this)" id="jan_input" name="jan_input">                 
+                </div>
+                <div class="box-sep-dot d-flex justify-content-between">
+                  <input type="check">
+                  <input class="w-100 my-1" type="text" oninput="formatToCurrency(this)" onchange="formatToCurrency(this)" id="jan_input" name="jan_input">
+                </div>    
+                <div class="box-sep-dot d-flex justify-content-between">
+                  <input type="check">
+                  <input class="w-100 my-1" type="text" oninput="formatToCurrency(this)" onchange="formatToCurrency(this)" id="jan_input" name="jan_input">
+                </div>
+                <div class="box-sep-dot d-flex justify-content-between">
+                  <input type="check">
+                  <input class="w-100 my-1" type="text" oninput="formatToCurrency(this)" onchange="formatToCurrency(this)" id="jan_input" name="jan_input">
+                </div>  
+              </div>
+              <hr>
+            </div>  
             <div class="row py-2">
               <div class="col-md-6">
                 <label for="modalvalorDot" class="form-label text-primary"
@@ -654,6 +774,48 @@
 </div>
 
 <script>
+  // Função que deverá limpar todo o conteudo da div de id listContainer-2 e tambem todos os campos do form de id formAddDotOrc
+  // A função tambem deverá excluir todas as linhas da tabela table_dotorc e executar a função somaFontes()
+  function limparCampos(){
+    document.getElementById("listContainer-2").innerHTML = "";
+    document.getElementById("formAddDotOrc").reset();
+    document.getElementById("table_dotorc").getElementsByTagName("tbody")[0].innerHTML = "";
+    somaFontes();
+    
+  }
+
+  // Função responsável por somar os valores das fontes
+  function formatNumberToBRL(n) {
+    return n.toLocaleString('pt-BR', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+}
+
+function somaFontes() {
+    var table = document.getElementById("table_dotorc");
+    var rows = Array.from(table.rows).slice(1); // Ignora a primeira linha (cabeçalho)
+
+    var result = rows.flatMap((row) => {
+        return Array.from(row.cells)
+            .map((cell) => cell.textContent)
+            .filter((text) => text.includes('R$'))
+            .map((text) => parseFloat(text.replace('R$', '').trim().replace('.', '').replace(',', '.')));
+    })
+
+    const totaldot = result.reduce((accumulator, currentValue) => accumulator + Number(currentValue), 0);
+
+    if (totaldot) {
+        final_result = `R$ ${formatNumberToBRL(totaldot)}`;
+        document.getElementById("total_dotorc").innerText = final_result;
+    } else {
+        final_result = `R$ 0,00`;
+        document.getElementById("total_dotorc").innerText = final_result;
+    }
+}
+
+
+
   // Função que gera a string representando o conteúdo da tabela
   function generateTableString(idTable) {
     var table = document.getElementById(idTable);
@@ -668,6 +830,9 @@
   function setInputDotOrc() {
     result = generateTableString("table_dotorc");
     document.getElementById("hidden_dotorc").value = result;
+
+      // Alimenta o campo de somatórios de fontes
+      somaFontes();
   }
   document
     .getElementById("formAddDotOrc")
@@ -724,6 +889,8 @@
 
       // Alimenta o input hidden com os dados da tabela
       setInputDotOrc();
+
+
     });
   // Alimentação do Modal para ediçao de equipamentos
   const modalViewDotOrc = document.getElementById("modalViewDotOrc");
@@ -838,6 +1005,7 @@
     var row = btn.parentNode.parentNode;
     row.parentNode.removeChild(row);
     setInputDotOrc();
+
   }
   setInputDotOrc();
 </script>

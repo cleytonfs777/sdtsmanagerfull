@@ -89,9 +89,10 @@ class DotacaoOrcamentaria(models.Model):
         max_length=20, choices=choice_nat_desp, blank=True, null=True)
     unid_origem = models.CharField(
         max_length=50, choices=choices_origem, blank=True, null=True)
+    unid_destino = models.CharField(
+        max_length=50, choices=choices_origem, blank=True, null=True)
     valor = models.DecimalField(
         max_digits=10, decimal_places=2, blank=True, null=True)
-    divisoes = models.TextField(blank=True, null=True)
     doc_ref = models.CharField(max_length=100, blank=True, null=True)
     status = models.CharField(
         max_length=20, choices=choice_status_receita, blank=True, null=True)
