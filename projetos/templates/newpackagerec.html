@@ -510,127 +510,20 @@
               </div>
               <div class="col-md-6">
                 <div class="mb-3">
-                  <label
-                    for="date_create_dotorc"
-                    class="form-label text-primary"
-                    >Ativação</label
-                  >
-                  <select
-                  class="form-select"
-                  aria-label="Default"
-                  id="form_ativation"
-                  name="form_ativation"
+                <label for="dateAtivItem" class="form-label text-primary"
+                  >Data Ativação</label
                 >
-                  <option selected disabled>Escolha o Status</option>
-                  <option value="adescentralizar">Imediata</option>
-                  <option value="descentralizado">Mensal datada</option>
-                  <option value="descentralizado">Anual datada</option>
-                  <option value="descentralizado">Personalizada</option>
-                </select>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="dateAtivItem"
+                  name="dateAtivItem"
+                  maxlength="5"
+                />
                 </div>
               </div>
               <!-- Natureza de Despesa -->
             </div>
-            <div class="row">
-              <hr>
-              <div class="col-md-2 d-flex flex-column">
-                <div class="box-sep-dot d-flex justify-content-between">
-                  <button type="button" style="padding-top:0;" id="btn-jan_value" class="btn btn-secondary btn-sm fw-bold w-100 my-1">Janeiro</button>                  
-                </div>
-                <div class="box-sep-dot d-flex justify-content-between">
-                  <button type="button" style="padding-top:0;" id="btn-jan_value" class="btn btn-secondary btn-sm fw-bold w-100 my-1">Fevereiro</button> 
-                </div>    
-                <div class="box-sep-dot d-flex justify-content-between">
-                  <button type="button" style="padding-top:0;" id="btn-jan_value" class="btn btn-secondary btn-sm fw-bold w-100 my-1">Março</button>
-                </div>
-                <div class="box-sep-dot d-flex justify-content-between">
-                  <button type="button" style="padding-top:0;" id="btn-jan_value" class="btn btn-secondary btn-sm fw-bold w-100 my-1">Abril</button>
-                </div>  
-              </div>  
-              <div class="col-md-2 d-flex flex-column">
-                <div class="box-sep-dot d-flex justify-content-between">
-                  <input type="check">
-                  <input class="w-100 my-1" type="text" oninput="formatToCurrency(this)" onchange="formatToCurrency(this)" id="jan_input" name="jan_input">                 
-                </div>
-                <div class="box-sep-dot d-flex justify-content-between">
-                  <input type="check">
-                  <input class="w-100 my-1" type="text" oninput="formatToCurrency(this)" onchange="formatToCurrency(this)" id="jan_input" name="jan_input">
-                </div>    
-                <div class="box-sep-dot d-flex justify-content-between">
-                  <input type="check">
-                  <input class="w-100 my-1" type="text" oninput="formatToCurrency(this)" onchange="formatToCurrency(this)" id="jan_input" name="jan_input">
-                </div>
-                <div class="box-sep-dot d-flex justify-content-between">
-                  <input type="check">
-                  <input class="w-100 my-1" type="text" oninput="formatToCurrency(this)" onchange="formatToCurrency(this)" id="jan_input" name="jan_input">
-                </div>  
-              </div>
-              <div class="col-md-2 d-flex flex-column">
-                <div class="box-sep-dot d-flex justify-content-between">
-                  <button type="button" style="padding-top:0;" id="btn-jan_value" class="btn btn-secondary btn-sm fw-bold w-100 my-1">Janeiro</button>                  
-                </div>
-                <div class="box-sep-dot d-flex justify-content-between">
-                  <button type="button" style="padding-top:0;" id="btn-jan_value" class="btn btn-secondary btn-sm fw-bold w-100 my-1">Fevereiro</button> 
-                </div>    
-                <div class="box-sep-dot d-flex justify-content-between">
-                  <button type="button" style="padding-top:0;" id="btn-jan_value" class="btn btn-secondary btn-sm fw-bold w-100 my-1">Março</button>
-                </div>
-                <div class="box-sep-dot d-flex justify-content-between">
-                  <button type="button" style="padding-top:0;" id="btn-jan_value" class="btn btn-secondary btn-sm fw-bold w-100 my-1">Abril</button>
-                </div>  
-              </div>  
-              <div class="col-md-2 d-flex flex-column">
-                <div class="box-sep-dot d-flex justify-content-between">
-                  <input type="check">
-                  <input class="w-100 my-1" type="text" oninput="formatToCurrency(this)" onchange="formatToCurrency(this)" id="jan_input" name="jan_input">                 
-                </div>
-                <div class="box-sep-dot d-flex justify-content-between">
-                  <input type="check">
-                  <input class="w-100 my-1" type="text" oninput="formatToCurrency(this)" onchange="formatToCurrency(this)" id="jan_input" name="jan_input">
-                </div>    
-                <div class="box-sep-dot d-flex justify-content-between">
-                  <input type="check">
-                  <input class="w-100 my-1" type="text" oninput="formatToCurrency(this)" onchange="formatToCurrency(this)" id="jan_input" name="jan_input">
-                </div>
-                <div class="box-sep-dot d-flex justify-content-between">
-                  <input type="check">
-                  <input class="w-100 my-1" type="text" oninput="formatToCurrency(this)" onchange="formatToCurrency(this)" id="jan_input" name="jan_input">
-                </div>  
-              </div>
-              <div class="col-md-2 d-flex flex-column">
-                <div class="box-sep-dot d-flex justify-content-between">
-                  <button type="button" style="padding-top:0;" id="btn-jan_value" class="btn btn-secondary btn-sm fw-bold w-100 my-1">Janeiro</button>                  
-                </div>
-                <div class="box-sep-dot d-flex justify-content-between">
-                  <button type="button" style="padding-top:0;" id="btn-jan_value" class="btn btn-secondary btn-sm fw-bold w-100 my-1">Fevereiro</button> 
-                </div>    
-                <div class="box-sep-dot d-flex justify-content-between">
-                  <button type="button" style="padding-top:0;" id="btn-jan_value" class="btn btn-secondary btn-sm fw-bold w-100 my-1">Março</button>
-                </div>
-                <div class="box-sep-dot d-flex justify-content-between">
-                  <button type="button" style="padding-top:0;" id="btn-jan_value" class="btn btn-secondary btn-sm fw-bold w-100 my-1">Abril</button>
-                </div>  
-              </div>  
-              <div class="col-md-2 d-flex flex-column">
-                <div class="box-sep-dot d-flex justify-content-between">
-                  <input type="check">
-                  <input class="w-100 my-1" type="text" oninput="formatToCurrency(this)" onchange="formatToCurrency(this)" id="jan_input" name="jan_input">                 
-                </div>
-                <div class="box-sep-dot d-flex justify-content-between">
-                  <input type="check">
-                  <input class="w-100 my-1" type="text" oninput="formatToCurrency(this)" onchange="formatToCurrency(this)" id="jan_input" name="jan_input">
-                </div>    
-                <div class="box-sep-dot d-flex justify-content-between">
-                  <input type="check">
-                  <input class="w-100 my-1" type="text" oninput="formatToCurrency(this)" onchange="formatToCurrency(this)" id="jan_input" name="jan_input">
-                </div>
-                <div class="box-sep-dot d-flex justify-content-between">
-                  <input type="check">
-                  <input class="w-100 my-1" type="text" oninput="formatToCurrency(this)" onchange="formatToCurrency(this)" id="jan_input" name="jan_input">
-                </div>  
-              </div>
-              <hr>
-            </div>  
             <div class="row py-2">
               <div class="col-md-6">
                 <label for="modalvalorDot" class="form-label text-primary"
@@ -841,48 +734,49 @@ function somaFontes() {
       e.preventDefault();
 
       // Recuperar os dados de todos os campos do formulario
-      fonte = document.querySelector("#create_fonte").value;
       acao = document.querySelector("#create_acao").value;
+      fonte = document.querySelector("#create_fonte").value;
       elItem = document.querySelector("#createelItem").value;
       conta = document.querySelector("#create_conta").value;
-      data_create_do = document.querySelector("#date_create_dotorc").value;
-      un_or = document.querySelector("#create_un_or").value;
       un_dest = document.querySelector("#create_un_dest").value;
+      un_or = document.querySelector("#create_un_or").value;
       desc = document.querySelector("#descDotOr").value;
       natdot = document.querySelector("#create_natdot").value;
+      datedot = document.querySelector("#dateAtivItem").value;
       valorDot = document.querySelector("#modalvalorDot").value;
       status_dot = document.querySelector("#create_status_dot").value;
-
+      
       // cria uma tr a ser inserida dentro do tbody da tabela de id = table_dotorc
       const tbody = document
-        .getElementById("table_dotorc")
-        .getElementsByTagName("tbody")[0];
+      .getElementById("table_dotorc")
+      .getElementsByTagName("tbody")[0];
       const row = tbody.insertRow();
       row.innerHTML = `
-        <td  class="rot-info rot-sm ocultar">${desc}</td>
-        <td  class="rot-info rot-sm">${natdot}</td>
-        <td  class="rot-info rot-sm">${acao}</td>
-        <td  class="rot-info rot-sm">${fonte}</td>
-        <td  class="rot-info rot-sm">${elItem}</td>
-        <td  class="rot-info rot-sm ocultar">${conta}</td>
-        <td  class="rot-info rot-sm ">${data_create_do}</td>
-        <td  class="rot-info rot-sm ocultar">${un_or}</td>
-        <td  class="rot-info rot-sm ocultar">${un_dest}</td>
-        <td  class="rot-info rot-sm">${status_dot}</td>
-        <td  class="rot-info rot-sm">${valorDot}</td>
-        <td>
-          <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)"><i class="ri-delete-bin-6-line"></i></button>                       
-          <button 
-          type="button" 
-          class="btn btn-success btn-sm" 
-          data-bs-toggle="modal" 
-          data-bs-target="#modalViewDotOrc" 
-          data-bs-destino="${desc}">
-          <i class="bi bi-eye"></i></button>  
-        </td> 
-        `;
+      <td  class="rot-info rot-sm ocultar">${desc}</td>
+      <td  class="rot-info rot-sm">${natdot}</td>
+      <td  class="rot-info rot-sm">${acao}</td>
+      <td  class="rot-info rot-sm">${fonte}</td>
+      <td  class="rot-info rot-sm">${elItem}</td>
+      <td  class="rot-info rot-sm ocultar">${conta}</td>
+      <td  class="rot-info rot-sm ">${datedot}</td>
+      <td  class="rot-info rot-sm ocultar">${un_or}</td>
+      <td  class="rot-info rot-sm ocultar">${un_dest}</td>
+      <td  class="rot-info rot-sm">${status_dot}</td>
+      <td  class="rot-info rot-sm">${valorDot}</td>
+      <td>
+        <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)"><i class="ri-delete-bin-6-line"></i></button>                       
+        <button 
+        type="button" 
+        class="btn btn-success btn-sm" 
+        data-bs-toggle="modal" 
+        data-bs-target="#modalViewDotOrc" 
+        data-bs-destino="${desc}">
+        <i class="bi bi-eye"></i></button>  
+      </td> 
+      `;
       // Fecha o modal após o processamento do formulário
       var myModal = bootstrap.Modal.getInstance(
+
         document.getElementById("modalAddDot")
       );
       myModal.hide();

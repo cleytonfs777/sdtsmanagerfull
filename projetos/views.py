@@ -48,6 +48,40 @@ def deteleproject(request, id_project):
     else:
         return HttpResponse(f"Você não tem autorização para acessar essa pagina: {e}", status=401)
 
+@login_required
+def editproject(request, id_project):
+    
+    projeto = Projeto.objects.get(id=id_project)
+    
+    if request.method == 'POST':
+        titulo = request.POST.get('inputTitulo', '')
+        responsavel = request.POST.get('inputResp', '')
+        descricao = request.POST.get('descricao', '')
+        etiqueta = request.POST.get('inputEtiqueta', '')
+        try:
+
+            if projeto.titulo != titulo:
+                projeto.titulo = titulo
+            if projeto.responsavel != responsavel: 
+                projeto.titulo = titulo
+            if projeto.descricao != descricao: 
+                projeto.descricao = descricao
+            if projeto.etiqueta != etiqueta: 
+                projeto.etiqueta = etiqueta
+
+            projeto.save()
+            messages.add_message(request, messages.SUCCESS,
+                                    'Projeto atualizado com sucesso')
+            return redirect(reverse('painel'))                
+        except Exception as e:
+            messages.add_message(request, messages.ERROR,
+                                 f'Erro ao salvar projeto: {e}')
+            return redirect(reverse('painel'))
+    else:
+
+        return render(request, 'editproject.html', {'projeto': projeto})
+
+
 
 @login_required
 def pacoteedit(request, id_pacote):

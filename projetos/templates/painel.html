@@ -55,32 +55,36 @@
                     </p>
                     <p><span>Data:</span> {{projeto.created_at|formatdate}}</p>
                     <p><span>Valor:</span> {{projeto.id|value_projeto}}</p>
-
-                    {% if projeto.etiqueta == 'radio' %}
-                    <div class="card-footer text-primary text-uppercase">
-                      {{projeto.etiqueta}}
-                      <i class="ri-price-tag-3-fill"></i>
-                    </div>
-                    {% elif projeto.etiqueta == 'telefonia' %}
-                    <div class="card-footer text-success text-uppercase">
-                      {{projeto.etiqueta}}
-                      <i class="ri-phone-fill"></i>
-                    </div>
-                    {% elif projeto.etiqueta == 'audioevideo' %}
-                    <div class="card-footer text-danger text-uppercase">
-                      {{projeto.etiqueta}}
-                      <i class="ri-live-fill"></i>                    
-                    </div>
-                    {% elif projeto.etiqueta == 'outros' %}
-                    <div class="card-footer text-warning text-uppercase">
-                      {{projeto.etiqueta}}
-                      <i class="ri-file-list-fill"></i>
-                    </div>
-                    {% else %}
-                    <div class="card-footer text-info text-uppercase">
-                      {{projeto.etiqueta}}
-                      <i class="ri-question-fill"></i>
-                    {% endif %}
+                    <div class="d-flex flex-row justify-content-between align-items-center">
+                      {% if projeto.etiqueta == 'radio' %}
+                      <div class="card-footer text-primary text-uppercase">
+                        {{projeto.etiqueta}}
+                        <i class="ri-price-tag-3-fill"></i>
+                      </div>
+                      {% elif projeto.etiqueta == 'telefonia' %}
+                      <div class="card-footer text-success text-uppercase">
+                        {{projeto.etiqueta}}
+                        <i class="ri-phone-fill"></i>
+                      </div>
+                      {% elif projeto.etiqueta == 'audioevideo' %}
+                      <div class="card-footer text-danger text-uppercase">
+                        {{projeto.etiqueta}}
+                        <i class="ri-live-fill"></i>                    
+                      </div>
+                      {% elif projeto.etiqueta == 'outros' %}
+                      <div class="card-footer text-warning text-uppercase">
+                        {{projeto.etiqueta}}
+                        <i class="ri-file-list-fill"></i>
+                      </div>
+                      {% else %}
+                      <div class="card-footer text-info text-uppercase">
+                        {{projeto.etiqueta}}
+                        <i class="ri-question-fill"></i>
+                      {% endif %}
+                      <div>
+                        <a href="{% url 'editproject' projeto.id %}" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
+                      </div>
+                  </div>
                   </div>
                   <!-- End Card with header and footer -->
                 </div>
