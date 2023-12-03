@@ -85,6 +85,7 @@ class DotacaoOrcamentaria(models.Model):
     fonte = models.CharField(max_length=100, blank=True, null=True)
     elemento_item = models.CharField(max_length=100, blank=True, null=True)
     conta = models.CharField(max_length=100, blank=True, null=True)
+    data = models.DateField(blank=True, null=True)
     natureza_desp = models.CharField(
         max_length=20, choices=choice_nat_desp, blank=True, null=True)
     unid_origem = models.CharField(
@@ -101,7 +102,7 @@ class DotacaoOrcamentaria(models.Model):
         'PacoteEmpenho', on_delete=models.CASCADE, related_name='dotacoes_orcamentarias', null=True)
 
     def __str__(self):
-        return self.elemento_item
+        return str(self.valor)
 
 
 class EquipamentoServico(models.Model):
@@ -245,7 +246,7 @@ class PacoteAquisicao(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     projeto = models.ForeignKey(
-        Projeto, on_delete=models.DO_NOTHING, related_name='pacote_aquisicao')
+        Projeto, on_delete=models.CASCADE, related_name='pacote_aquisicao')
 
     def __str__(self):
         return self.titulo
@@ -261,8 +262,8 @@ class PacoteAquisicaoEquipamentoServico(models.Model):
         ('ainstalar', 'A instalar'),
         ('instalado', 'Instalado')
     )
-    pacotedespesa = models.ForeignKey(
-        PacoteAquisicao, on_delete=models.CASCADE, related_name='despesa_equipamento')
+    pacoteaquisicao = models.ForeignKey(
+        PacoteAquisicao, on_delete=models.CASCADE, related_name='aquisicao_equipamento')
     equipamento = models.ForeignKey(
         EquipamentoServico, on_delete=models.CASCADE, related_name='pacote_equipamento')
     valor_1 = models.DecimalField(
@@ -296,15 +297,13 @@ class PacoteEmpenho(models.Model):
     descricao = models.TextField(blank=True, null=True)
     etiqueta = models.CharField(
         max_length=20, choices=choices_etiqueta, blank=True, null=True)
+    natureza = models.CharField(max_length=20, choices=choices_nat)
     tipo_pacote = models.CharField(
         max_length=20, choices=choices_tipo_pacote, blank=True, null=True)
-    dot_orc = models.ManyToManyField(
-        DotacaoOrcamentaria, related_name='pacote_receita_dot_orc')
     documento_ref = models.CharField(max_length=100, blank=True, null=True)
-    observacoes = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    projeto = models.ForeignKey(Projeto, on_delete=models.DO_NOTHING)
+    projeto = models.ForeignKey(Projeto, on_delete=models.CASCADE, related_name='pacote_empenho')
 
     def __str__(self):
-        return self.etiqueta
+        return self.titulo

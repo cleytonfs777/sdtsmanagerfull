@@ -1,9 +1,14 @@
 {% extends 'base.html' %} {% load static %}{% load filters %} {% load filters %} {% block 'title'%}Projetos{%endblock%} {% block 'head' %}
 <link rel="stylesheet" href="{% static 'css/full-style.css' %}" />
 {% endblock %} {% block 'subtitle' %}Projeto {{projeto.titulo}}{% endblock %} {% block 'content' %}
-{% if messages %} {% for message in messages %}
-<div class="alert {{message.tags}} stilo-message">{{message}}</div>
-{% endfor %} {% endif %}
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert {{ message.tags }} stilo-message">
+            {{ message }}
+            <span class="close-alert" style="cursor: pointer;">&times;</span>
+        </div>
+    {% endfor %}
+{% endif %}
 <div class="row align-items-top">
   <div class="col">
     <!-- Default Card -->
@@ -22,6 +27,7 @@
           </div>
         </div>
         <div class="row">
+          <!-- Pacotes de Aquisição-->
           {% for pacote in pacotes_aquisicao %}
           <div class="col-md-4">
             <!-- Card with header and footer -->
@@ -29,10 +35,10 @@
               <p class="fw-bold text-center h6 p-2 w-100 mb-3" style="background:#cccecf;">{{pacote.titulo}}</p>
 
               <div class="card-body body-projeto">
-                <p class="fw-bold bg-warning"><span>Tipo: </span> Aquisição</p>
+                <p class="fw-bold bg-warning p-2"><span>Tipo: </span> Aquisição</p>
                 <p><span>Data: </span> {{pacote.created_at|formatdate}}</p>
                 <p><span>Natureza: </span>{{pacote.natureza}}</p>
-                <p><span>Valor: </span> <span class="main-value" style="font-size:1.2em;color:green;">{{pacote.id|value_pacote}}</span></p>
+                <p><span>Valor: </span> <span class="main-value" style="font-size:1.2em;">{{pacote.id|value_pacote}}</span></p>
 
                 <div class="card-footer text-primary d-flex justify-content-between">
                   <div>
@@ -49,9 +55,41 @@
           </div>
           {% endfor %}
           <!-- End Default Card -->
+          {% for pac in pacotes_empenho %}
+          <div class="col-md-4">
+            <!-- Card with header and footer -->
+            <div class="card">
+              <p class="fw-bold text-center h6 p-2 w-100 mb-3" style="background:#cccecf;">{{pac.titulo}}</p>
+
+              <div class="card-body body-projeto">
+                {% if pac.tipo_pacote == 'Receita' %}
+                <p class="fw-bold bg-success p-2"><span style="color: white;">Tipo: Receita</span></p>
+                {% else %}
+                <p class="fw-bold bg-danger p-2"><span style="color: white;">Tipo: Despesa</span> </p>
+                {% endif %}
+                <p><span>Data: </span> {{pac.created_at|formatdate}}</p>
+                <p><span>Natureza: </span>{{pac.natureza|formatnat}}</p>
+                <p><span>Valor: </span> <span class="main-value" style="font-size:1.2em;">{{pac.id|value_pacote_emp}}</span></p>
+
+                <div class="card-footer text-primary d-flex justify-content-between">
+                  <div>
+                    {{pac.etiqueta}} <i class="ri-price-tag-3-fill"></i>
+                </div>
+                  <div>
+                    <a href="#" class="btn btn-success btn-sm"><i class="bi bi-eye"></i></a>
+                    <a href="#" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
+                  </div>
+                </div>
+              </div>
+              <!-- End Card with header and footer -->
+            </div>
+          </div>
+          {% endfor %}
           <hr>
         </div>
-        <a href="{% url 'deteleproject' projeto.id %}" class="btn btn-danger btn-sm">Excluir Projeto</a>
+        <form action="{% url 'deleteproject' projeto.id %}" method="post">
+          <button type="submit" class="btn btn-danger btn-sm" onclick="return confirmDelete();">Excluir Projeto</button>
+      </form>
         <!-- Onde serão colocados os cards-->
       </div>
       <div class="card-footer text-primary">
@@ -96,5 +134,9 @@
     </div>
   </div>
 </div>
-
+<script>
+  function confirmDelete() {
+    return confirm('Tem certeza de que deseja excluir este projeto?');
+}
+</script>
 {% endblock %}

@@ -1,29 +1,3 @@
-def trataelementoitem(elemento):
-    elemento_t = str(elemento)
-    # pega os 4 primeiros caracteres. Se tiver exatamente 4 pega todos
-    # se tiver menos de 4 completa com 0 a direita
-    elemento_t = elemento_t[:4].zfill(4)
-
-    # Adiciona um '.' entre os 2 primeiros caracteres e os 2 ultimos
-    elemento_t = elemento_t[:2] + '.' + elemento_t[2:]
-
-    return elemento_t
-
-
-def removereais(valor):
-    valor_t = str(valor)
-    valor_t = valor_t.replace('R$', '')
-    valor_t = valor_t.replace('.', '')
-    valor_t = valor_t.replace(',', '.')
-    return valor_t.strip()
-
-
-def inserereais(valor):
-    valor_t = str(valor)
-    valor_t = valor_t.replace('.', ',')
-    valor_t = 'R$ ' + valor_t
-    return valor_t
-
 def separar_e_agrupar_entrada(entrada):
     """
     Função para separar uma string de entrada em listas aninhadas.
@@ -46,5 +20,7 @@ def separar_e_agrupar_entrada(entrada):
 
     return resultado
 
-if __name__ == "__main__":
-    ...
+
+texto = "Meu main destino comum|capital|4470|95.1|56.22|100|2023-12-07|DLF|Aj-Geral|adescentralizar|R$ 7.844,44|                                                       ;Meu main destino comum|custeio|4469|95.1|56.22|100|2023-12-12|12ºBBM|DLF|descentralizado|R$ 150.000,00|                                                       "
+
+print(separar_e_agrupar_entrada(texto))

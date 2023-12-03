@@ -2,7 +2,7 @@ from django import template
 from django.db.models import Case, FloatField, Sum, When
 
 from projetos.models import (EquipamentoServico, PacoteAquisicao,
-                             PacoteAquisicaoEquipamentoServico, Projeto)
+                             PacoteAquisicaoEquipamentoServico, Projeto, PacoteEmpenho)
 
 register = template.Library()
 
@@ -21,6 +21,21 @@ def tipo_projeto(value):
 def value_to_real(value):
     return f'R$ {value:,.2f}'.replace(',', 'v').replace('.', ',').replace('v', '.') if value else 'R$ 0,00'
 
+@register.filter(name='value_pacote_emp')
+def value_pacote_emp(value):
+    pacote = PacoteEmpenho.objects.get(id=value)
+    valor_total = 0
+
+    # Iterar sobre DotacaoOrcamentaria
+    for dotacao_orc in pacote.dotacoes_orcamentarias.all():
+        valor_total += dotacao_orc.valor
+
+    # Formata o valor total para o formato de moeda em reais
+    valor_total = f'R$ {valor_total:,.2f}'.replace(
+        ',', 'v').replace('.', ',').replace('v', '.') if valor_total else 'R$ 0,00' # noqa 
+    
+
+    return valor_total
 
 @register.filter(name='value_pacote')
 def value_pacote(value):
@@ -28,13 +43,13 @@ def value_pacote(value):
     valor_total = 0
 
     # Iterar sobre PacoteAquisicaoEquipamentoServico
-    for despesa_equipamento in pacote.despesa_equipamento.all():
-        if despesa_equipamento.usa_preco_portal:
-            valor_total += (despesa_equipamento.equipamento.valor_portal *
-                            despesa_equipamento.quantidade)
+    for aquisicao_equipamento in pacote.aquisicao_equipamento.all():
+        if aquisicao_equipamento.usa_preco_portal:
+            valor_total += (aquisicao_equipamento.equipamento.valor_portal *
+                            aquisicao_equipamento.quantidade)
         else:
-            valor_total += (despesa_equipamento.valor_medio *
-                            despesa_equipamento.quantidade)
+            valor_total += (aquisicao_equipamento.valor_medio *
+                            aquisicao_equipamento.quantidade)
     # Formata o valor total para o formato de moeda em reais
     valor_total = f'R$ {valor_total:,.2f}'.replace(
         ',', 'v').replace('.', ',').replace('v', '.') if valor_total else 'R$ 0,00'
@@ -50,13 +65,13 @@ def value_projeto(value):
 
     # Iterar sobre PacoteAquisicaoEquipamentoServico
     for pacote in projeto.pacote_aquisicao.all():
-        for despesa_equipamento in pacote.despesa_equipamento.all():
-            if despesa_equipamento.usa_preco_portal:
-                valor_total += (despesa_equipamento.equipamento.valor_portal *
-                                despesa_equipamento.quantidade)
+        for aquisicao_equipamento in pacote.aquisicao_equipamento.all():
+            if aquisicao_equipamento.usa_preco_portal:
+                valor_total += (aquisicao_equipamento.equipamento.valor_portal *
+                                aquisicao_equipamento.quantidade)
             else:
-                valor_total += (despesa_equipamento.valor_medio *
-                                despesa_equipamento.quantidade)
+                valor_total += (aquisicao_equipamento.valor_medio *
+                                aquisicao_equipamento.quantidade)
     # Formata o valor total para o formato de moeda em reais
     valor_total = f'R$ {valor_total:,.2f}'.replace(
         ',', 'v').replace('.', ',').replace('v', '.') if valor_total else 'R$ 0,00'
@@ -108,7 +123,7 @@ def sei_interable(value):
 def render_table(value, target):
     if target == 'equipamento':
         pacote = PacoteAquisicao.objects.get(id=value)
-        despesas_target = pacote.despesa_equipamento.all()
+        despesas_target = pacote.aquisicao_equipamento.all()
     elif target == 'cronograma':
         pacote = PacoteAquisicao.objects.get(id=value)
         despesas_target = pacote.tasks.all()
@@ -221,3 +236,13 @@ def ajusta_fase(value):
         return 'Correção ETP (ASSJUR)'
     if value == 'Terceiros':
         return 'Terceiros'
+
+@register.filter(name="formatnat")
+def formatnat(value):
+
+    if value == 'material':
+        return 'Material'
+    elif value == 'servico':
+        return 'Serviço'
+    elif value == 'materialservico':
+        return 'Material/Serviço'

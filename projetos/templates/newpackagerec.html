@@ -31,9 +31,15 @@
     max-width: 50%; /* Ou o valor que você quiser */
   }
 </style>
-{% endblock %} {% block 'subtitle' %}Pacote de Receita - {{name_project}}{% endblock %} {% block 'content' %} {% if messages %} {% for message in messages %}
-<div class="alert {{message.tags}} stilo-message">{{message}}</div>
-{% endfor %} {% endif %}
+{% endblock %} {% block 'subtitle' %}Pacote de Receita/Despesa - {{name_project}}{% endblock %} {% block 'content' %} 
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert {{ message.tags }} stilo-message">
+            {{ message }}
+            <span class="close-alert" style="cursor: pointer;">&times;</span>
+        </div>
+    {% endfor %}
+{% endif %}
 <div class="row align-items-top">
   <!-- Fase Card -->
   <div class="col">
@@ -42,7 +48,7 @@
         <div class="row align-items-top">
           <form
             id="form-etapas"
-            action="{% url 'createpackage' id_project %}"
+            action="{% url 'createpackagedesprec' id_project %}"
             method="POST"
           >
             {% csrf_token %}
@@ -60,7 +66,31 @@
               </h5>
               <!--Inicio Conteudo-->
               <div class="row align-items-top">
-                <div class="col">
+                <div class="col-md-6">
+                  <div class="card info-card revenue-card">
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        Tipo
+                        <span
+                          >| Escolha o tipo de pacote escolhido</span
+                        >
+                      </h5>
+                      <div class="d-flex align-items-center">
+                      <select
+                        class="form-select changeble-item"
+                        aria-label="Default select example"
+                        id="selectTipoPac"
+                        name="selectTipoPac"
+                      >
+                        <option selected disabled>Escolha o tipo do pacote</option>
+                        <option value="receita">Receita</option>
+                        <option value="despesa">Despesa</option>
+                      </select>
+                    </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
                   <div class="card info-card revenue-card">
                     <div class="card-body">
                       <h5 class="card-title">
@@ -76,8 +106,9 @@
                           placeholder=""
                           aria-label="Local"
                           aria-describedby="basic-addon1"
-                          id="TitlePacoteRec"
-                          name="TitlePacoteRec"
+                          id="titlePacoteRec"
+                          name="titlePacoteRec"
+                          required
                         />
                       </div>
                     </div>
@@ -99,8 +130,8 @@
                         <textarea
                           class="form-control changeble-item"
                           style="height: 130px; font-size: 0.8em"
-                          id="DescPacoteRec"
-                          name="DescPacoteRec"
+                          id="descPacoteRec"
+                          name="descPacoteRec"
                         ></textarea>
                       </div>
                     </div>
@@ -150,8 +181,8 @@
                         <select
                           class="form-select changeble-item"
                           aria-label="Default select example"
-                          id="selectNaturezaNew"
-                          name="selectNaturezaNew"
+                          id="selectNaturezaPac"
+                          name="selectNaturezaPac"
                         >
                           <option selected disabled>Escolha a Natureza</option>
                           <option value="material">Material</option>
@@ -230,7 +261,7 @@
                         </table>
                       </div>
                       <input
-                        type="text"
+                        type="hidden"
                         class="d-flex w-100"
                         name="hidden_dotorc"
                         id="hidden_dotorc"
@@ -305,7 +336,7 @@
               </div>
               <!--Fim Conteudo-->
               <input
-                type="text"
+                type="hidden"
                 class="d-flex w-100"
                 name="hidden_seirec"
                 id="hidden_seirec"
@@ -316,7 +347,6 @@
                   <div class="card info-card revenue-card">
                     <div class="card-body d-flex justify-content-center align-items-center">
                       <button type="submit" class="btn btn-success m-2 w-50 fw-bold">CADASTRAR PACOTE</button>
-                      <button type="reset" onclick="limparCampos()" class="btn btn-warning m-2 w-50 fw-bold">LIMPAR CAMPOS</button>
                     </div>
                   </div>
                 </div>
@@ -485,7 +515,6 @@
                   style="height: 130px; font-size: 0.8em"
                   id="descDotOr"
                   name="descDotOr"
-                  required
                 ></textarea>
               </div>
             </div>

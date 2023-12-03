@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
-from utils.tratamentos import removereais, trataelementoitem
+from utils.tratamentos import removereais, trataelementoitem, separar_e_agrupar_entrada
 
 from .models import (DotacaoOrcamentaria, EquipamentoServico,
                      ObservacaoPendencia, PacoteAquisicao,
@@ -24,16 +24,18 @@ def project(request, id_project):
     tipo = request.GET.get('tipo')
     projeto = Projeto.objects.get(id=id_project)
     pacotes_aquisicao = projeto.pacote_aquisicao.all()
+    pacotes_empenho = projeto.pacote_empenho.all()
     context = {
         'tipo': tipo,
         'projeto': projeto,
         'pacotes_aquisicao': pacotes_aquisicao,
+        'pacotes_empenho': pacotes_empenho,
     }
     return render(request, 'project.html', context)
 
 
 @login_required
-def deteleproject(request, id_project):
+def deleteproject(request, id_project):
     if request.method == 'POST':
         projeto = Projeto.objects.get(id=id_project)
         try:
@@ -175,11 +177,11 @@ def deleteequip(request, id_element):
             equipamento_exclude.delete()
             messages.add_message(request, messages.SUCCESS,
                                  'Equipamento deletado com sucesso')
-            return redirect(reverse('pacoteedit', kwargs={'id_pacote': equipamento_exclude.pacotedespesa.id}))
+            return redirect(reverse('pacoteedit', kwargs={'id_pacote': equipamento_exclude.pacoteaquisicao.id}))
         except Exception as e:
             messages.add_message(request, messages.ERROR,
                                  f'Erro ao deletar equipamento: {e}')
-            return redirect(reverse('pacoteedit', kwargs={'id_pacote': equipamento_exclude.pacotedespesa.id}))
+            return redirect(reverse('pacoteedit', kwargs={'id_pacote': equipamento_exclude.pacoteaquisicao.id}))
     else:
         return HttpResponse(f"Você não tem autorização para acessar essa pagina: {e}", status=401)
 
@@ -271,20 +273,20 @@ def allservpack(request, id_element):
             equipamento_select.save()
             messages.add_message(request, messages.SUCCESS,
                                  'Equipamento atualizado com sucesso')
-            return redirect(reverse('pacoteedit', kwargs={'id_pacote': equipamento_select.pacotedespesa.id}))
+            return redirect(reverse('pacoteedit', kwargs={'id_pacote': equipamento_select.pacoteaquisicao.id}))
 
         except Exception as e:
             print(e)
             messages.add_message(request, messages.ERROR,
                                  'Erro ao atualizar equipamento')
-            return redirect(reverse('pacoteedit', kwargs={'id_pacote': equipamento_select.pacotedespesa.id}))
+            return redirect(reverse('pacoteedit', kwargs={'id_pacote': equipamento_select.pacoteaquisicao.id}))
 
 
 @login_required
 def pacoteview(request, id_pacote):
     pacote = PacoteAquisicao.objects.get(id=id_pacote)
     # Colocar na variavel 'equiamentos' todos os equipamentos relacionados ao pacote
-    equipamentos = pacote.despesa_equipamento.all()
+    equipamentos = pacote.aquisicao_equipamento.all()
     # Coloca na variavel 'tasks' todos os cronogramas relacionados ao pacote
     tasks = pacote.tasks.all()
     # Colocar na variavel 'obspen' todas as observações e pendencias relacionadas ao pacote
@@ -405,7 +407,7 @@ def createfullequip(request, id_pacote):
 
         try:
             new_equipamento = PacoteAquisicaoEquipamentoServico.objects.create(
-                pacotedespesa=PacoteAquisicao.objects.get(id=id_pacote),
+                pacoteaquisicao=PacoteAquisicao.objects.get(id=id_pacote),
                 equipamento=EquipamentoServico.objects.get(id=id_equip),
                 entrega_instalacao=entrega_instalacao,
                 destino=destino,
@@ -464,6 +466,71 @@ def createequipserv_edit(request, id_pacote):
         messages.add_message(request, messages.SUCCESS,
                              'Equipamento cadastrado com sucesso')
         return redirect(reverse('pacoteedit', kwargs={'id_pacote': id_pacote}))
+
+@login_required
+def createpackagedesprec(request, id_project):
+    selectTipoPac = request.POST.get('selectTipoPac', '')
+    titlePacoteRec = request.POST.get('titlePacoteRec', '')
+    descPacoteRec = request.POST.get('descPacoteRec', '')
+    selectEtiquetaNew = request.POST.get('selectEtiquetaNew', '')
+    selectNaturezaPac = request.POST.get('selectNaturezaPac', '')
+    hidden_dotorc = request.POST.get('hidden_dotorc', '')
+    hidden_seirec = request.POST.get('hidden_seirec', '')
+
+    if selectTipoPac == '' or titlePacoteRec == '' or selectEtiquetaNew == '' or selectNaturezaPac == '' or hidden_dotorc == '':
+        messages.add_message(request, messages.ERROR,
+                             'Todos os campos são obrigatórios')
+        return redirect(reverse('newpackageaqu', kwargs={'id_project': id_project}))
+    
+    pacoteempenho = PacoteEmpenho.objects.create(
+        projeto=Projeto.objects.get(id=id_project),
+        titulo=titlePacoteRec,
+        descricao=descPacoteRec,
+        etiqueta=selectEtiquetaNew,
+        natureza=selectNaturezaPac,
+        tipo_pacote = selectTipoPac,
+        documento_ref = hidden_seirec
+    )
+    
+
+    dotorc = separar_e_agrupar_entrada(hidden_dotorc)
+
+    for item in dotorc:
+        # Se o len(item) for 10 deve inserir um valor vazio na primeira posição da lista item
+        if len(item) == 10:
+            item.insert(0, " ")
+        desc = item[0].strip()
+        nat = item[1].strip()
+        acao = item[2].strip()
+        fonte = item[3].strip()
+        el_item = item[4].strip()
+        conta = item[5].strip()
+        data = item[6].strip()
+        origem = item[7].strip()
+        destino = item[8].strip()
+        status = item[9].strip()
+        valor = item[10].strip()
+        valor = removereais(valor)
+        
+        
+        DotacaoOrcamentaria.objects.create(
+            desc=desc,
+            natureza_desp=nat,
+            acao=acao,
+            fonte=fonte,
+            elemento_item=el_item,
+            conta=conta,
+            data=data,
+            unid_origem=origem,
+            unid_destino=destino,
+            status=status,
+            valor=valor,
+            pacote_empenho=pacoteempenho,
+        )
+
+    messages.add_message(request, messages.SUCCESS,
+                         'Pacote de empenho criado com sucesso')
+    return redirect(reverse('newpackagerec', kwargs={'id_project': id_project}))
 
 
 @login_required
@@ -556,7 +623,7 @@ def createpackage(request, id_project):
                     )
                     # Realizar o cadastro de cada equipamento
                     pacote_desp_equip_serv = PacoteAquisicaoEquipamentoServico(
-                        pacotedespesa=pacote_despesa,
+                        pacoteaquisicao=pacote_despesa,
                         equipamento=equipamento_desp,
                         entrega_instalacao=status_equip,
                         valor_1=removereais(price1_equip),

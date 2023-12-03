@@ -6,14 +6,14 @@ urlpatterns = [
      path('painel/', views.painel, name='painel'),
      # Funçõe e URLs relacionadas a projetos
      path('painel/project/<int:id_project>', views.project, name='project'),
-     path('painel/project/deteleproject/<int:id_project>',
-          views.deteleproject, name='deteleproject'),
+     path('painel/project/deleteproject/<int:id_project>',
+          views.deleteproject, name='deleteproject'),
      path('painel/project/editproject/<int:id_project>',
                views.editproject, name='editproject'),
      path('painel/project/newprojectrecet',
           views.newprojectrecet, name='newprojectrecet'),
 
-     # Funçõe e URLs relacionadas a pacotes de projetos
+     # Funçõe e URLs relacionadas a pacotes de aquisição de projetos
      path('painel/project/newpackageaqu/<int:id_project>/',
           views.newpackageaqu, name='newpackageaqu'),
      path('painel/project/createpackage/<int:id_project>',
@@ -26,6 +26,14 @@ urlpatterns = [
           views.allservpack, name='allservpack'),
      path('painel/project/pacoteview/<int:id_pacote>',
           views.pacoteview, name='pacoteview'),
+
+     # Funçõe e URLs relacionadas a Pacotes de Receita/Despesa
+     path('painel/project/createpackagedesprec/<int:id_project>/',
+          views.createpackagedesprec, name='createpackagedesprec'),
+     path('painel/project/newpackagerec/<int:id_project>/',
+          views.newpackagerec, name='newpackagerec'),
+     path('painel/project/newpackagerec/createedotorc/<int:id_pacote_emp>/',
+          views.createedotorc, name='createedotorc'),
 
      # Funçõe e URLs relacionadas a Equipamentos e Serviços
      path('painel/project/newpackageaqu/createequipserv/<int:id_project>/',
@@ -50,9 +58,6 @@ urlpatterns = [
           views.deleteobspen, name='deleteobspen'),
      path('painel/project/pacoteedit/editobspen/<int:id_obspen>/',
           views.editobspen, name='editobspen'),
-     # Funções e URLs relacionadas a Pacotes de Receita
-     path('painel/project/newpackagerec/<int:id_project>/',
-          views.newpackagerec, name='newpackagerec'),
-     path('painel/project/newpackagerec/createedotorc/<int:id_pacote_emp>/',
-          views.createedotorc, name='createedotorc'),
+
+
 ]

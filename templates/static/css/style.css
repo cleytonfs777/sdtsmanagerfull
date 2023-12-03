@@ -1350,3 +1350,20 @@ label {
   max-height: 100%;
   overflow: auto;
 }
+
+.stilo-message {
+  /* Seus estilos para os alertas */
+  position: relative;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.close-alert {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  cursor: pointer;
+}

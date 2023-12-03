@@ -1,9 +1,15 @@
 {% extends 'base.html' %} {% load static %} {% block 'title'%}Projetos{%endblock%} {% block 'head' %}
 <link rel="stylesheet" href="{% static 'css/full-style.css' %}" />
 {% endblock %} {% block 'subtitle' %}Projetos{% endblock %} {% block 'content' %}
-{% if messages %} {% for message in messages %}
-<div class="alert {{message.tags}} stilo-message">{{message}}</div>
-{% endfor %} {% endif %}
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert {{ message.tags }} stilo-message">
+            {{ message }}
+            <span class="close-alert" style="cursor: pointer;">&times;</span>
+        </div>
+    {% endfor %}
+{% endif %}
+
 <div class="row align-items-top">
   <!-- Fase Card -->
   <div class="col">

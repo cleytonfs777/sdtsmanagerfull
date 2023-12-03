@@ -28,9 +28,15 @@
 <div class="row d-flex justify-content-center align-items-center mb-3">
   Equipamentos de Radiocomunicação
 </div>
-{% endblock %} {% block 'content' %} {% if messages %} {% for message in messages %}
-<div class="alert {{message.tags}} stilo-message">{{message}}</div>
-{% endfor %} {% endif %}
+{% endblock %} {% block 'content' %} 
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert {{ message.tags }} stilo-message">
+            {{ message }}
+            <span class="close-alert" style="cursor: pointer;">&times;</span>
+        </div>
+    {% endfor %}
+{% endif %}
 <div class="card">
   <div class="card-body">
     <div class="row d-flex flex-row justify-content-between align-items-center">
